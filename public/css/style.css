@@ -3986,7 +3986,7 @@ table.focus-on tbody tr.focused td {
 }
 /* Login- register pages */
 .login-register {
-  background: url(../../plugins/images/login-register.jpg) no-repeat center center / cover !important;
+  background: url(/images/ark_aerial.bmp) no-repeat center center / cover !important;
   height: 100%;
   position: fixed;
 }
@@ -4013,7 +4013,7 @@ table.focus-on tbody tr.focused td {
   height: 100%;
 }
 .new-login-register .lg-info-panel {
-  background: url(../../plugins/images/login-register.jpg) no-repeat center center / cover !important;
+  background: url(/images/ark_aerial.bmp) no-repeat center center / cover !important;
   width: 500px;
   height: 100%;
   position: fixed;
@@ -6059,7 +6059,7 @@ ul.select-row-icon li a.selected i.whn-hov {
 #side-menu li a:focus {
   background: rgba(0, 0, 0, 0);
 }
-#side-menu li.devider {
+#side-menu li.divider {
   margin: 7px 0;
   border-top: 1px solid rgba(120, 130, 140, 0.13);
 }
