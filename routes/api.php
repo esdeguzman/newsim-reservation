@@ -1,6 +1,9 @@
 <?php
 
+use App\User;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 Route::post('/trainee/authenticate', function (Request $request) {
     $credentials = $request->only(['username', 'password']);
