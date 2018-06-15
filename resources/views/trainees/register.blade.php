@@ -39,7 +39,7 @@
                 <div class="lg-content">
                     <h2>NEWSIM ONLINE RESERVATION SYSTEM</h2>
                     <p class="text-muted">Already have an account? Click sign in button below instead!</p>
-                    <form action="{{ route('trainee-login') }}" method="get">
+                    <form action="{{ route('trainee.login') }}" method="get">
                         <button class="btn btn-rounded btn-danger p-l-20 p-r-20 text-uppercase">sign in</button>
                     </form>
                 </div>
