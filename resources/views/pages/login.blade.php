@@ -31,7 +31,8 @@
 <section id="wrapper" class="login-register">
     <div class="login-box login-sidebar">
         <div class="white-box">
-            <form class="form-horizontal form-material" id="loginform" action="{{ url('home') }}">
+            <form class="form-horizontal form-material" id="loginform" action="{{ route('login.authenticate') }}" method="post">
+                {{ csrf_field() }}
                 <a href="javascript:void(0)" class="text-center db"><img src="{{ asset('/images/newsim_logo.jpg') }}" alt="Home" width="250" height="50"/><br/><h2 class="text-uppercase text-info"><b>reservation system</b></h2></a>
 
                 <div class="form-group m-t-40">
