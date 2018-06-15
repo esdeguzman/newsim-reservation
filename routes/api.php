@@ -14,3 +14,18 @@ Route::post('/trainee/authenticate', function (Request $request) {
 
     return ['error' => 'Invalid Credentials!'];
 });
+
+Route::post('/trainee/secret', function (Request $request) {
+    $user = User::with(['trainee' => function ($query) use ($request) {
+        $query->where('login_token', $request->login_token);
+    }])->where('id', $request->user_id)->first();
+
+    if (is_null($user)) {
+       return  ['error' => 'Unauthenticated Trainee!'];
+    } else {
+        $user->trainee->secret = $request->secret;
+        $user->trainee->save();
+
+        return ['success' => 'Secret Successfully Saved!'];
+    }
+});
