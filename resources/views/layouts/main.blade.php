@@ -225,8 +225,6 @@
 <!--BlockUI Script -->
 <script src="{{ asset('plugins/bower_components/blockUI/jquery.blockUI.js') }}"></script>
 
-@yield('page-scripts')
-
 <script>
     // highlight workaround start
     function removeHighlight() {
@@ -236,6 +234,9 @@
     setTimeout(removeHighlight, 100)
     // highlight workaround end
 </script>
+
+@yield('page-scripts')
+
 </body>
 
 </html>
