@@ -29,3 +29,12 @@ Route::post('/trainee/secret', function (Request $request) {
         return ['success' => 'Secret Successfully Saved!'];
     }
 });
+
+Route::middleware('auth.trainee')->post('/trainee/logout', function (Request $request) {
+    $user = User::find($request->user_id);
+    $user->trainee->login_token = null;
+    $user->trainee->secret = null;
+    $user->trainee->save();
+
+    return ['success' => 'Trainee Has Been Logged Out'];
+});
