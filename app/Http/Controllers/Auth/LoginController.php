@@ -79,4 +79,21 @@ class LoginController extends Controller
             return 'trainee/home';
         }
     }
+
+    public function logout(Request $request)
+    {
+        $path = '';
+
+        if (optional(auth()->user()->administrator)->exists()) {
+            $path = '/admin/login';
+        } elseif (optional(auth()->user()->trainee)->exists()) {
+            $path = '/trainee/login';
+        }
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return redirect($path);
+    }
 }
