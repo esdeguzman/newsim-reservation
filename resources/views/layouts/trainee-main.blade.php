@@ -128,7 +128,10 @@
                 <li><a href="{{ route('trainee.schedules') }}" class="waves-effect @yield('schedules-sidebar-menu')" id="schedules-sidebar"><i class="fa fa-calendar"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Schedules</span></a></li>
                 <li><a href="{{ route('trainee.reservations') }}" class="waves-effect @yield('reservations-sidebar-menu')" id="reservations-sidebar"><i class="fa fa-tags"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Reservations</span></a></li>
                 <li class="divider"></li>
-                <li><a href="{{ url('/') }}" class="waves-effect" id="logout-sidebar"><i class="mdi mdi-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>
+                <li>
+                    <a href="#" class="waves-effect" id="logout-sidebar"><i class="mdi mdi-logout fa-fw"></i> <span class="hide-menu">Log out</span></a>
+                    <form action="{{ route('trainee.logout') }}" method="post" id="logout-form" hidden> {{ csrf_field() }} </form>
+                </li>
             </ul>
         </div>
     </div>
@@ -199,6 +202,10 @@
 
     setTimeout(removeHighlight, 100)
     // highlight workaround end
+
+    $('#logout-sidebar').on('click', function () {
+        $('#logout-form').submit()
+    })
 </script>
 </body>
 
