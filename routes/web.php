@@ -43,6 +43,14 @@ Route::get('trainee/reservations/{reservation}', 'TraineesController@showReserva
 // Unguarded get routes
 Route::post('authenticate', 'Auth\LoginController@login')->name('login.authenticate');
 
+Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
+    Route::post('logout', 'Auth\LoginController@logout')->name('admin.logout');
+});
+
+Route::prefix('trainee')->middleware('auth', 'can.access')->group(function () {
+    Route::post('logout', 'Auth\LoginController@logout')->name('trainee.logout');
+});
+
 /*
 |--------------------------------------------------------------------------
 | System Individual UPDATE Routes
