@@ -17,7 +17,10 @@ Route::get('admin/login', function () { return view('pages.login'); })->middlewa
 
 // Trainee login route
 Route::get('trainee/login', 'TraineesController@login')->middleware('guest')->name('trainee.login');
+
+// Unguarded get routes
 Route::get('trainee/register', 'TraineesController@register')->name('trainee.register');
+Route::get('page-not-found', function () { return view('pages.404'); });
 
 Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
     Route::get('home', function () { return view('layouts.main'); })->name('admin.home');
