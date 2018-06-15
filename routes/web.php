@@ -13,7 +13,6 @@
 */
 Route::get('/', function () { return view('pages.login'); })->name('login');
 Route::get('trainee/register', 'TraineesController@register')->name('trainee.register');
-Route::get('trainee/login', 'TraineesController@login')->name('trainee.login');
 
 Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
     Route::get('home', function () { return view('layouts.main'); })->name('admin.home');
@@ -33,6 +32,8 @@ Route::get('trainee/reservations/{reservation}', 'TraineesController@showReserva
 | System Individual POST Routes
 |--------------------------------------------------------------------------
 */
+// Unguarded get routes
+Route::post('authenticate', 'Auth\LoginController@login')->name('login.authenticate');
 
 /*
 |--------------------------------------------------------------------------
