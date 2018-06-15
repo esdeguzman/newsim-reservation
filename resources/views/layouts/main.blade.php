@@ -229,6 +229,7 @@
     // highlight workaround start
     function removeHighlight() {
         $('#logout-sidebar').removeClass('active')
+        $('#user-management-sidebar').removeClass('active')
     }
 
     setTimeout(removeHighlight, 100)
