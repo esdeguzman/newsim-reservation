@@ -94,14 +94,13 @@
                 {{--<input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a> </form>--}}
                 {{--</li>--}}
                 <li class="dropdown">
-                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ asset('../plugins/images/users/varun.jpg') }}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">@yield('username', 'ESME')</b><span class="caret"></span> </a>
+                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ asset('../plugins/images/users/varun.jpg') }}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs text-uppercase">{{ auth()->user()->username }}</b><span class="caret"></span> </a>
                     <ul class="dropdown-menu dropdown-user animated flipInY">
                         <li>
                             <div class="dw-user-box">
                                 <div class="u-img"><img src="{{ asset('../plugins/images/users/varun.jpg') }}" alt="user" /></div>
-                                <div class="u-text"><h4>@yield('full-name', 'Esmeraldo de Guzman Jr')</h4><p class="text-muted">@yield('email', 'deguzman.esmeraldo@gmail.com')</p>
-                                    <a href="profile.html" class="btn btn-rounded btn-info btn-sm">View Profile</a>
-                                    <a href="profile.html" class="btn btn-rounded btn-danger btn-sm">Log out</a>
+                                <div class="u-text"><h4>{{ auth()->user()->trainee->fullName() }}</h4><p class="text-muted">{{ auth()->user()->email }}</p>
+                                    <a href="profile.html" class="btn btn-rounded btn-info btn-block">View Profile</a>
                                 </div>
                             </div>
                         </li>
