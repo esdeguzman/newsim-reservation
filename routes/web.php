@@ -11,7 +11,8 @@
 | System Individual GET Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/', function () { return view('pages.login'); })->name('login');
+// Admin login route
+Route::get('/', function () { return redirect()->route('admin.login'); });
 Route::get('trainee/register', 'TraineesController@register')->name('trainee.register');
 
 Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
