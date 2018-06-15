@@ -46,7 +46,8 @@
         <div class="white-box">
             <h3 class="box-title m-b-0">Sign In to start reserving schedules</h3>
             <small>Enter your credentials below</small>
-            <form class="form-horizontal new-lg-form" id="loginform" action="index.html">
+            <form class="form-horizontal new-lg-form" id="loginform" action="{{ route('login.authenticate') }}" method="post">
+                {{ csrf_field() }}
                 <div class="form-group  m-t-20">
                     <div class="col-xs-12">
                         <label>Username</label>
