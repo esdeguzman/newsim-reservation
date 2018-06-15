@@ -36,7 +36,7 @@
             <div class="lg-content">
                 <h2>NEWSIM ONLINE RESERVATION SYSTEM</h2>
                 <p class="text-muted">Don't have an account yet? Click the register button below to create one!</p>
-                <form action="{{ route('trainee-register') }}" method="get">
+                <form action="{{ route('trainee.register') }}" method="get">
                     <button class="btn btn-rounded btn-danger p-l-20 p-r-20 text-uppercase">register</button>
                 </form>
             </div>
@@ -46,7 +46,8 @@
         <div class="white-box">
             <h3 class="box-title m-b-0">Sign In to start reserving schedules</h3>
             <small>Enter your credentials below</small>
-            <form class="form-horizontal new-lg-form" id="loginform" action="index.html">
+            <form class="form-horizontal new-lg-form" id="loginform" action="{{ route('login.authenticate') }}" method="post">
+                {{ csrf_field() }}
                 <div class="form-group  m-t-20">
                     <div class="col-xs-12">
                         <label>Username</label>

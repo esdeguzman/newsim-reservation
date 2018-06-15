@@ -94,14 +94,13 @@
                 {{--<input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a> </form>--}}
                 {{--</li>--}}
                 <li class="dropdown">
-                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ asset('../plugins/images/users/varun.jpg') }}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">@yield('username', 'ESME')</b><span class="caret"></span> </a>
+                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ asset('../plugins/images/users/varun.jpg') }}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs text-uppercase">{{ auth()->user()->username }}</b><span class="caret"></span> </a>
                     <ul class="dropdown-menu dropdown-user animated flipInY">
                         <li>
                             <div class="dw-user-box">
                                 <div class="u-img"><img src="{{ asset('../plugins/images/users/varun.jpg') }}" alt="user" /></div>
-                                <div class="u-text"><h4>@yield('full-name', 'Esmeraldo de Guzman Jr')</h4><p class="text-muted">@yield('email', 'deguzman.esmeraldo@gmail.com')</p>
-                                    <a href="profile.html" class="btn btn-rounded btn-info btn-sm">View Profile</a>
-                                    <a href="profile.html" class="btn btn-rounded btn-danger btn-sm">Log out</a>
+                                <div class="u-text"><h4>{{ auth()->user()->trainee->fullName() }}</h4><p class="text-muted">{{ auth()->user()->email }}</p>
+                                    <a href="profile.html" class="btn btn-rounded btn-info btn-block">View Profile</a>
                                 </div>
                             </div>
                         </li>
@@ -129,7 +128,10 @@
                 <li><a href="{{ route('trainee.schedules') }}" class="waves-effect @yield('schedules-sidebar-menu')" id="schedules-sidebar"><i class="fa fa-calendar"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Schedules</span></a></li>
                 <li><a href="{{ route('trainee.reservations') }}" class="waves-effect @yield('reservations-sidebar-menu')" id="reservations-sidebar"><i class="fa fa-tags"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Reservations</span></a></li>
                 <li class="divider"></li>
-                <li><a href="{{ url('/') }}" class="waves-effect" id="logout-sidebar"><i class="mdi mdi-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>
+                <li>
+                    <a href="#" class="waves-effect" id="logout-sidebar"><i class="mdi mdi-logout fa-fw"></i> <span class="hide-menu">Log out</span></a>
+                    <form action="{{ route('trainee.logout') }}" method="post" id="logout-form" hidden> {{ csrf_field() }} </form>
+                </li>
             </ul>
         </div>
     </div>
@@ -200,6 +202,10 @@
 
     setTimeout(removeHighlight, 100)
     // highlight workaround end
+
+    $('#logout-sidebar').on('click', function () {
+        $('#logout-form').submit()
+    })
 </script>
 </body>
 

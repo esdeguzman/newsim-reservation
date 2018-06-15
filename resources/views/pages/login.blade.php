@@ -31,7 +31,8 @@
 <section id="wrapper" class="login-register">
     <div class="login-box login-sidebar">
         <div class="white-box">
-            <form class="form-horizontal form-material" id="loginform" action="{{ url('home') }}">
+            <form class="form-horizontal form-material" id="loginform" action="{{ route('login.authenticate') }}" method="post">
+                {{ csrf_field() }}
                 <a href="javascript:void(0)" class="text-center db"><img src="{{ asset('/images/newsim_logo.jpg') }}" alt="Home" width="250" height="50"/><br/><h2 class="text-uppercase text-info"><b>reservation system</b></h2></a>
 
                 <div class="form-group m-t-40">
@@ -46,10 +47,10 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <div class="checkbox checkbox-primary pull-left p-t-0">
-                            <input id="checkbox-signup" type="checkbox">
-                            <label for="checkbox-signup"> Remember me </label>
-                        </div>
+                        {{--<div class="checkbox checkbox-primary pull-left p-t-0">--}}
+                            {{--<input id="checkbox-signup" type="checkbox">--}}
+                            {{--<label for="checkbox-signup"> Remember me </label>--}}
+                        {{--</div>--}}
                         <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a> </div>
                 </div>
                 <div class="form-group text-center m-t-20">
