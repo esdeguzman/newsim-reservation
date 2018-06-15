@@ -2,17 +2,15 @@
 
 use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::post('/trainee/authenticate', function (Request $request) {
+    $credentials = $request->only(['username', 'password']);
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    if (Auth::attempt($credentials)) {
+        $token = str_random(24);
+        auth()->user()->trainee->login_token = $token;
+        auth()->user()->trainee->save();
+        return $token;
+    }
+
+    return ['error' => 'Invalid Credentials!'];
 });
