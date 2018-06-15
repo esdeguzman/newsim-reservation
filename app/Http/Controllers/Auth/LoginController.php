@@ -70,4 +70,13 @@ class LoginController extends Controller
             return redirect('page-not-found');
         }
     }
+
+    public function redirectTo()
+    {
+        if (optional(auth()->user()->administrator)->exists()) {
+            return 'admin/home';
+        } elseif (optional(auth()->user()->trainee)->exists()) {
+            return 'trainee/home';
+        }
+    }
 }
