@@ -59,4 +59,15 @@ class LoginController extends Controller
 
         return $this->sendFailedLoginResponse($request);
     }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if (optional(auth()->user()->administrator)->exists() && str_contains($request->previous,'admin')) {
+            // do nothing
+        } elseif (optional(auth()->user()->trainee)->exists() && str_contains($request->previous,'trainee')) {
+            // do nothing
+        } else {
+            return redirect('page-not-found');
+        }
+    }
 }
