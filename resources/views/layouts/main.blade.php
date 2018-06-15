@@ -147,7 +147,7 @@
             <div class="sidebar-head">
                 <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu">Navigation</span></h3> </div>
             <ul class="nav" id="side-menu">
-                <li><a href="{{ url('home') }}" class="waves-effect @yield('home-sidebar-menu')" id="home-sidebar"><i class="mdi mdi-home fa-fw"></i> <span class="hide-menu">Home</span></a></li>
+                <li><a href="{{ url('home') }}" class="waves-effect active" id="home-sidebar"><i class="mdi mdi-home fa-fw"></i> <span class="hide-menu">Home</span></a></li>
                 <li><a href="{{ route('courses.index') }}" class="waves-effect @yield('courses-sidebar-menu')" id="courses-sidebar"><i class="fa fa-book"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Courses</span></a></li>
                 <li><a href="{{ route('schedules.index') }}" class="waves-effect @yield('schedules-sidebar-menu')" id="schedules-sidebar"><i class="fa fa-calendar"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Schedules</span></a></li>
                 <li><a href="{{ route('reservations.index') }}" class="waves-effect @yield('reservations-sidebar-menu')" id="reservations-sidebar"><i class="fa fa-tags"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Reservations</span></a></li>
