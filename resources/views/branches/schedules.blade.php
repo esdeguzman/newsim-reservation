@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <!-- confirm reservation -->
+    <!-- add schedule -->
     <div class="modal fade add-schedule" tabindex="-1" role="dialog" aria-labelledby="addSchedule" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -139,7 +139,7 @@
             </div>
         </div>
     </div>
-    <!-- /confirm reservation -->
+    <!-- /add schedule -->
 @stop
 @section('page-scripts')
     <script src="{{ asset('plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
@@ -151,7 +151,7 @@
     <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-    <!-- end - This is for export functionality only -->.
+    <!-- end - This is for export functionality only -->
     <!-- bootstrap-select -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     <script>

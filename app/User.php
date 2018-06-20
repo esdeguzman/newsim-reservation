@@ -37,4 +37,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Trainee::class);
     }
+
+    public function updatedCourse()
+    {
+        return $this->hasOne(Course::class, 'updated_by');
+    }
+
+    public function isDev()
+    {
+        return $this->administrator->roles->where('role_id', 1)->count() > 0 ? true: false;
+    }
 }
