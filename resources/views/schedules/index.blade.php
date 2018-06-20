@@ -6,7 +6,7 @@
 @section('page-content')
     <div class="col-md-12">
         <div class="white-box">
-            <a href="{{ route('schedules.index') . '?branch="makati"' }}" class="text-uppercase btn btn-danger pull-right">go to my branch</a>
+            <a href="{{ route('schedules.index') . '?branch=makati' }}" class="text-uppercase btn btn-danger pull-right">go to my branch</a>
             <h3 class="box-title m-b-0">Data Export</h3>
             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
             <div class="table-responsive">
