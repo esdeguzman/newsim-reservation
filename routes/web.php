@@ -73,3 +73,8 @@ Route::resource('courses', 'CoursesController');
 Route::resource('reservations', 'ReservationsController');
 Route::resource('schedules', 'SchedulesController');
 Route::resource('trainees', 'TraineesController');
+
+Route::prefix('admin')->group(function () {
+    Route::resource('branch-courses', 'BranchCoursesController');
+    Route::resource('original-prices', 'OriginalPricesController');
+});
