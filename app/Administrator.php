@@ -13,4 +13,9 @@ class Administrator extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function roles()
+    {
+        return $this->hasMany(AdministratorRole::class, 'administrator_id');
+    }
 }
