@@ -237,6 +237,9 @@
 <script src="{{ asset('plugins/bower_components/styleswitcher/jQuery.style.switcher.js') }}"></script>
 <!--BlockUI Script -->
 <script src="{{ asset('plugins/bower_components/blockUI/jquery.blockUI.js') }}"></script>
+<!-- Sweet-Alert  -->
+<script src="{{ asset('/plugins/bower_components/sweetalert/sweetalert.min.js') }}"></script>
+<script src="{{ asset('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js') }}"></script>
 
 <script>
     // highlight workaround start
