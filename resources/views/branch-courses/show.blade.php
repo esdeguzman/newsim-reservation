@@ -1,9 +1,10 @@
 @extends('layouts.main')
 @section('page-tab-title') Courses @stop
+@section('page-specific-link') <link href="{{ asset('plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" /> @stop
 @section('active-page')
     <li><a href="{{ route('branch-courses.index') . '?filter=all_branches' }}"><b class="text-info">Courses</b></a></li>
     <li><span class="text-uppercase"><a href="{{ route('branch-courses.index') . '?branch=' . $branchCourse->branch->name }}"><b class="text-info">{{ $branchCourse->branch->name }}</b></a></span></li>
-    <li class="active"><span class="text-muted text-uppercase">{{ $branchCourse->course->code }}</span></li>
+    <li class="active"><span class="text-muted text-uppercase">{{ $branchCourse->details->code }}</span></li>
 @stop
 @section('branch-courses-sidebar-menu') active @stop
 @section('page-short-description') @stop
@@ -11,7 +12,7 @@
     <div class="col-md-12 block3">
         <div class="white-box printableArea">
             <button class="pull-right text-uppercase btn btn-info"  data-toggle="modal" data-target=".update-course">update course details</button>
-            <h3 class="text-uppercase">{{ $branchCourse->course->code }} <span class="tooltip-item2"><small>{{ $branchCourse->course->description }}</small></span></h3>
+            <h3 class="text-uppercase">{{ $branchCourse->details->code }} <span class="tooltip-item2"><small>{{ $branchCourse->details->description }}</small></span></h3>
             <hr>
             <div class="row">
                 <div class="col-md-12">
@@ -33,29 +34,32 @@
                     <div class="table-responsive" style="clear: both;">
                         <h3 class="text-uppercase"><code>timeline</code></h3>
                         <p class="text-muted">This shows important events happened to this schedule like <code class="text-uppercase">original price</code> changes and more!</p>
-                        <table class="table table-hover">
+                        <table class="table table-hover table-striped" id="history_table">
                             <thead>
                             <tr>
-                                <th>Event</th>
+                                <th>Remarks</th>
                                 <th>Blame</th>
                                 <th>Date Amended</th>
-                                <th>Remarks</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @if(optional(optional($originalPrice)->history())->count() > 0)
-                                @foreach($originalPrice->history()->sortByDesc('created_at') as $history)
+                            @if($branchCourse->details->hasHistory())
+                                @foreach($branchCourse->details->history() as $course)
                                     <tr>
-                                        <td class="text-uppercase">p {{ number_format($history->value, 2) }} course <code>original price</code> is now deprecated, please see remarks</td>
-                                        <td class="text-uppercase">{{ $history->updatedBy->administrator->full_name }}</td>
-                                        <td class="text-uppercase">{{ Carbon\Carbon::parse($history->created_at)->toFormattedDateString() }}</td>
-                                        <td class="text-uppercase">{{ $history->remarks }}</td>
+                                        <td class="text-uppercase">{{ $course->historyDetails->remarks }}</td>
+                                        <td class="text-uppercase">{{ $course->historyDetails->updatedBy->full_name }}</td>
+                                        <td class="text-uppercase">{{ Carbon\Carbon::parse($course->created_at)->toFormattedDateString() }}</td>
                                     </tr>
                                 @endforeach
-                            @else
-                                <tr>
-                                    <td class="text-center" colspan="5"><b class="text-uppercase">No amendments have been retrieved.</b></td>
-                                </tr>
+                            @endif
+                            @if(optional($originalPrice)->hasHistory())
+                                @foreach($originalPrice->history() as $originalPrice)
+                                    <tr>
+                                        <td class="text-uppercase">{{ $originalPrice->historyDetails->remarks }}</td>
+                                        <td class="text-uppercase">{{ $originalPrice->historyDetails->updatedBy->full_name }}</td>
+                                        <td class="text-uppercase">{{ Carbon\Carbon::parse($originalPrice->created_at)->toFormattedDateString() }}</td>
+                                    </tr>
+                                @endforeach
                             @endif
                             </tbody>
                         </table>
@@ -206,8 +210,12 @@
     <script src="{{ asset('js/jquery.PrintArea.js') }}" type="text/JavaScript"></script>
     <!-- Sweet-Alert  -->
     <script src="{{ asset('/plugins/bower_components/sweetalert/sweetalert.min.js') }}"></script>
+    <!-- Datatable -->
+    <script src="{{ asset('/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
     <script>
         $(function () {
+            $('#history_table').DataTable();
+
             $("#print").click(function () {
                 var mode = 'iframe'; //popup
                 var close = mode == "popup";

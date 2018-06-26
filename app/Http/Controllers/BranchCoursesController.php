@@ -27,7 +27,8 @@ class BranchCoursesController extends Controller
                 $query->where('name', $request->branch);
             })->get();
 
-            $courses = Course::all();
+            $branchCoursesIds = BranchCourse::select('course_id')->get();
+            $courses = Course::whereNotIn('id', $branchCoursesIds)->get();
 
             $branch = $request->branch;
 

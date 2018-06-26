@@ -14,8 +14,18 @@ class Administrator extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
     public function roles()
     {
         return $this->hasMany(AdministratorRole::class, 'administrator_id');
+    }
+
+    public function updatedBy()
+    {
+        return $this->hasOne(null, 'updated_by');
     }
 }

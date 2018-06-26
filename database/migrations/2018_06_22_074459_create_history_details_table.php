@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOriginalPricesTable extends Migration
+class CreateHistoryDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateOriginalPricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('original_prices', function (Blueprint $table) {
+        Schema::create('history_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('branch_course_id');
+            $table->unsignedInteger('course_id')->nullable();
             $table->unsignedInteger('original_price_id')->nullable();
-            $table->decimal('value', 10, 2);
-            $table->text('remarks')->nullable();
-            $table->unsignedInteger('added_by');
-            $table->unsignedInteger('deleted_by')->nullable();
+            $table->unsignedInteger('schedule_id')->nullable();
+            $table->unsignedInteger('updated_by');
+            $table->text('remarks');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +32,6 @@ class CreateOriginalPricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('original_prices');
+        Schema::dropIfExists('history_details');
     }
 }

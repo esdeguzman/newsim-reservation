@@ -48,12 +48,12 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="code" class="control-label">Code</label>
-                            <input class="form-control code" type="text" id="code" name="code" />
+                            <input class="form-control code" type="text" id="code" name="code" value="{{ old('code') }}" />
                             <p class="text-muted m-t-5">i.e. <b>bosiet</b></p>
                         </div>
                         <div class="form-group">
                             <label for="description" class="control-label">Description</label>
-                            <input class="form-control description" type="text" id="description" name="description" />
+                            <input class="form-control description" type="text" id="description" name="description" value="{{ old('description') }}" />
                             <p class="text-muted m-t-5">i.e. <b>basic offshore safety induction and emergency training</b></p>
                         </div>
                     </div>

@@ -3,12 +3,12 @@
     <li><a href="{{ route('schedules.index') }}"><b class="text-info">Schedules</b></a></li>
     <li class="active"><span class="text-muted text-uppercase">bosiet</span></li>
 @stop
-@section('page-short-description') makati @stop
+@section('page-short-description') {{ $branch }} @stop
 @section('page-content')
     <div class="col-md-12 block3">
         <div class="white-box printableArea">
-            <span class="pull-right"><b class="label label-success text-uppercase">new</b> </span>
-            <h3 class="text-uppercase">bosiet <span class="tooltip-item2"><small>basic offshore safety induction and emergency training</small></span></h3>
+            <span class="pull-right"><b class="label label-success text-uppercase">{{ $schedule->status }}</b> </span>
+            <h3 class="text-uppercase">{{ $schedule->branchCourse->details->code }} <span class="tooltip-item2"><small>{{ $schedule->branchCourse->details->description }}</small></span></h3>
             <hr>
             <div class="row">
                 <div class="col-md-12">

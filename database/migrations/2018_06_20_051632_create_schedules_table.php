@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOriginalPricesTable extends Migration
+class CreateSchedulesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,20 @@ class CreateOriginalPricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('original_prices', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('schedule_id')->nullable();
+            $table->unsignedInteger('branch_id');
             $table->unsignedInteger('branch_course_id');
-            $table->unsignedInteger('original_price_id')->nullable();
-            $table->decimal('value', 10, 2);
-            $table->text('remarks')->nullable();
+            $table->unsignedSmallInteger('month');
+            $table->unsignedSmallInteger('year');
+            $table->unique(['branch_course_id', 'month']);
+            $table->string('status')->default('new');
+            $table->decimal('discount', 3, 2);
             $table->unsignedInteger('added_by');
+            $table->unsignedInteger('updated_by')->nullable();
             $table->unsignedInteger('deleted_by')->nullable();
+            $table->text('remarks')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +39,6 @@ class CreateOriginalPricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('original_prices');
+        Schema::dropIfExists('schedules');
     }
 }

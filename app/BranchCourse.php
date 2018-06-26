@@ -16,9 +16,9 @@ class BranchCourse extends Model
         return $this->belongsTo(Branch::class);
     }
 
-    public function course()
+    public function details()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Course::class, 'course_id');
     }
 
     public function originalPrice()

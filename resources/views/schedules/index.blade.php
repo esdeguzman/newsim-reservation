@@ -6,7 +6,7 @@
 @section('page-content')
     <div class="col-md-12">
         <div class="white-box">
-            <a href="{{ route('schedules.index') . '?branch=makati' }}" class="text-uppercase btn btn-danger pull-right">go to my branch</a>
+            <a href="{{ route('schedules.index') . '?branch=' . auth()->user()->administrator->branch->name }}" class="text-uppercase btn btn-danger pull-right">go to my branch</a>
             <h3 class="box-title m-b-0">Data Export</h3>
             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
             <div class="table-responsive">
@@ -16,6 +16,7 @@
                         <th>Branch</th>
                         <th>Course</th>
                         <th>Month</th>
+                        <th>Year</th>
                         <th>Discount</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Reservations</th>
@@ -23,51 +24,29 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="text-uppercase">makati</td>
-                        <td class="text-uppercase">bosiet</td>
-                        <td class="text-uppercase">january</td>
-                        <td class="text-center">50%</td>
-                        <td class="text-center">
-                            <span class="label label-success">new</span>
-                        </td>
-                        <td class="text-center">
-                            <span class="label label-success">25</span>
-                        </td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('schedules.show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-uppercase">cebu</td>
-                        <td class="text-uppercase">bosiet in-house</td>
-                        <td class="text-uppercase">january</td>
-                        <td class="text-center">50%</td>
-                        <td class="text-center">
-                            <span class="label label-info">updated</span>
-                        </td>
-                        <td class="text-center">
-                            <span class="label label-warning">35</span>
-                        </td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('schedules.show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-uppercase">bacolod</td>
-                        <td class="text-uppercase">bosiet refresher</td>
-                        <td class="text-uppercase">january</td>
-                        <td class="text-center">50%</td>
-                        <td class="text-center">
-                            <span class="label label-danger">repriced</span>
-                        </td>
-                        <td class="text-center">
-                            <span class="label label-danger">45</span>
-                        </td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('schedules.show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
+                    @if($schedules->count() > 0)
+                        @foreach($schedules as $schedule)
+                            <tr>
+                                <td class="text-uppercase">{{ $schedule->branchCourse->branch->name }}</td>
+                                <td class="text-uppercase">{{ $schedule->branchCourse->details->code }}</td>
+                                <td class="text-uppercase">{{ $schedule->monthName() }}</td>
+                                <td class="text-uppercase">{{ $schedule->year }}</td>
+                                <td class="text-center">{{ $schedule->discountPercentage() }}</td>
+                                <td class="text-center">
+                                    <span class="label
+                                    @if(str_contains($schedule->status, 'new')) label-success
+                                    @elseif(str_contains($schedule->status, 'updated'))
+                                    @endif label-warning">{{ $schedule->status }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="label label-success">{{ optional($schedule->reservations)->count() }}</span>
+                                </td>
+                                <td class="text-nowrap">
+                                    <a href="{{ route('schedules.show', $schedule->id) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>
