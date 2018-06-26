@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\BranchCourse;
 use App\Course;
+use App\HistoryDetail;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class CoursesController extends Controller
@@ -24,22 +26,34 @@ class CoursesController extends Controller
 
     public function show(Course $course, Request $request)
     {
-        $courseHistory = $course->history();
-
-        return view('courses.show', compact('course', 'courseHistory'));
+        return view('courses.show', compact('course'));
     }
 
     public function store(Request $request)
     {
         $newCourseData = $request->validate([
-            'code' => 'required|min:2|unique:courses',
-            'description' => 'required|unique:courses,description',
+            'code' => 'required|min:2',
+            'description' => 'required|min:5',
         ]);
 
         // add user id of admin who added this course
         $newCourseData['added_by'] = auth()->user()->id;
 
-        Course::create($newCourseData);
+        try {
+            Course::create($newCourseData);
+        } catch (QueryException $queryException) {
+            if ($queryException->errorInfo[1] == 1062) {
+                $request->session()->flash('info', [
+                    'title' => 'Impossible Request',
+                    'type' => 'error',
+                    'text' => 'You are trying to make a duplicate course, please review your course code or course details.',
+                    'confirmButtonColor' => '#DD6B55',
+                    'confirmButtonText' => 'I WILL CHECK IT',
+                ]);
+
+                return back()->withInput();
+            }
+        }
 
         return redirect()->route('courses.index');
     }
@@ -57,9 +71,14 @@ class CoursesController extends Controller
             'course_id' => $course->id,
             'code' => $course->code,
             'description' => $course->description,
+            'added_by' => auth()->user()->administrator->id,
+        ]);
+
+        // create history details
+        HistoryDetail::create([
+            'course_id' => $courseRevisedCopy->id,
+            'updated_by' => auth()->user()->administrator->id,
             'remarks' => $request->remarks,
-            'added_by' => auth()->user()->id,
-            'updated_by' => auth()->user()->id,
         ]);
 
         // soft delete the copy to make it a history item
