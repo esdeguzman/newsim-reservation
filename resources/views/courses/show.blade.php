@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('page-tab-title') Courses @stop
+@section('page-specific-link') <link href="{{ asset('plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" /> @stop
 @section('active-page')
     <li><a href="{{ route('courses.index') }}"><b class="text-info">Courses</b></a></li>
     <li class="active"><span class="text-muted text-uppercase">{{ $course->code }}</span></li>
@@ -18,7 +19,7 @@
                     <div class="table-responsive" style="clear: both;">
                         <h3 class="text-uppercase"><code>timeline</code></h3>
                         <p class="text-muted">This shows important events happened to this course like <code class="text-uppercase">description</code> changes and more!</p>
-                        <table class="table table-hover">
+                        <table class="table table-hover table-striped" id="history_table">
                             <thead>
                             <tr>
                                 <th>Code</th>
@@ -29,20 +30,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if($courseHistory->count() > 0)
-                                @foreach($courseHistory->sortByDesc('created_at') as $history)
+                            @if($course->hasHistory())
+                                @foreach($course->history() as $history)
                                 <tr>
                                     <td class="text-uppercase">{{ $history->code }}</td>
                                     <td class="text-uppercase">{{ $history->description }}</td>
-                                    <td class="text-uppercase">{{ $history->updatedBy->administrator->full_name }}</td>
+                                    <td class="text-uppercase">{{ $history->historyDetails->updatedBy->full_name }}</td>
                                     <td class="text-uppercase">{{ Carbon\Carbon::parse($history->created_at)->toFormattedDateString() }}</td>
-                                    <td class="text-uppercase">{{ $history->remarks }}</td>
+                                    <td class="text-uppercase">{{ $history->historyDetails->remarks }}</td>
                                 </tr>
                                 @endforeach
-                            @else
-                            <tr>
-                                <td class="text-center" colspan="5"><b class="text-uppercase">No amendments have been retrieved.</b></td>
-                            </tr>
                             @endif
                             </tbody>
                         </table>
@@ -143,8 +140,12 @@
     <script src="{{ asset('js/jquery.PrintArea.js') }}" type="text/JavaScript"></script>
     <!-- Sweet-Alert  -->
     <script src="{{ asset('/plugins/bower_components/sweetalert/sweetalert.min.js') }}"></script>
+    <!-- Datatable -->
+    <script src="{{ asset('/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
     <script>
         $(function () {
+            $('#history_table').DataTable();
+
             $("#print").click(function () {
                 var mode = 'iframe'; //popup
                 var close = mode == "popup";
