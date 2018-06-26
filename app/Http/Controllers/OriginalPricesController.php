@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\HistoryDetail;
 use App\OriginalPrice;
 use Illuminate\Http\Request;
 
@@ -43,9 +44,14 @@ class OriginalPricesController extends Controller
             'branch_course_id' => $request->branch_course_id,
             'original_price_id' => $original_price->id,
             'value' => $original_price->value,
-            'remarks' => $request->remarks,
             'added_by' => auth()->user()->id,
-            'updated_by' => auth()->user()->id,
+        ]);
+
+        // create history details
+        HistoryDetail::create([
+            'original_price_id' => $originalPriceRevisedCopy->id,
+            'updated_by' => $request->updated_by,
+            'remarks' => $request->remarks,
         ]);
 
         // soft delete the copy to make it a history item
