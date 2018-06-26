@@ -15,4 +15,9 @@ class Branch extends Model
     {
         return $this->hasMany(Administrator::class);
     }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }
