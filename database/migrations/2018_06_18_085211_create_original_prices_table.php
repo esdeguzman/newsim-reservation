@@ -20,7 +20,6 @@ class CreateOriginalPricesTable extends Migration
             $table->decimal('value', 10, 2);
             $table->text('remarks')->nullable();
             $table->unsignedInteger('added_by');
-            $table->unsignedInteger('updated_by')->nullable();
             $table->unsignedInteger('deleted_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
