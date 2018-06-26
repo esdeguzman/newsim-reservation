@@ -33,8 +33,8 @@
                         @foreach($branchCourses as $branchCourse)
                             <tr>
                                 <td class="text-uppercase">{{ $branchCourse->branch->name }}</td>
-                                <td class="text-uppercase">{{ $branchCourse->course->code }}</td>
-                                <td class="text-uppercase">{{ $branchCourse->course->description }}</td>
+                                <td class="text-uppercase">{{ $branchCourse->details->code }}</td>
+                                <td class="text-uppercase">{{ $branchCourse->details->description }}</td>
                                 <td class="text-nowrap">
                                     <a href="{{ route('branch-courses.show', $branchCourse->id) . '/?branch=' . $branchCourse->branch->name }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
                                 </td>
