@@ -159,7 +159,16 @@
                         <li> <a href="{{ route('branch-courses.index') . '?branch=makati' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Makati</span></a> </li>
                     </ul>
                 </li>
-                <li><a href="{{ route('schedules.index') }}" class="waves-effect @yield('schedules-sidebar-menu')" id="schedules-sidebar"><i class="fa fa-calendar"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Schedules</span></a></li>
+                <li> <a href="#" class="waves-effect @yield('schedules-sidebar-menu')" id="schedules-sidebar"><i class="fa fa-calendar" data-icon="v"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Schedules <span class="fa arrow"></span> <!-- <span class="label label-rouded label-inverse pull-right">4</span> --> </span></a>
+                    <ul class="nav nav-second-level">
+                        <li> <a href="{{ route('schedules.index') }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">All</span></a> </li>
+                        <li> <a href="{{ route('schedules.index') . '?branch=bacolod' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Bacolod</span></a> </li>
+                        <li> <a href="{{ route('schedules.index') . '?branch=cebu' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Cebu</span></a> </li>
+                        <li> <a href="{{ route('schedules.index') . '?branch=davao' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Davao</span></a> </li>
+                        <li> <a href="{{ route('schedules.index') . '?branch=ilo-ilo' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Ilo-ilo</span></a> </li>
+                        <li> <a href="{{ route('schedules.index') . '?branch=makati' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Makati</span></a> </li>
+                    </ul>
+                </li>
                 <li><a href="{{ route('reservations.index') }}" class="waves-effect @yield('reservations-sidebar-menu')" id="reservations-sidebar"><i class="fa fa-tags"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Reservations</span></a></li>
                 <li class="divider"></li>
                 <li> <a href="#" class="waves-effect @yield('user-management-sidebar-menu')" id="user-management-sidebar"><i class="fa fa-users" data-icon="v"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;User Management <span class="fa arrow"></span> <!-- <span class="label label-rouded label-inverse pull-right">4</span> --> </span></a>
