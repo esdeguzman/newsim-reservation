@@ -9,11 +9,14 @@ class ReservationsController extends Controller
     public function index(Request $request)
     {
         $view = null;
-        if ($request->has('show_all')) {
+        $branch = null;
+
+        if ($request->has('branch')) {
+            $branch = $request->branch;
+            $view = view('reservations.index', compact('branch'));
             // query for all trainees reservation using $request->trainee_id
-            $view = view('trainees.reservations');
         } else {
-            $view = view('reservations.index');
+            $view = view('reservations.index', compact('branch'));
         }
 
         return $view;
