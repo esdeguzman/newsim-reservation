@@ -206,6 +206,17 @@
     $('#logout-sidebar').on('click', function () {
         $('#logout-form').submit()
     })
+
+    @if(session('info'))
+    swal({
+        title: "{{ session('info.title') }}",
+        text: "{{ session('info.text') }}",
+        type: "{{ session('info.type') }}",
+        showCancelButton: false,
+        confirmButtonColor: "{{ session('info.confirmButtonColor') }}",
+        confirmButtonText: "{{ session('info.confirmButtonText') }}"
+    });
+    @endif
 </script>
 </body>
 
