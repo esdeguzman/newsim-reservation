@@ -1,7 +1,11 @@
 @extends('layouts.main')
-@section('active-page') <li class="active">Reservations</li> @stop
+@section('active-page')
+    @if($branch) <li><a href="{{ url('reservations.index') }}?branch={{ $branch }}" class="active">Reservations</a></li> <li class="text-capitalize text-muted">{{ $branch }}</li>
+    @else <li class="active">Reservations</li>
+    @endif
+@stop
 @section('reservations-sidebar-menu') active @stop
-@section('page-short-description') All Course Reservations @stop
+@section('page-short-description') {{ config('app.name') }} @stop
 @section('page-content')
 <div class="col-md-12">
     <div class="white-box">
@@ -19,17 +23,8 @@
                     <th>Actions</th>
                 </tr>
                 </thead>
-                <tfoot>
-                <tr>
-                    <th>Reservation Code</th>
-                    <th>Course</th>
-                    <th>Month</th>
-                    <th>Date Reserved</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                </tfoot>
                 <tbody>
+                @if(isset($reservations))
                 <tr>
                     <td>ND-9093-22312</td>
                     <td>BOSIET</td>
@@ -42,42 +37,7 @@
                         <a href="{{ route('reservations.show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
                     </td>
                 </tr>
-                <tr>
-                    <td>ND-9093-22312</td>
-                    <td>BOSIET</td>
-                    <td>DECEMBER</td>
-                    <td>MAY 31, 2018</td>
-                    <td>
-                        <span class="label label-warning">confirmed</span>
-                    </td>
-                    <td class="text-nowrap">
-                        <a href="{{ route('reservations.show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>ND-9093-22312</td>
-                    <td>BOSIET</td>
-                    <td>DECEMBER</td>
-                    <td>MAY 31, 2018</td>
-                    <td>
-                        <span class="label label-info">registered</span>
-                    </td>
-                    <td class="text-nowrap">
-                        <a href="{{ route('reservations.show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>ND-9093-22312</td>
-                    <td>BOSIET</td>
-                    <td>DECEMBER</td>
-                    <td>MAY 31, 2018</td>
-                    <td>
-                        <span class="label label-danger">expired</span>
-                    </td>
-                    <td class="text-nowrap">
-                        <a href="{{ route('reservations.show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                    </td>
-                </tr>
+                @endif
                 </tbody>
             </table>
         </div>
@@ -106,6 +66,7 @@
     // highlight workaround start
     function removeHighlight() {
         $('#home-sidebar').removeClass('active')
+        @if(isset($branch)) $('#all-reservations').removeClass('active') @endif
     }
 
     setTimeout(removeHighlight, 100)
