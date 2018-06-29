@@ -14,11 +14,8 @@
 // Admin login route
 Route::get('/', function () { return redirect()->route('admin.login'); });
 Route::get('admin/login', function () { return view('pages.login'); })->middleware('guest')->name('admin.login');
-
-// Trainee login route
 Route::get('trainee/login', 'TraineesController@login')->middleware('guest')->name('trainee.login');
 
-// Unguarded get routes
 Route::get('trainee/register', 'TraineesController@register')->name('trainee.register');
 Route::get('page-not-found', function () { return view('pages.404'); });
 
@@ -40,7 +37,6 @@ Route::get('trainee/reservations/{reservation}', 'TraineesController@showReserva
 | System Individual POST Routes
 |--------------------------------------------------------------------------
 */
-// Unguarded get routes
 Route::post('authenticate', 'Auth\LoginController@login')->name('login.authenticate');
 
 Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
