@@ -51,6 +51,7 @@ class SchedulesController extends Controller
     {
         $newBranchScheduleData = $request->validate([
             'branch_id' => 'required',
+            'course_id' => 'required',
             'branch_course_id' => 'required',
             'month' => 'required',
             'year' => 'required',
@@ -63,8 +64,36 @@ class SchedulesController extends Controller
         try {
             Schedule::create($newBranchScheduleData);
         } catch (QueryException $queryException) {
-            return $error = $queryException->errorInfo;
+            $error = $queryException->errorInfo[1];
 
+            /*
+              $error data structure
+              0 : "23000"
+              1 : 1062
+              2 : "Duplicate entry '1-12' for key 'schedules_branch_course_id_month_unique'"
+            */
+
+            switch ($error) {
+                case 1062 :
+                    $request->session()->flash('info', [
+                        'title' => 'Schedule Not Created!',
+                        'type' => 'error',
+                        'text' => 'You are trying to create a duplicate schedule, please check your data',
+                        'confirmButtonColor' => '#DD6B55',
+                        'confirmButtonText' => 'I WILL CHECK IT',
+                    ]);
+                    break;
+                default :
+                    $request->session()->flash('info', [
+                        'title' => 'Schedule Not Created!',
+                        'type' => 'error',
+                        'text' => 'An error has occurred, please try adding it again',
+                        'confirmButtonColor' => '#DD6B55',
+                        'confirmButtonText' => 'OH! LET ME TRY AGAIN',
+                    ]);
+            }
+
+            return back()->withInput();
         }
 
         return back();
