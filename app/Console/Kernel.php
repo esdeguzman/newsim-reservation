@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use App\HistoryDetail;
+use App\Reservation;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +27,26 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function () {
+            $openReservations = Reservation::where('status', 'new')->orWhere('status', 'underpaid')->get();
+
+            if ($openReservations->count() > 0) {
+                foreach($openReservations as $openReservation) {
+                    if ($openReservation->isExpired()) {
+                        HistoryDetail::create([
+                            'reservation_id' => $openReservation->id,
+                            'updated_by' => 1,
+                            'log' => 'reservation closed by the system',
+                            'remarks' => 'expired reservation',
+                        ]);
+
+                        $openReservation->status = 'expired';
+                        $openReservation->receive_payment = 0;
+                        $openReservation->save();
+                    }
+                }
+            }
+        })->dailyAt('22:00'); // daily at 10:00pm
     }
 
     /**
