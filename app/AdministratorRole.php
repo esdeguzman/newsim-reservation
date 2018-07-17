@@ -16,6 +16,11 @@ class AdministratorRole extends Model
         return $this->belongsTo(Administrator::class);
     }
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
     public function details()
     {
         return $this->belongsTo(Role::class, 'role_id');
