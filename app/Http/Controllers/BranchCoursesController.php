@@ -23,18 +23,21 @@ class BranchCoursesController extends Controller
 
             return view('branch-courses.index', compact('branchCourses', 'courses'));
         } elseif ($request->has('branch')) {
-            $branchCourses = BranchCourse::whereHas('branch', function ($query) use ($request) {
-                $query->where('name', $request->branch);
-            })->get();
+            $branchCoursesIds = BranchCourse::whereHas('branch', function ($query) use ($request) {
+                                    $query->where('name', $request->branch);
+                                })->select('course_id')->get();
 
-            $branchCoursesIds = BranchCourse::select('course_id')->get();
-            $courses = Course::whereNotIn('id', $branchCoursesIds)->get();
+            $courses = Course::all();
 
-            $branch = $request->branch;
+            if ($branchCoursesIds->count() > 0) {
+                $courses = Course::whereNotIn('id', $branchCoursesIds)->get();
+            }
 
-            $branch_id = Branch::select('id')->where('name', $request->branch)->first();
+            $branch = Branch::where('name', $request->branch)->first();
 
-            return view('branch-courses.index', compact('branchCourses', 'courses', 'branch', 'branch_id'));
+            $branchCourses = BranchCourse::where('branch_id', $branch->id)->get()->sortByDesc('created_at');
+
+            return view('branch-courses.index', compact('branchCourses', 'courses', 'branch'));
         }
     }
 
