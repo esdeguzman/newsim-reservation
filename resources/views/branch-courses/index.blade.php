@@ -97,7 +97,8 @@
             dom: 'Bfrtip'
             , buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+            ],
+            'aaSorting' : []
         });
 
         // highlight workaround start
