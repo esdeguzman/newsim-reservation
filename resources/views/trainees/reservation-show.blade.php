@@ -7,7 +7,19 @@
 @section('page-content')
     <div class="col-md-12 block3">
         <div class="white-box printableArea">
-            <h3 class="text-uppercase">reservation code: <b class="text-info">R12018-MKT001</b> <span class="pull-right"><b class="label label-success text-uppercase">new</b> </span></h3>
+            <h3 class="text-uppercase">
+                <span class="pull-right">
+                    <b class="label
+                    @if($reservation->status == 'new') label-success
+                    @elseif($reservation->status == 'cancelled' || $reservation->status == 'underpaid' || $reservation->status == 'expired') label-danger
+                    @elseif($reservation->status == 'paid' || $reservation->status == 'registered') label-info
+                    @elseif($reservation->status == 'pending' || $reservation->status == 'overpaid') label-warning
+                    @endif
+                    text-uppercase">{{ $reservation->status }}</b>
+                </span>
+                reservation code: <b class="text-info">{{ $reservation->code }}</b><br/>
+                @if($reservation->cor_number)cor#: <b class="text-info">{{ $reservation->cor_number }}</b>@endif
+            </h3>
             <hr>
             <div class="row">
                 <div class="col-md-12">

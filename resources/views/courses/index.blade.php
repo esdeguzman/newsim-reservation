@@ -22,6 +22,13 @@
                         <tr>
                             <td class="text-uppercase">{{ $course->code }}</td>
                             <td class="text-uppercase">{{ $course->description }}</td>
+                            <td class="text-uppercase text-center">
+                            <span class="label
+                            @if($course->status == 'active') label-success
+                            @elseif($course->status == 'restored') label-info
+                            @elseif($course->status == 'deleted') label-danger
+                            @endif
+                            ">{{ $course->status }}</span></td>
                             <td class="text-nowrap">
                                 <a href="{{ route('courses.show', $course->id) }}" class="text-uppercase text-success"> <i class="fa fa-eye text-success m-r-10"></i>view</a>&nbsp;&nbsp;&nbsp;
                                 <a href="#" class="text-uppercase edit_course text-warning" data-toggle="modal" data-target=".edit-course"

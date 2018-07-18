@@ -11,6 +11,15 @@
         <div class="white-box printableArea">
             <button class="pull-right text-uppercase btn btn-info"  data-toggle="modal" data-target=".update-course" id="btn_edit_course">update course details</button>
             <h3 class="text-uppercase">{{ $course->code }} <span class="tooltip-item2"><small>{{ $course->description }}</small></span></h3>
+            <h3 class="text-uppercase">{{ $course->code }}
+                <span class="tooltip-item2"><small>{{ $course->description }}</small></span>
+                <sup class="label
+                @if($course->status == 'active') label-success
+                @elseif($course->status == 'restored') label-info
+                @elseif($course->status == 'deleted') label-danger
+                @endif
+                ">{{ $course->status }}</sup>
+            </h3>
             <hr>
             <div class="row">
                 <div class="col-md-12">
