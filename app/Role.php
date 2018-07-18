@@ -10,4 +10,9 @@ class Role extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function administratorRole()
+    {
+        return $this->hasOne(AdministratorRole::class);
+    }
 }
