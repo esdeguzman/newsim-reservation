@@ -88,7 +88,9 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title text-uppercase" id="cancelReservationLabel">confirm action</h4> </div>
-                <form action="#">
+                <form action="{{ url("reservations/$reservation->id") }}" method="post">
+                    @csrf
+                    @method('put')
                     <div class="modal-body">
                         Cancelling a reservation requires <b class="text-uppercase text-info">remarks</b> for future reference. <br/><br/>
                         <textarea class="form-control form-material" name="remarks" rows="3"></textarea>
@@ -112,17 +114,19 @@
     </div>
     <!-- /cancel reservation -->
 
-    <!-- confirm reservation -->
+    <!-- pay reservation -->
     <div class="modal fade confirm-payment" tabindex="-1" role="dialog" aria-labelledby="confirmPaymentLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title text-uppercase" id="confirmPaymentLabel">confirm action</h4> </div>
-                <form action="#">
+                <form action="{{ \App\Helper\prefixedUrl() . '/payment-transactions' }}" method="post">
+                    @csrf
+                    <input type="text" name="reservation_id" value="{{ $reservation->id }}" hidden />
                     <div class="modal-body">
-                        Please enter the bank transaction number # <br/><br/><br/>
-                        <input type="text" class="form-control form-material money-mask" name="amount">
+                        Please enter the bank transaction number # <br/><br/>
+                        <input type="text" class="form-control form-material" name="number" placeholder="Payment transaction number">
                         <a class="mytooltip pull-right" href="javascript:void(0)"> what's this?
                             <span class="tooltip-content5">
                                 <span class="tooltip-text3">

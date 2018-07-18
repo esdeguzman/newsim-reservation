@@ -76,7 +76,8 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title text-uppercase" id="editCourse">edit course</h4> </div>
                 <form action="#" method="post" id="edit_course_form">
-                    {{ csrf_field() }} {{ method_field('put') }}
+                    @csrf
+                    @method('put')
                     <input type="text" class="hidden" name="redirect_path" value="{{ route('courses.index') }}" />
                     <div class="modal-body">
                         <div class="form-group">
