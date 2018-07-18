@@ -44,7 +44,8 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title text-uppercase" id="addCourse">add course</h4> </div>
                 <form action="{{ route('courses.store') }}" method="post">
-                    {{ csrf_field() }}
+                    @csrf
+                    <input type="number" name="added_by" value="{{ \App\Helper\admin()->id }}" hidden />
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="code" class="control-label">Code</label>
