@@ -42,4 +42,9 @@ class User extends Authenticatable
     {
         return $this->administrator->roles->where('role_id', 1)->count() > 0 ? true: false;
     }
+
+    public function isAdmin()
+    {
+        return optional($this->administrator)->exists()? true : false;
+    }
 }

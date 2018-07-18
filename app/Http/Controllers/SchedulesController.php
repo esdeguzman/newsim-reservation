@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\BranchCourse;
+use function App\Helper\admin;
+use function App\Helper\toPercentage;
 use App\HistoryDetail;
 use App\Schedule;
 use Illuminate\Database\QueryException;
@@ -51,6 +53,7 @@ class SchedulesController extends Controller
     {
         $newBranchScheduleData = $request->validate([
             'branch_id' => 'required',
+            'course_id' => 'required',
             'branch_course_id' => 'required',
             'month' => 'required',
             'year' => 'required',
@@ -63,8 +66,36 @@ class SchedulesController extends Controller
         try {
             Schedule::create($newBranchScheduleData);
         } catch (QueryException $queryException) {
-            return $error = $queryException->errorInfo;
+            $error = $queryException->errorInfo[1];
 
+            /*
+              $error data structure
+              0 : "23000"
+              1 : 1062
+              2 : "Duplicate entry '1-12' for key 'schedules_branch_course_id_month_unique'"
+            */
+
+            switch ($error) {
+                case 1062 :
+                    $request->session()->flash('info', [
+                        'title' => 'Schedule Not Created!',
+                        'type' => 'error',
+                        'text' => 'You are trying to create a duplicate schedule, please check your data',
+                        'confirmButtonColor' => '#DD6B55',
+                        'confirmButtonText' => 'I WILL CHECK IT',
+                    ]);
+                    break;
+                default :
+                    $request->session()->flash('info', [
+                        'title' => 'Schedule Not Created!',
+                        'type' => 'error',
+                        'text' => 'An error has occurred, please try adding it again',
+                        'confirmButtonColor' => '#DD6B55',
+                        'confirmButtonText' => 'OH! LET ME TRY AGAIN',
+                    ]);
+            }
+
+            return back()->withInput();
         }
 
         return back();
@@ -106,23 +137,12 @@ class SchedulesController extends Controller
             return back();
         }
 
-        $scheduleOldCopy = Schedule::create([
+        HistoryDetail::create([
             'schedule_id' => $schedule->id,
-            'branch_id' => $schedule->branch_id,
-            'branch_course_id' => $schedule->branch_course_id,
-            'month' => $oldScheduleData['month'],
-            'year' => $oldScheduleData['year'],
-            'status' => $schedule->status,
-            'discount' => $oldDiscount,
-            'added_by' => auth()->user()->administrator->id,
+            'updated_by' => admin()->id,
+            'remarks' => $request->remarks,
+            'log' => "month:" . $oldScheduleData['month'] . "|year:" . $oldScheduleData['year'] . "|discount:" . toPercentage($oldDiscount),
         ]);
-
-        $historyDetails = $this->createHistory($request, [
-            'key' => 'schedule_id',
-            'value' => $scheduleOldCopy->id
-        ]);
-
-        $scheduleOldCopy->delete();
 
         return back();
     }
@@ -132,6 +152,13 @@ class SchedulesController extends Controller
         $request->validate([
             'remarks' => 'required',
             'deleted_by' => 'required',
+        ]);
+
+        HistoryDetail::create([
+            'schedule_id' => $schedule->id,
+            'updated_by' => admin()->id,
+            'remarks' => $request->remarks,
+            'log' => "deleted schedule",
         ]);
 
         $schedule->delete();

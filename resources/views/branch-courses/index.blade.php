@@ -5,14 +5,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 @stop
 @section('active-page')
-    @if(isset($branch))
+    @if(isset($branch->id))
         <li><a href="{{ route('branch-courses.index') . '?filter=all_branches' }}" class="active">Branch Courses</a></li>
-        <li class="text-capitalize text-muted">{{ $branch }}</li>
+        <li class="text-capitalize text-muted">{{ $branch->name }}</li>
         @else <li class="active">Branch Courses</li>
     @endif
 @stop
 @section('branch-courses-sidebar-menu') active @stop
-@section('page-short-description') @if(isset($branch_id)) <a href="#" class="btn btn-success" data-toggle="modal" data-target=".add-branch-course">add new branch course</a> @endif @stop
+@section('page-short-description') @if(isset($branch->id)) <a href="#" class="btn btn-success" data-toggle="modal" data-target=".add-branch-course">add new branch course</a> @endif @stop
 @section('page-content')
     <div class="col-md-12">
         <div class="white-box">
@@ -65,7 +65,7 @@
                                 <option value="{{ $course->id }}" class="text-uppercase">{{ $course->code }} - {{ str_limit($course->description, 55) }}</option>
                                 @endforeach
                             </select>
-                            @if(isset($branch_id)) <input type="text" name="branch_id" value="{{ $branch_id->id }}" class="hidden" /> @endif
+                            @if(isset($branch->id)) <input type="text" name="branch_id" value="{{ $branch->id }}" class="hidden" /> @endif
                             <p class="text-muted m-t-5"></p>
                         </div>
                     </div>
@@ -97,7 +97,8 @@
             dom: 'Bfrtip'
             , buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+            ],
+            'aaSorting' : []
         });
 
         // highlight workaround start

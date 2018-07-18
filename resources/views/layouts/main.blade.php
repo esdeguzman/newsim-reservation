@@ -32,7 +32,7 @@
     <![endif]-->
 </head>
 
-<body class="fix-header">
+<body class="fix-header hide-sidebar">
 <!-- ============================================================== -->
 <!-- Preloader -->
 <!-- ============================================================== -->
@@ -66,47 +66,43 @@
                 <li><a href="javascript:void(0)" class="open-close waves-effect waves-light"><i class="ti-menu"></i></a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"> <i class="fa fa-tags"></i>
-                        <div class="notify"> @yield('new-reservations-pulse') </div> <!-- NOTE: USE THIS CODE WHEN THERE ARE NEW NOTIFICATIONS <span class="heartbit"></span> <span class="point"></span> -->
+                        <div class="notify"> @if($newReservations > 0) <span class="heartbit"></span> <span class="point"></span> @endif </div>
                     </a>
                     <ul class="dropdown-menu mailbox animated bounceInDown">
                         <li>
-                            <div class="drop-title">There are @yield('new-reservations-count', 'no') new reservations</div>
+                            <div class="drop-title">We have {{ $newReservations or 0 }} new reservation/s</div>
                         </li>
                         <li>
-                            <div class="message-center">
-                                {{--<a href="#">--}}
-                                    {{--<div class="user-img"> <img src="{{ asset('../plugins/images/users/pawandeep.jpg')}}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>--}}
-                                    {{--<div class="mail-contnet">--}}
-                                        {{--<h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span> </div>--}}
-                                {{--</a>--}}
-                            </div>
+                            <a class="text-center" href="{{ route('reservations.index') }}?status=new"> <strong>View new reservations</strong> <i class="fa fa-angle-right"></i> </a>
                         </li>
-                        {{--<li>--}}
-                            {{--<a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a>--}}
-                        {{--</li>--}}
                     </ul>
                     <!-- /.dropdown-messages -->
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"> <i class="fa fa-thumbs-up"></i>
-                        <div class="notify"> @yield('confirmed-reservation-pulse') </div> <!-- NOTE: USE THIS CODE WHEN THERE ARE NEW NOTIFICATIONS <span class="heartbit"></span> <span class="point"></span> -->
+                        <div class="notify">@if($newPaidReservations > 0) <span class="heartbit"></span> <span class="point"></span> @endif </div>
                     </a>
                     <ul class="dropdown-menu mailbox animated bounceInDown">
                         <li>
-                            <div class="drop-title">There are @yield('confirmed-reservations-count', 'no') confirmed reservations</div>
+                            <div class="drop-title">We have {{ $newPaidReservations or 0 }} paid reservation/s</div>
                         </li>
                         <li>
-                            <div class="message-center">
-                                {{--<a href="#">--}}
-                                {{--<div class="user-img"> <img src="{{ asset('../plugins/images/users/pawandeep.jpg')}}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>--}}
-                                {{--<div class="mail-contnet">--}}
-                                {{--<h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span> </div>--}}
-                                {{--</a>--}}
-                            </div>
+                            <a class="text-center" href="{{ route('reservations.index') }}?status=paid"> <strong>View paid reservation/s</strong> <i class="fa fa-angle-right"></i> </a>
                         </li>
-                        {{--<li>--}}
-                        {{--<a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a>--}}
-                        {{--</li>--}}
+                    </ul>
+                    <!-- /.dropdown-messages -->
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"> <i class="fa fa-shopping-bag"></i>
+                        <div class="notify"> @if($newPayments > 0) <span class="heartbit"></span> <span class="point"></span> @endif </div>
+                    </a>
+                    <ul class="dropdown-menu mailbox animated bounceInDown">
+                        <li>
+                            <div class="drop-title">We have {{ $newPayments or 0 }} new payment/s received</div>
+                        </li>
+                        <li>
+                            <a class="text-center" href="{{ route('reservations.index') }}?status=pending"> <strong>View new received payments</strong> <i class="fa fa-angle-right"></i> </a>
+                        </li>
                     </ul>
                     <!-- /.dropdown-messages -->
                 </li>
@@ -169,7 +165,16 @@
                         <li> <a href="{{ route('schedules.index') . '?branch=makati' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Makati</span></a> </li>
                     </ul>
                 </li>
-                <li><a href="{{ route('reservations.index') }}" class="waves-effect @yield('reservations-sidebar-menu')" id="reservations-sidebar"><i class="fa fa-tags"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Reservations</span></a></li>
+                <li> <a href="#" class="waves-effect @yield('reservations-sidebar-menu')" id="reservations-sidebar"><i class="fa fa-tags" data-icon="v"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Reservations <span class="fa arrow"></span> <!-- <span class="label label-rouded label-inverse pull-right">4</span> --> </span></a>
+                    <ul class="nav nav-second-level">
+                        <li> <a href="{{ route('reservations.index') }}" id="all-reservations"><i class=" fa-fw">&#10095;</i><span class="hide-menu">All</span></a> </li>
+                        <li> <a href="{{ route('reservations.index') . '?branch=bacolod' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Bacolod</span></a> </li>
+                        <li> <a href="{{ route('reservations.index') . '?branch=cebu' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Cebu</span></a> </li>
+                        <li> <a href="{{ route('reservations.index') . '?branch=davao' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Davao</span></a> </li>
+                        <li> <a href="{{ route('reservations.index') . '?branch=ilo-ilo' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Ilo-ilo</span></a> </li>
+                        <li> <a href="{{ route('reservations.index') . '?branch=makati' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Makati</span></a> </li>
+                    </ul>
+                </li>
                 <li class="divider"></li>
                 <li> <a href="#" class="waves-effect @yield('user-management-sidebar-menu')" id="user-management-sidebar"><i class="fa fa-users" data-icon="v"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;User Management <span class="fa arrow"></span> <!-- <span class="label label-rouded label-inverse pull-right">4</span> --> </span></a>
                     <ul class="nav nav-second-level">
@@ -249,6 +254,8 @@
 <!-- Sweet-Alert  -->
 <script src="{{ asset('/plugins/bower_components/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js') }}"></script>
+<!-- Datatable  -->
+<script src="{{ asset('plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 
 <script>
     // highlight workaround start
@@ -267,12 +274,16 @@
     @if(session('info'))
     swal({
         title: "{{ session('info.title') }}",
-        text: "{{ session('info.text') }}",
-        type: "{{ session('info.type') }}",
+        text: "{{ session('info.text') }}.",
+        type: "warning",
         showCancelButton: false,
         confirmButtonColor: "{{ session('info.confirmButtonColor') }}",
         confirmButtonText: "{{ session('info.confirmButtonText') }}"
     });
+    @endif
+
+    @if($errors->all() != null) swal("An error has occurred!", "Please check the form for additional information.", "error")
+    @elseif(session('unknownError')) swal("An unknown error has occurred!", "Please try again later.", "error")
     @endif
 </script>
 

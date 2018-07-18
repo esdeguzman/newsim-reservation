@@ -18,6 +18,7 @@ class CreateCoursesTable extends Migration
             $table->unsignedInteger('course_id')->nullable();
             $table->string('code')->unique();
             $table->string('description')->unique();
+            $table->string('status')->default('active');
             $table->unsignedInteger('added_by');
             $table->unsignedInteger('deleted_by')->nullable();
             $table->text('remarks')->nullable();

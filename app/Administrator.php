@@ -19,6 +19,7 @@ class Administrator extends Model
         return $this->belongsTo(Branch::class);
     }
 
+
     public function roles()
     {
         return $this->hasMany(AdministratorRole::class, 'administrator_id');
@@ -27,5 +28,15 @@ class Administrator extends Model
     public function updatedBy()
     {
         return $this->hasOne(null, 'updated_by');
+    }
+
+    public function registeredReservation()
+    {
+        return $this->hasOne(null, 'registered_by');
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
     }
 }

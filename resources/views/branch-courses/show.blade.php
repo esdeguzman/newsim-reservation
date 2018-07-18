@@ -37,6 +37,7 @@
                         <table class="table table-hover table-striped" id="history_table">
                             <thead>
                             <tr>
+                                <th>Log</th>
                                 <th>Remarks</th>
                                 <th>Blame</th>
                                 <th>Date Amended</th>
@@ -44,20 +45,22 @@
                             </thead>
                             <tbody>
                             @if($branchCourse->details->hasHistory())
-                                @foreach($branchCourse->details->history() as $course)
+                                @foreach($branchCourse->details->history() as $history)
                                     <tr>
-                                        <td class="text-uppercase">{{ $course->historyDetails->remarks }}</td>
-                                        <td class="text-uppercase">{{ $course->historyDetails->updatedBy->full_name }}</td>
-                                        <td class="text-uppercase">{{ Carbon\Carbon::parse($course->created_at)->toFormattedDateString() }}</td>
+                                        <td class="text-uppercase">{{ $history->log }}</td>
+                                        <td class="text-uppercase">{{ $history->remarks }}</td>
+                                        <td class="text-uppercase">{{ $history->updatedBy->full_name }}</td>
+                                        <td class="text-uppercase">{{ Carbon\Carbon::parse($history->created_at)->toFormattedDateString() }}</td>
                                     </tr>
                                 @endforeach
                             @endif
                             @if(optional($originalPrice)->hasHistory())
-                                @foreach($originalPrice->history() as $originalPrice)
+                                @foreach($originalPrice->history() as $history)
                                     <tr>
-                                        <td class="text-uppercase">{{ $originalPrice->historyDetails->remarks }}</td>
-                                        <td class="text-uppercase">{{ $originalPrice->historyDetails->updatedBy->full_name }}</td>
-                                        <td class="text-uppercase">{{ Carbon\Carbon::parse($originalPrice->created_at)->toFormattedDateString() }}</td>
+                                        <td class="text-uppercase">{{ $history->log }}</td>
+                                        <td class="text-uppercase">{{ $history->remarks }}</td>
+                                        <td class="text-uppercase">{{ $history->updatedBy->full_name }}</td>
+                                        <td class="text-uppercase">{{ Carbon\Carbon::parse($history->created_at)->toFormattedDateString() }}</td>
                                     </tr>
                                 @endforeach
                             @endif
@@ -214,7 +217,9 @@
     <script src="{{ asset('/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
     <script>
         $(function () {
-            $('#history_table').DataTable();
+            $('#history_table').DataTable({
+                'aaSorting' : []
+            });
 
             $("#print").click(function () {
                 var mode = 'iframe'; //popup

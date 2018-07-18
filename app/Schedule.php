@@ -22,6 +22,11 @@ class Schedule extends Model
         return $this->belongsTo(BranchCourse::class);
     }
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
     public function monthName()
     {
         $dateObject = \DateTime::createFromFormat('!m', $this->month);

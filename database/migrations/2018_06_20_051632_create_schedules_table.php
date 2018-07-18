@@ -17,6 +17,7 @@ class CreateSchedulesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('schedule_id')->nullable();
             $table->unsignedInteger('branch_id');
+            $table->unsignedInteger('course_id');
             $table->unsignedInteger('branch_course_id');
             $table->unsignedSmallInteger('month');
             $table->unsignedSmallInteger('year');

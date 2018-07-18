@@ -22,6 +22,13 @@
                         <tr>
                             <td class="text-uppercase">{{ $course->code }}</td>
                             <td class="text-uppercase">{{ $course->description }}</td>
+                            <td class="text-uppercase text-center">
+                            <span class="label
+                            @if($course->status == 'active') label-success
+                            @elseif($course->status == 'restored') label-info
+                            @elseif($course->status == 'deleted') label-danger
+                            @endif
+                            ">{{ $course->status }}</span></td>
                             <td class="text-nowrap">
                                 <a href="{{ route('courses.show', $course->id) }}" class="text-uppercase text-success"> <i class="fa fa-eye text-success m-r-10"></i>view</a>&nbsp;&nbsp;&nbsp;
                                 <a href="#" class="text-uppercase edit_course text-warning" data-toggle="modal" data-target=".edit-course"
@@ -44,7 +51,8 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title text-uppercase" id="addCourse">add course</h4> </div>
                 <form action="{{ route('courses.store') }}" method="post">
-                    {{ csrf_field() }}
+                    @csrf
+                    <input type="number" name="added_by" value="{{ \App\Helper\admin()->id }}" hidden />
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="code" class="control-label">Code</label>
@@ -75,7 +83,8 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title text-uppercase" id="editCourse">edit course</h4> </div>
                 <form action="#" method="post" id="edit_course_form">
-                    {{ csrf_field() }} {{ method_field('put') }}
+                    @csrf
+                    @method('put')
                     <input type="text" class="hidden" name="redirect_path" value="{{ route('courses.index') }}" />
                     <div class="modal-body">
                         <div class="form-group">

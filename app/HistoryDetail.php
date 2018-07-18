@@ -16,6 +16,11 @@ class HistoryDetail extends Model
         return $this->belongsTo(Course::class);
     }
 
+    public function reservation()
+    {
+        return $this->belongsTo(Reservation::class)->withTrashed();
+    }
+
     public function updatedBy()
     {
         return $this->belongsTo(Administrator::class, 'updated_by');

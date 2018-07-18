@@ -5,14 +5,14 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Role extends Model
+class PaymentTransaction extends Model
 {
     use SoftDeletes;
 
     protected $guarded = [];
 
-    public function administratorRole()
+    public function reservation()
     {
-        return $this->hasOne(AdministratorRole::class);
+        return $this->belongsTo(Reservation::class)->withTrashed();
     }
 }

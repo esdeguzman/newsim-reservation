@@ -10,73 +10,37 @@
                 <table id="example23" class="display nowrap" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>Reservation Code</th>
-                        <th>Course</th>
-                        <th>Month</th>
-                        <th>Date Reserved</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th class="text-left">Reservation Code</th>
+                        <th class="text-center">Course</th>
+                        <th class="text-center">Month</th>
+                        <th class="text-center">Date Reserved</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                     </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Reservation Code</th>
-                        <th>Course</th>
-                        <th>Month</th>
-                        <th>Date Reserved</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                    </tfoot>
                     <tbody>
-                    <tr>
-                        <td>ND-9093-22312</td>
-                        <td>BOSIET</td>
-                        <td>DECEMBER</td>
-                        <td>MAY 31, 2018</td>
-                        <td>
-                            <span class="label label-success">new</span>
-                        </td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('trainee.reservation-show', 1) . '?show-all="true"' }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>ND-9093-22312</td>
-                        <td>BOSIET</td>
-                        <td>DECEMBER</td>
-                        <td>MAY 31, 2018</td>
-                        <td>
-                            <span class="label label-warning">confirmed</span>
-                        </td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('trainee.reservation-show', 1) . '?show-all="true"' }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>ND-9093-22312</td>
-                        <td>BOSIET</td>
-                        <td>DECEMBER</td>
-                        <td>MAY 31, 2018</td>
-                        <td>
-                            <span class="label label-info">registered</span>
-                        </td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('trainee.reservation-show', 1) . '?show-all="true"' }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>ND-9093-22312</td>
-                        <td>BOSIET</td>
-                        <td>DECEMBER</td>
-                        <td>MAY 31, 2018</td>
-                        <td>
-                            <span class="label label-danger">expired</span>
-                        </td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('reservations.show', 1) . '?show-all="true"' }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
+                    @if(isset($reservations))
+                        @foreach($reservations as $reservation)
+                        <tr>
+                            <td class="text-left">{{ $reservation->code }}</td>
+                            <td class="text-center">{{ strtoupper($reservation->schedule->branchCourse->details->code) }}</td>
+                            <td class="text-center">{{ $reservation->schedule->monthName() }}</td>
+                            <td class="text-center">{{ \App\Helper\toReadableDate($reservation->created_at) }}</td>
+                            <td class="text-center">
+                                <span class="label text-uppercase
+                                @if($reservation->status == 'new') label-success
+                                @elseif($reservation->status == 'cancelled' || $reservation->status == 'underpaid' || $reservation->status == 'expired') label-danger
+                                @elseif($reservation->status == 'paid' || $reservation->status == 'registered') label-info
+                                @elseif($reservation->status == 'pending' || $reservation->status == 'overpaid') label-warning
+                                @endif
+                                ">{{ $reservation->status }}</span>
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ route('trainee-reservations.show', $reservation->id) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>
@@ -86,7 +50,9 @@
 @section('page-scripts')
     <script src="{{ asset('plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
     <script>
-        $('#example23').DataTable();
+        $('#example23').dataTable({
+            'aaSorting': []
+        });
 
         // highlight workaround start
         function removeHighlight() {
