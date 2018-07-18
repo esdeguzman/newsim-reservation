@@ -2,18 +2,7 @@
 @section('page-tab-title') Schedules @stop
 @section('active-page') <li class="active">Schedules</li> @stop
 @section('schedules-sidebar-menu') active @stop
-@section('page-short-description')
-    <form action="{{ route('trainee.schedules') }}" method="get" id="form-branch-filter">
-        <select name="branch" class="col-md-3" id="branch-filter">
-            <option value="all">All Branches</option>
-            <option value="bacolod">Bacolod</option>
-            <option value="cebu">Cebu</option>
-            <option value="davao">Davao</option>
-            <option value="iloilo">Ilo-ilo</option>
-            <option value="makati">Makita</option>
-        </select>
-    </form>
-@stop
+@section('page-short-description') {{ config('app.name') }} @stop
 @section('page-content')
     <div class="col-md-12">
         <div class="white-box">
@@ -21,61 +10,31 @@
                 <table id="schedules" class="display nowrap" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>Branch</th>
-                        <th>Course</th>
-                        <th>Month</th>
-                        <th>Discount</th>
+                        <th class="text-center">Branch</th>
+                        <th class="text-center">Course</th>
+                        <th class="text-center">Month</th>
+                        <th class="text-center">Discount</th>
                         <th class="text-center">Status</th>
-                        <th class="text-center">Reservations</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="text-uppercase">makati</td>
-                        <td class="text-uppercase">bosiet</td>
-                        <td class="text-uppercase">january</td>
-                        <td class="text-center">50%</td>
-                        <td class="text-center">
-                            <span class="label label-success">new</span>
-                        </td>
-                        <td class="text-center">
-                            <span class="label label-success">25</span>
-                        </td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('trainee.schedule-show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-uppercase">cebu</td>
-                        <td class="text-uppercase">bosiet in-house</td>
-                        <td class="text-uppercase">january</td>
-                        <td class="text-center">50%</td>
-                        <td class="text-center">
-                            <span class="label label-info">updated</span>
-                        </td>
-                        <td class="text-center">
-                            <span class="label label-warning">35</span>
-                        </td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('trainee.schedule-show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-uppercase">bacolod</td>
-                        <td class="text-uppercase">bosiet refresher</td>
-                        <td class="text-uppercase">january</td>
-                        <td class="text-center">50%</td>
-                        <td class="text-center">
-                            <span class="label label-danger">repriced</span>
-                        </td>
-                        <td class="text-center">
-                            <span class="label label-danger">45</span>
-                        </td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('trainee.schedule-show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
+                    @if(optional($schedules)->count() > 0)
+                        @foreach($schedules as $schedule)
+                        <tr>
+                            <td class="text-uppercase text-center">{{ $schedule->branch->name }}</td>
+                            <td class="text-uppercase text-center">{{ $schedule->branchCourse->details->code }}</td>
+                            <td class="text-uppercase text-center">{{ $schedule->monthName() }}</td>
+                            <td class="text-center text-center">{{ $schedule->discountPercentage() }}</td>
+                            <td class="text-center">
+                                <span class="label label-success">{{ $schedule->status }}</span>
+                            </td>
+                            <td class="text-nowrap">
+                                <a href="{{ route('trainee-schedules.show', $schedule->id) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>
@@ -90,7 +49,7 @@
         // highlight workaround start
         function removeHighlight() {
             $('#home-sidebar').removeClass('active')
-            $('#reservations-sidebar').removeClass('active')
+            @if(isset($branch)) $('#all-schedules').removeClass('active') @endif
         }
 
         setTimeout(removeHighlight, 100)

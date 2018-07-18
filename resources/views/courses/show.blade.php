@@ -9,8 +9,9 @@
 @section('page-content')
     <div class="col-md-12 block3">
         <div class="white-box printableArea">
-            <button class="pull-right text-uppercase btn btn-info"  data-toggle="modal" data-target=".update-course" id="btn_edit_course">update course details</button>
-            <h3 class="text-uppercase">{{ $course->code }} <span class="tooltip-item2"><small>{{ $course->description }}</small></span></h3>
+            @if($course->status == 'active' || $course->status == 'restored') <button class="pull-right text-uppercase btn btn-info"  data-toggle="modal" data-target=".update-course" id="btn_edit_course">update course details</button>
+            @elseif($course->status == 'deleted') <button class="pull-right text-uppercase btn btn-warning"  data-toggle="modal" data-target=".restore-course" id="btn_restore_course">restore course</button>
+            @endif
             <h3 class="text-uppercase">{{ $course->code }}
                 <span class="tooltip-item2"><small>{{ $course->description }}</small></span>
                 <sup class="label
@@ -31,22 +32,20 @@
                         <table class="table table-hover table-striped" id="history_table">
                             <thead>
                             <tr>
-                                <th>Code</th>
-                                <th>Description</th>
+                                <th>Log</th>
+                                <th>Remarks</th>
                                 <th>Responsible</th>
                                 <th>Date Amended</th>
-                                <th>Remarks</th>
                             </tr>
                             </thead>
                             <tbody>
                             @if($course->hasHistory())
                                 @foreach($course->history() as $history)
                                 <tr>
-                                    <td class="text-uppercase">{{ $history->code }}</td>
-                                    <td class="text-uppercase">{{ $history->description }}</td>
-                                    <td class="text-uppercase">{{ $history->historyDetails->updatedBy->full_name }}</td>
+                                    <td class="text-uppercase">{{ $history->log }}</td>
+                                    <td class="text-uppercase">{{ $history->remarks }}</td>
+                                    <td class="text-uppercase">{{ $history->updatedBy->full_name }}</td>
                                     <td class="text-uppercase">{{ Carbon\Carbon::parse($history->created_at)->toFormattedDateString() }}</td>
-                                    <td class="text-uppercase">{{ $history->historyDetails->remarks }}</td>
                                 </tr>
                                 @endforeach
                             @endif
@@ -54,6 +53,7 @@
                         </table>
                     </div>
                 </div>
+                @if(is_null($course->deleted_at))
                 <div class="col-lg-5 col-sm-6 col-xs-12 pull-right m-t-40">
                     <div class="panel panel-danger">
                         <div class="panel-heading"> Danger Zone
@@ -71,6 +71,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>
@@ -143,6 +144,38 @@
     </div>
     <!-- /update course -->
 
+    <!-- restore course -->
+    <div class="modal fade restore-course" tabindex="-1" role="dialog" aria-labelledby="restoreCourseLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title text-uppercase" id="restoreCourseLabel">confirm action</h4> </div>
+                <form action="{{ route('courses.restore', $course->id) }}" method="post">
+                    @csrf
+                    @method('put')
+                    <div class="modal-body">
+                        Restoring a course requires <b class="text-uppercase text-info">remarks</b> for future reference. <br/><br/>
+                        <textarea class="form-control form-material" name="remarks" rows="3"></textarea>
+                        <a class="mytooltip pull-right" href="javascript:void(0)"> what's this?
+                            <span class="tooltip-content5">
+                                <span class="tooltip-text3">
+                                    <span class="tooltip-inner2">To Restore, <br/> Please enter the reason why this course is being restored.</span>
+                                </span>
+                            </span>
+                        </a>
+                        <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info text-uppercase" data-dismiss="modal">undo, undo!</button>
+                        <button class="btn btn-danger text-uppercase submit">continue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /restore course -->
+
     <!-- /modals -->
 @stop
 @section('page-scripts')
@@ -153,7 +186,9 @@
     <script src="{{ asset('/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
     <script>
         $(function () {
-            $('#history_table').DataTable();
+            $('#history_table').DataTable({
+                'aaSorting' : []
+            });
 
             $("#print").click(function () {
                 var mode = 'iframe'; //popup
