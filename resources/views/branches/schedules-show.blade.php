@@ -229,7 +229,9 @@
     <script src="{{ asset('/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
     <script>
         $(function () {
-            $('#history_table').DataTable();
+            $('#history_table').DataTable({
+                'aaSorting' : []
+            });
 
             $("#print").click(function () {
                 var mode = 'iframe'; //popup
