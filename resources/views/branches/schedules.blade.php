@@ -75,7 +75,7 @@
                             <select name="branch_course_id" id="branch_course_id" class="selectpicker form-control" data-live-search="true" >
                                 <option value="" class="hidden">Click to select course</option>
                                 @foreach($branchCourses as $branchCourse)
-                                <option value="{{ $branchCourse->id }}" data-branch="{{ $branchCourse->branch->name }}" data-description="{{ $branchCourse->details->description }}" data-original-price="{{ number_format(optional($branchCourse->originalPrice)->value, 2) }}" {{ old('branch_course_id') == $branchCourse->id? 'selected' : '' }}>{{ strtoupper($branchCourse->details->code) }}</option>
+                                <option value="{{ $branchCourse->id }}" data-course-id="{{ $branchCourse->details->id }}" data-branch="{{ $branchCourse->branch->name }}" data-description="{{ $branchCourse->details->description }}" data-original-price="{{ number_format(optional($branchCourse->originalPrice)->value, 2) }}" {{ old('branch_course_id') == $branchCourse->id? 'selected' : '' }}>{{ strtoupper($branchCourse->details->code) }}</option>
                                 @endforeach
                             </select>
                             <p class="text-muted text-uppercase m-t-5" id="course_description">course description</p>
@@ -118,6 +118,7 @@
                             <input class="form-control" type="number" name="year" value="{{ \Carbon\Carbon::now()->year }}"/>
                             <p class="text-muted text-uppercase m-t-5"></p>
                         </div>
+                        <input type="text" name="course_id" id="course_id" hidden />
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-info text-uppercase" data-dismiss="modal">cancel</button>
@@ -165,12 +166,15 @@
 
         branchCourseId.on('changed.bs.select', function (e) {
             let branchCourseId = $(this).val()
+            let courseId = $(this).find(':selected').data('course-id')
             let branch = $(this).find(':selected').data('branch')
             let description = $(this).find(':selected').data('description')
-            let originalPrice = 'P ' + $(this).find(':selected').data('original-price')
+            let value = $(this).find(':selected').data('original-price')
+            let originalPrice = 'P ' + value? value : ''
 
             $('#course_description').text(description)
             $('#original_price').text(originalPrice)
+            $('#course_id').val(courseId)
             $('#update_original_price_link').attr('href', '{{ url('admin/branch-courses') }}' + '/' + branchCourseId + '?branch=' + branch)
         })
 
