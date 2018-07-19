@@ -8,6 +8,21 @@
 
 /*
 |--------------------------------------------------------------------------
+| System Route Resources
+|--------------------------------------------------------------------------
+*/
+Route::resource('administrators', 'AdministratorsController');
+Route::resource('trainees', 'TraineesController');
+
+Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
+    Route::resource('branch-courses', 'BranchCoursesController');
+    Route::resource('courses', 'CoursesController');
+    Route::resource('original-prices', 'OriginalPricesController');
+    Route::resource('schedules', 'SchedulesController');
+});
+
+/*
+|--------------------------------------------------------------------------
 | System Individual GET Routes
 |--------------------------------------------------------------------------
 */
@@ -81,18 +96,3 @@ Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
 | System Individual DELETE Routes
 |--------------------------------------------------------------------------
 */
-
-/*
-|--------------------------------------------------------------------------
-| System Route Resources
-|--------------------------------------------------------------------------
-*/
-Route::resource('administrators', 'AdministratorsController');
-Route::resource('trainees', 'TraineesController');
-
-Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
-    Route::resource('branch-courses', 'BranchCoursesController');
-    Route::resource('courses', 'CoursesController');
-    Route::resource('original-prices', 'OriginalPricesController');
-    Route::resource('schedules', 'SchedulesController');
-});
