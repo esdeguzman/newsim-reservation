@@ -9,7 +9,7 @@
             <h3 class="box-title m-b-0">Data Export</h3>
             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
             <div class="table-responsive">
-                <table id="schedules" class="display nowrap" cellspacing="0" width="100%">
+                <table id="trainees" class="display nowrap" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>Full Name</th>
@@ -50,11 +50,12 @@
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     <!-- end - This is for export functionality only -->.
     <script>
-        $('#schedules').DataTable({
+        $('#trainees').DataTable({
             dom: 'Bfrtip'
             , buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+            ],
+            'aaSorting' : []
         });
 
         // highlight workaround start
