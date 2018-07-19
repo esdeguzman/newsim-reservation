@@ -60,6 +60,7 @@ Route::prefix('trainee')->middleware('auth', 'can.access')->group(function () {
 | System Individual UPDATE Routes
 |--------------------------------------------------------------------------
 */
+Route::put('save-new-password/{user}', 'UsersController@saveNewPassword')->name('users.save-new-password');
 
 Route::prefix('trainee')->middleware('auth', 'can.access')->group(function () {
     Route::put('reservations/{reservation}', 'ReservationsController@update');

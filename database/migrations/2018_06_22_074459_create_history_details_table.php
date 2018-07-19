@@ -19,6 +19,7 @@ class CreateHistoryDetailsTable extends Migration
             $table->unsignedInteger('original_price_id')->nullable();
             $table->unsignedInteger('schedule_id')->nullable();
             $table->unsignedInteger('reservation_id')->nullable();
+            $table->unsignedInteger('trainee_id')->nullable();
             $table->unsignedInteger('updated_by');
             $table->text('log');
             $table->text('remarks');
