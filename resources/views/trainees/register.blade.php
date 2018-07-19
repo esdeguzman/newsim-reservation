@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('plugins/images/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('plugins/images/logo_nscpi.png') }}">
     <title>NEWSIM Reservation | Trainee registration</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -35,7 +35,6 @@
     <section id="wrapper" class="new-login-register" style="height: 100vh; overflow-y: auto">
         <div class="lg-info-panel">
             <div class="inner-panel">
-                <a href="javascript:void(0)" class="p-20 di"><img src="{{ asset('plugins/images/admin-logo.png') }}"></a>
                 <div class="lg-content">
                     <h2>NEWSIM ONLINE RESERVATION SYSTEM</h2>
                     <p class="text-muted">Already have an account? Click sign in button below instead!</p>
@@ -48,85 +47,95 @@
         <div class="new-login-box">
             <div class="white-box">
                 <h3 class="box-title m-b-0">Sign UP now to reserve a schedule!</h3>
-                <form class="form-horizontal new-lg-form" id="loginform" action="index.html">
+                @if($errors->any())
+                    <br/>
+                    <ul class="common-list">
+                    @foreach($errors->all() as $error)
+                    <li><i class="ti ti-close text-danger"></i> {{ $error }}</li>
+                    @endforeach
+                    </ul>
+                @endif
+                <form class="form-horizontal new-lg-form" id="loginform" action="{{ route('trainee.signup') }}" method="post">
+                    @csrf
                     <div class="form-group">
                         <div class="col-xs-12">
                             <h4>Log in credentials</h4>
                             <hr/>
-                            <input class="form-control" type="text" required="" placeholder="Username *" name="username" />
+                            <input class="form-control" type="text" placeholder="Username *" name="username" value="{{ old('username') }}" />
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="password" required="" placeholder="Password *" name="password" />
+                            <input class="form-control" type="password" placeholder="Password *" name="password" />
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <h4>Trainee Personal Information</h4>
                             <hr/>
-                            <input class="form-control" type="email" required="" placeholder="Valid Email Address *" name="email" />
+                            <input class="form-control" type="email" placeholder="Valid Email Address *" name="email" value="{{ old('email') }}" />
                             <small class="text-muted">Please enter a valid email address, this will be used to send confirmation messages of your reservations.</small>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="First Name *" name="first_name" />
+                            <input class="form-control" type="text" placeholder="First Name *" name="first_name" value="{{ old('first_name') }}" />
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Middle Name *" name="middle_name" />
+                            <input class="form-control" type="text" placeholder="Middle Name *" name="middle_name" value="{{ old('middle_name') }}" />
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Last Name *" name="last_name" />
+                            <input class="form-control" type="text" placeholder="Last Name *" name="last_name" value="{{ old('last_name') }}" />
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Mobile Number *" name="mobile_number" />
+                            <input class="form-control mobile-number-mask" type="text" placeholder="Mobile Number *" name="mobile_number" value="{{ old('mobile_number') }}" />
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Telephone Number" name="telephone_number" />
+                            <input class="form-control" type="text" placeholder="Telephone Number" name="telephone_number" value="{{ old('telephone_number') }}" />
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <select name="rank" class="selectpicker form-control" data-live-search="true">
                                 <option value="" class="hidden">Select trainee rank *</option>
-                                <option value="cadet">Cadet</option>
-                                <option value="chef">Chef</option>
-                                <option value="engineer">Engineer</option>
-                                <option value="master">Master</option>
+                                <option value="cadet" {{ old('rank') == 'cadet'? 'selected' : '' }}>Cadet</option>
+                                <option value="chef" {{ old('rank') == 'chef'? 'selected' : '' }}>Chef</option>
+                                <option value="engineer" {{ old('rank') == 'engineer'? 'selected' : '' }}>Engineer</option>
+                                <option value="master" {{ old('rank') == 'master'? 'selected' : '' }}>Master</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <select name="rank" class="selectpicker form-control">
+                            <select name="gender" class="selectpicker form-control">
                                 <option value="" class="hidden">Select gender *</option>
-                                <option value="female">Female</option>
-                                <option value="male">Male</option>
+                                <option value="female" {{ old('gender') == 'female'? 'selected' : '' }}>Female</option>
+                                <option value="male" {{ old('gender') == 'male'? 'selected' : '' }}>Male</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <textarea name="address" rows="3" class="form-control" placeholder="Address *"></textarea>
+                            <textarea name="address" rows="3" class="form-control" placeholder="Address *">{{ old('address') }}</textarea>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Birth date *" name="birth_date" />
+                            <input class="form-control date-mask" type="text" placeholder="Birth date *" name="birth_date" value="{{ old('birth_date') }}" />
+                            <p class="text-mutd">Please use the format YYYY-MM-DD i.e. 1990-06-24</p>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Company" name="company" />
+                            <input class="form-control" type="text" placeholder="Company" name="company" value="{{ old('company') }}" />
                         </div>
                     </div>
                     {{--<div class="form-group">--}}
@@ -160,6 +169,12 @@
     <script src="{{ asset('js/custom.min.js') }}"></script>
     <!--Style Switcher -->
     <script src="{{ asset('plugins/bower_components/styleswitcher/jQuery.style.switcher.js') }}"></script>
-</body>
+    <!-- masked input -->
+    <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
 
+    <script>
+        $('.date-mask').mask('0000-00-00');
+        $('.mobile-number-mask').mask('+63900-0000-000');
+    </script>
+</body>
 </html>
