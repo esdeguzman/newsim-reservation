@@ -3,13 +3,14 @@
 namespace App;
 
 use function App\Helper\trainee;
+use App\Traits\Historiable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Trainee extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Historiable;
 
     protected $guarded = [];
 

@@ -32,7 +32,6 @@
 <section id="wrapper" class="new-login-register">
     <div class="lg-info-panel">
         <div class="inner-panel">
-            <a href="javascript:void(0)" class="p-20 di"><img src="{{ asset('plugins/images/admin-logo.png') }}"></a>
             <div class="lg-content">
                 <h2>NEWSIM ONLINE RESERVATION SYSTEM</h2>
                 <p class="text-muted">Don't have an account yet? Click the register button below to create one!</p>
@@ -74,16 +73,17 @@
                     </div>
                 </div>
             </form>
-            <form class="form-horizontal" id="recoverform" action="index.html">
+            <form class="form-horizontal" id="recoverform" action="{{ route('users.request-reset-password') }}" method="post">
+                @csrf
                 <div class="form-group ">
                     <div class="col-xs-12">
-                        <h3>Recover Password</h3>
+                        <h3>Reset Password</h3>
                         <p class="text-muted">Enter your Email and instructions will be sent to you! </p>
                     </div>
                 </div>
                 <div class="form-group ">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" required="" placeholder="Email">
+                        <input class="form-control" type="text" required="" placeholder="Email" name="email" value="{{ old('email') }}">
                     </div>
                 </div>
                 <div class="form-group text-center m-t-20">
@@ -113,12 +113,21 @@
 <script src={{ asset('js/custom.min.js') }}></script>
 <!--Style Switcher -->
 <script src="{{ asset('plugins/bower_components/styleswitcher/jQuery.style.switcher.js') }}"></script>
+<!-- Sweet-Alert  -->
+<script src="{{ asset('/plugins/bower_components/sweetalert/sweetalert.min.js') }}"></script>
+<script src="{{ asset('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js') }}"></script>
 
 <script>
     $('#btn-cancel').on('click', function () {
         $('#loginform').slideDown()
         $('#recoverform').fadeOut()
     })
+</script>
+
+<script>
+    @if(session('info'))
+    alert('{{ session('info.text') }}')
+    @endif
 </script>
 </body>
 </html>

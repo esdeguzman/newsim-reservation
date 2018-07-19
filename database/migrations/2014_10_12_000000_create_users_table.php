@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
+            $table->boolean('requested_password_reset')->default(0);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

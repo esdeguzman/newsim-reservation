@@ -21,6 +21,8 @@ Route::get('page-not-found', function () { return view('pages.404'); });
 
 Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
     Route::get('home', function () { return view('layouts.main'); })->name('admin.home');
+    Route::get('trainees', 'TraineesController@index')->name('trainees.index');
+    Route::get('trainees/{trainee}', 'TraineesController@show')->name('trainees.show');
     Route::get('reservations', 'ReservationsController@index')->name('reservations.index');
     Route::get('reservations/{reservation}', 'ReservationsController@show')->name('reservations.show');
     Route::get('reservations/{reservation}/all', 'ReservationsController@index')->name('reservations.show-all');
@@ -60,6 +62,7 @@ Route::prefix('trainee')->middleware('auth', 'can.access')->group(function () {
 | System Individual UPDATE Routes
 |--------------------------------------------------------------------------
 */
+Route::put('save-new-password/{user}', 'UsersController@saveNewPassword')->name('users.save-new-password');
 
 Route::prefix('trainee')->middleware('auth', 'can.access')->group(function () {
     Route::put('reservations/{reservation}', 'ReservationsController@update');

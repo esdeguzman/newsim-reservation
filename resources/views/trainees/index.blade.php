@@ -9,29 +9,38 @@
             <h3 class="box-title m-b-0">Data Export</h3>
             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
             <div class="table-responsive">
-                <table id="schedules" class="display nowrap" cellspacing="0" width="100%">
+                <table id="trainees" class="display nowrap" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>Full Name</th>
-                        <th>Rank</th>
-                        <th>Mobile Number</th>
+                        <th class="text-center">Rank</th>
+                        <th class="text-center">Mobile Number</th>
                         <th>Address</th>
+                        <th class="text-center">Status</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="text-uppercase">Esmeraldo Barrios de Guzman Jr</td>
-                        <td class="text-uppercase">CADET</td>
-                        <td class="text-uppercase">09652865662</td>
-                        <td class="text-uppercase">
-                            711-2880 Nulla St.
-                            Mankato Mississippi 96522
-                        </td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('trainees.show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
+                    @if($trainees->count() > 0)
+                        @foreach($trainees->sortByDesc('created_at') as $trainee)
+                        <tr>
+                            <td class="text-uppercase">{{ $trainee->fullName() }}</td>
+                            <td class="text-uppercase text-center">{{ $trainee->rank }}</td>
+                            <td class="text-uppercase text-center">{{ $trainee->mobile_number }}</td>
+                            <td class="text-uppercase">{{ $trainee->address }}</td>
+                            <td class="text-uppercase text-center">
+                                <span class="label
+                                @if($trainee->status == 'active') label-success
+                                @elseif($trainee->status == 'inactive') label-danger
+                                @endif
+                                ">{{ $trainee->status }}</span>
+                            </td>
+                            <td class="text-nowrap">
+                                <a href="{{ route('trainees.show', $trainee->id) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>
@@ -50,11 +59,12 @@
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     <!-- end - This is for export functionality only -->.
     <script>
-        $('#schedules').DataTable({
+        $('#trainees').DataTable({
             dom: 'Bfrtip'
             , buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+            ],
+            'aaSorting' : []
         });
 
         // highlight workaround start
