@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
 
             if ($openReservations->count() > 0) {
                 foreach($openReservations as $openReservation) {
-                    if ($openReservation->isExpired()) {
+                    if (Carbon::parse($openReservation->created_at)->startOfDay()->gte(now()->startOfDay())) {
                         HistoryDetail::create([
                             'reservation_id' => $openReservation->id,
                             'updated_by' => 1,
@@ -46,7 +46,7 @@ class Kernel extends ConsoleKernel
                     }
                 }
             }
-        })->dailyAt('22:00'); // daily at 10:00pm
+        })->dailyAt('23:00'); // daily at 11:00pm
     }
 
     /**
