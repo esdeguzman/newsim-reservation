@@ -11,7 +11,7 @@
                 <span class="pull-right">
                     <b class="label
                     @if($reservation->status == 'new') label-success
-                    @elseif($reservation->status == 'cancelled') label-danger
+                    @elseif($reservation->status == 'cancelled' || $reservation->status == 'expired') label-danger
                     @elseif($reservation->status == 'paid' || $reservation->status == 'registered' || $reservation->status == 'refunded') label-info
                     @elseif($reservation->status == 'pending' || $reservation->status == 'overpaid' || $reservation->status == 'underpaid') label-warning
                     @endif
