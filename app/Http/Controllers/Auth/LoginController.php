@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use function App\Helper\trainee;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -65,7 +66,16 @@ class LoginController extends Controller
         if (optional(auth()->user()->administrator)->exists() && str_contains($request->previous,'admin')) {
             // do nothing
         } elseif (optional(auth()->user()->trainee)->exists() && str_contains($request->previous,'trainee')) {
-            // do nothing
+            if (trainee()->status == 'inactive') {
+                $request->session()->flash('info', [
+                    'inactive' => 'Your account has been deactivated by the administrators. If you think this is' .
+                                    ' incorrect, please call 888-2764 or email your concern at it@newsim.ph'
+                ]);
+
+                auth()->logout();
+
+                return redirect(url('/trainee/login'));
+            }
         } else {
             return redirect('page-not-found');
         }
