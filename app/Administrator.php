@@ -2,12 +2,15 @@
 
 namespace App;
 
+use App\Traits\Historiable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Administrator extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Historiable;
+
+    protected $guarded = [];
 
     public function user()
     {
@@ -19,6 +22,15 @@ class Administrator extends Model
         return $this->belongsTo(Branch::class);
     }
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
 
     public function roles()
     {
