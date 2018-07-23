@@ -74,7 +74,7 @@ class AdministratorsController extends Controller
         ]);
 
         $request->session()->flash('info', [
-            'success' => 'Request successfully submitted! You will receive an email that will verification email ' .
+            'success' => 'Request successfully submitted! You will receive an email verification ' .
                             'after the administrator has confirmed your request.'
         ] );
 
