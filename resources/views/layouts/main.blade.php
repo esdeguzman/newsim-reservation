@@ -178,7 +178,7 @@
                 <li class="divider"></li>
                 <li> <a href="#" class="waves-effect @yield('user-management-sidebar-menu')" id="user-management-sidebar"><i class="fa fa-users" data-icon="v"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;User Management <span class="fa arrow"></span> <!-- <span class="label label-rouded label-inverse pull-right">4</span> --> </span></a>
                     <ul class="nav nav-second-level">
-                        <li> <a href="{{ route('admin.index') }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Administrator</span></a> </li>
+                        <li> <a href="{{ route('admin.index') }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Administrators</span></a> </li>
                         <li> <a href="{{ route('trainees.index') }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Trainees</span></a> </li>
                     </ul>
                 </li><li class="divider"></li>
