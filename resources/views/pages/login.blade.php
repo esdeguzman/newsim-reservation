@@ -34,7 +34,13 @@
             <form class="form-horizontal form-material" id="loginform" action="{{ route('login.authenticate') }}" method="post">
                 {{ csrf_field() }}
                 <a href="javascript:void(0)" class="text-center db"><img src="{{ asset('/images/newsim_logo.jpg') }}" alt="Home" width="250" height="50"/><br/><h2 class="text-uppercase text-info"><b>reservation system</b></h2></a>
-
+                @if($errors->has('username') or $errors->has('password'))
+                <ul class="common-list">
+                @foreach($errors->all() as $error)
+                    <li><i class="ti ti-close text-danger"></i> <b>{{ $error }}</b></li>
+                @endforeach
+                </ul>
+                @endif
                 <div class="form-group m-t-40">
                     <div class="col-xs-12">
                         <input class="form-control" type="text" placeholder="Username" name="username">
@@ -62,7 +68,7 @@
                     <div class="col-sm-12 text-center">
                         <p>Don't have an account? <a href="#" class="text-primary m-l-5" id="request-account"><b>Request for an account</b></a></p>
                     </div>
-                    @if(count($errors) > 0)
+                    @if(count($errors) > 0 and ! $errors->has('username') || ! $errors->has('password'))
                     <div class="col-sm-12 text-center">
                         <p class="text-danger"><b>Whoops! You must have missed something! Click <a class="text-info" href="#" id="with-error">here</a> to check what it is.</b></p>
                     </div>
@@ -100,25 +106,27 @@
                     <div class="col-xs-12">
                         <h3>Request for an Account</h3>
                         <p class="text-muted">Enter provide the needed information and wait for the administrators to validate your request. </p>
+                        @if(count($errors) > 0 and ! $errors->has('username') || ! $errors->has('password'))
                         <ul class="common-list">
-                            @foreach($errors->all() as $error)
-                                <li><i class="ti ti-close text-danger"></i> {{ $error }}</li>
-                            @endforeach
+                        @foreach($errors->all() as $error)
+                            <li><i class="ti ti-close text-danger"></i> <b>{{ $error }}</b></li>
+                        @endforeach
                         </ul>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group ">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" placeholder="Username *" name="username" value="{{ old('username') }}">
+                        <input class="form-control" type="text" placeholder="Username *" name="desired_username" value="{{ old('desired_username') }}">
                     </div>
                     <div class="col-xs-12 m-t-10">
                         <input class="form-control" type="text" placeholder="Email *" name="email" value="{{ old('email') }}">
                     </div>
                     <div class="col-xs-12 m-t-10">
-                        <input class="form-control" type="password" placeholder="Password *" name="password">
+                        <input class="form-control" type="password" placeholder="Password *" name="desired_password">
                     </div>
                     <div class="col-xs-12 m-t-10">
-                        <input class="form-control" type="password" placeholder="Confirm Password *" name="password_confirmation">
+                        <input class="form-control" type="password" placeholder="Confirm Password *" name="desired_password_confirmation">
                     </div>
                     <div class="col-xs-12 m-t-10">
                         <input class="form-control" type="text" placeholder="Full Name *" name="full_name" value="{{ old('full_name') }}">
