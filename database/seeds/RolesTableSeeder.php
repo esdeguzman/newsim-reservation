@@ -56,5 +56,25 @@ class RolesTableSeeder extends Seeder
             'name' => 'marketing officer',
             'added_by' => 1
         ]);
+
+        Role::create([
+            'name' => 'approve admin request',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'deny admin request',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'reactivate admin account',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'deactivate admin account',
+            'added_by' => 1
+        ]);
     }
 }
