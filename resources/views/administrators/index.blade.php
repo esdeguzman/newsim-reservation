@@ -20,15 +20,23 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="text-uppercase">Esmeraldo Barrios de Guzman Jr</td>
-                        <td class="text-uppercase">I.T.</td>
-                        <td class="text-uppercase">IT Jr Programmer</td>
-                        <td class="text-uppercase"><span class="label label-success text-uppercase">active</span></td>
-                        <td class="text-nowrap">
-                            <a href="{{ route('administrators.show', 1) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
-                        </td>
-                    </tr>
+                    @if(isset($administrators))
+                        @foreach($administrators as $administrator)
+                        <tr>
+                            <td class="text-uppercase">{{ $administrator->full_name }}</td>
+                            <td class="text-uppercase">{{ $administrator->department->name }}</td>
+                            <td class="text-uppercase">{{ $administrator->position->name }}</td>
+                            <td class="text-uppercase"><span class="label
+                            @if($administrator->status == 'active') label-success
+                            @elseif($administrator->status == 'pending') label-warning
+                            @endif
+                            text-uppercase">{{ $administrator->status }}</span></td>
+                            <td class="text-nowrap">
+                                <a href="{{ route('administrators.show', $administrator->id) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>
