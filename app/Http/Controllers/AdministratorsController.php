@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Administrator;
+use App\Branch;
+use App\Department;
+use App\HistoryDetail;
+use App\Position;
+use App\User;
 use Illuminate\Http\Request;
 
 class AdministratorsController extends Controller
