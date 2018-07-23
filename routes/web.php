@@ -34,6 +34,7 @@ Route::get('page-not-found', function () { return view('pages.404'); });
 
 Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
     Route::get('administrators', 'AdministratorsController@index')->name('admin.index');
+    Route::get('administrators/{administrator}', 'AdministratorsController@show')->name('admin.show');
     Route::get('home', function () { return view('layouts.main'); })->name('admin.home');
     Route::get('trainees', 'TraineesController@index')->name('trainees.index');
     Route::get('trainees/{trainee}', 'TraineesController@show')->name('trainees.show');
