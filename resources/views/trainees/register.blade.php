@@ -55,7 +55,7 @@
                     @endforeach
                     </ul>
                 @endif
-                <form class="form-horizontal new-lg-form" id="loginform" action="{{ route('trainee.signup') }}" method="post">
+                <form class="form-horizontal new-lg-form" id="loginform" action="{{ route('trainees.store') }}" method="post">
                     @csrf
                     <div class="form-group">
                         <div class="col-xs-12">
