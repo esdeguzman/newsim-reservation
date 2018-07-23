@@ -62,6 +62,15 @@
                     <div class="col-sm-12 text-center">
                         <p>Don't have an account? <a href="#" class="text-primary m-l-5" id="request-account"><b>Request for an account</b></a></p>
                     </div>
+                    @if(count($errors) > 0)
+                    <div class="col-sm-12 text-center">
+                        <p class="text-danger"><b>Whoops! You must have missed something! Click <a class="text-info" href="#" id="with-error">here</a> to check what it is.</b></p>
+                    </div>
+                    @elseif(session('info.success'))
+                    <div class="col-sm-12 text-center">
+                        <p class="text-info">{{ session('info.success') }}</p>
+                    </div>
+                    @endif
                 </div>
             </form>
             <form class="form-horizontal" id="recoverform" action="index.html">
@@ -153,7 +162,7 @@
         $('#requestaccountform').fadeOut()
     })
 
-    $('#request-account').on('click', function () {
+    $('#request-account, #with-error').on('click', function () {
         $('#loginform').slideUp()
         $('#requestaccountform').fadeIn()
     })
