@@ -25,6 +25,7 @@ class AdministratorsTableSeeder extends Seeder
             'employee_id' => '0624853',
             'full_name' => 'Esmeraldo Barrios de Guzman Jr',
             'added_by' => 1,
+            'status' => 'active',
         ]);
     }
 }
