@@ -32,7 +32,7 @@
                             @endif
                             text-uppercase">{{ $administrator->status }}</span></td>
                             <td class="text-nowrap">
-                                <a href="{{ route('administrators.show', $administrator->id) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
+                                <a href="{{ route('admin.show', $administrator->id) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
                             </td>
                         </tr>
                         @endforeach
