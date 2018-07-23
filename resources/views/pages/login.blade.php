@@ -76,6 +76,10 @@
                     <div class="col-sm-12 text-center">
                         <p class="text-info">{{ session('info.success') }}</p>
                     </div>
+                    @elseif(session('info.not_allowed'))
+                    <div class="col-sm-12 text-center">
+                        <p class="text-danger"><b>{{ session('info.not_allowed') }}</b></p>
+                    </div>
                     @endif
                 </div>
             </form>
