@@ -21,7 +21,7 @@ class CreateAdministratorsTable extends Migration
             $table->unsignedInteger('department_id');
             $table->string('employee_id')->unique();
             $table->string('full_name');
-            $table->unsignedInteger('added_by');
+            $table->unsignedInteger('added_by')->nullable();
             $table->unsignedInteger('deleted_by')->nullable();
             $table->string('status')->default('pending');
             $table->text('remarks')->nullable();
