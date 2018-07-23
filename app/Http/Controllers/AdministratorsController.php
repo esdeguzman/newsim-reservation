@@ -10,6 +10,15 @@ class AdministratorsController extends Controller
     {
         $this->middleware(['auth', 'can.access'])->except('login', 'store');
     }
+
+    public function login()
+    {
+        return view('pages.login', [
+            'branches' => Branch::all(),
+            'departments' => Department::all(),
+            'positions' => Position::all(),
+        ]);
+    }
     public function index()
     {
         return view('administrators.index');
