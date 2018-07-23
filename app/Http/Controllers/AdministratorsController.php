@@ -37,10 +37,13 @@ class AdministratorsController extends Controller
 
     public function store(Request $request)
     {
+        $request['username'] = $request->desired_username;
+        $request['password'] = $request->desire_password;
+
         $userDetails = $request->validate([
-            'username' => 'required|min:3|unique:users',
+            'desired_username' => 'required|min:3|unique:users,user',
             'email' => 'required|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'desired_password' => 'required|min:6|confirmed',
         ]);
 
         $adminInfo = $request->validate([
@@ -55,7 +58,9 @@ class AdministratorsController extends Controller
             'reason' => 'required|min:15'
         ]);
 
-        $user = User::create($userDetails);
+        $userDetails['password'] = bcrypt($userDetails['password']);
+
+        $user = User::create(array_except($userDetails, ['desired_username', 'desired_password']));
 
         $adminInfo['user_id'] = $user->id; // add user_id to adminInfo to facilitate the use of create method
 
