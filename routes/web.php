@@ -27,7 +27,7 @@ Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () { return redirect()->route('admin.login'); });
-Route::get('admin/login', function () { return view('pages.login'); })->middleware('guest')->name('admin.login');
+Route::get('admin/login', 'AdministratorsController@login')->name('admin.login');
 Route::get('trainee/login', 'TraineesController@login')->middleware('guest')->name('trainee.login');
 Route::get('trainee/register', 'TraineesController@register')->name('trainee.register');
 Route::get('page-not-found', function () { return view('pages.404'); });
