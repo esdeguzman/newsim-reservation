@@ -56,7 +56,6 @@ Route::prefix('trainee')->middleware('auth', 'can.access')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::post('authenticate', 'Auth\LoginController@login')->name('login.authenticate');
-Route::post('trainee/signup', 'TraineesController@signUp')->name('trainee.signup');
 Route::post('request-reset-password', 'UsersController@requestPasswordReset')->name('users.request-reset-password');
 Route::get('reset-password/{user}', 'UsersController@resetPassword')->name('users.reset-password');
 
