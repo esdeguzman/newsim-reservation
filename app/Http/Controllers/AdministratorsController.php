@@ -58,7 +58,8 @@ class AdministratorsController extends Controller
             'reason' => 'required|min:15'
         ]);
 
-        $userDetails['password'] = bcrypt($userDetails['password']);
+        $userDetails['password'] = bcrypt($request->desired_password);
+        $userDetails['username'] = $request->desired_username;
 
         $user = User::create(array_except($userDetails, ['desired_username', 'desired_password']));
 
