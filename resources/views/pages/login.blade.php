@@ -196,7 +196,6 @@
         $('#recoverform').fadeOut()
     })
 
-
     $('#btn-cancel-request').on('click', function () {
         $('#loginform').slideDown()
         $('#requestaccountform').fadeOut()
