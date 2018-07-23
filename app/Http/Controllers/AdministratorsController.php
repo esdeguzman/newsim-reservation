@@ -41,7 +41,7 @@ class AdministratorsController extends Controller
         $request['password'] = $request->desire_password;
 
         $userDetails = $request->validate([
-            'desired_username' => 'required|min:3|unique:users,user',
+            'desired_username' => 'required|min:3|unique:users,username',
             'email' => 'required|unique:users',
             'desired_password' => 'required|min:6|confirmed',
         ]);
