@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use function App\Helper\admin;
 use function App\Helper\trainee;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -64,7 +65,21 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if (optional(auth()->user()->administrator)->exists() && str_contains($request->previous,'admin')) {
-            // do nothing
+            if (admin()->status == 'inactive') {
+                $request->session()->flash('info', [
+                    'not_allowed' => 'Your account has been deactivated by the administrators. If you think this is' .
+                        ' incorrect, please call 888-2764 or email your concern at it@newsim.ph'
+                ]);
+            } elseif (admin()->status == 'pending') {
+                $request->session()->flash('info', [
+                    'not_allowed' => 'Your account has not yet been activated by the administrators. If you think' .
+                        ' this is incorrect, please call 888-2764 or email your concern at it@newsim.ph'
+                ]);
+            }
+
+            auth()->logout();
+
+            return redirect(url('/admin/login'));
         } elseif (optional(auth()->user()->trainee)->exists() && str_contains($request->previous,'trainee')) {
             if (trainee()->status == 'inactive') {
                 $request->session()->flash('info', [
