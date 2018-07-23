@@ -94,32 +94,64 @@
                     </div>
                 </div>
             </form>
-            <form class="form-horizontal" id="requestaccountform" action="index.html" style="display: none;">
+            <form class="form-horizontal" id="requestaccountform" action="{{ route('administrators.store') }}" style="display: none; height: 95vh; overflow-y: auto; overflow-x: hidden" method="post">
+                @csrf
                 <div class="form-group ">
                     <div class="col-xs-12">
                         <h3>Request for an Account</h3>
                         <p class="text-muted">Enter provide the needed information and wait for the administrators to validate your request. </p>
+                        <ul class="common-list">
+                            @foreach($errors->all() as $error)
+                                <li><i class="ti ti-close text-danger"></i> {{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
                 <div class="form-group ">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" required="" placeholder="Email">
+                        <input class="form-control" type="text" placeholder="Username *" name="username" value="{{ old('username') }}">
                     </div>
                     <div class="col-xs-12 m-t-10">
-                        <input class="form-control" type="text" required="" placeholder="Full Name">
+                        <input class="form-control" type="text" placeholder="Email *" name="email" value="{{ old('email') }}">
                     </div>
                     <div class="col-xs-12 m-t-10">
-                        <select name="branch" class="form-control">
-                            <option value="" hidden>Select Your Branch</option>
+                        <input class="form-control" type="password" placeholder="Password *" name="password">
+                    </div>
+                    <div class="col-xs-12 m-t-10">
+                        <input class="form-control" type="password" placeholder="Confirm Password *" name="password_confirmation">
+                    </div>
+                    <div class="col-xs-12 m-t-10">
+                        <input class="form-control" type="text" placeholder="Full Name *" name="full_name" value="{{ old('full_name') }}">
+                    </div>
+                    <div class="col-xs-12 m-t-10">
+                        <input class="form-control" type="text" placeholder="Employee ID *" name="employee_id" value="{{ old('employee_id') }}">
+                    </div>
+                    <div class="col-xs-12 m-t-10">
+                        <select name="branch_id" class="form-control">
+                            <option value="" hidden>Select Your Branch *</option>
+                            @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}" {{ $branch->id == old('branch_id')? 'selected' : '' }}>{{ $branch->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-xs-12 m-t-10">
-                        <select name="department" class="form-control">
-                            <option value="" hidden>Select Your Department</option>
+                        <select name="department_id" class="form-control">
+                            <option value="" hidden>Select Your Department *</option>
+                            @foreach($departments as $department)
+                                <option value="{{ $department->id }}" {{ $department->id == old('department_id')? 'selected' : '' }}>{{ $department->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-xs-12 m-t-10">
-                        <textarea class="form-control" name="reason" rows="5" placeholder="Reason for Requesting Account"></textarea>
+                        <select name="position_id" class="form-control">
+                            <option value="" hidden>Select Your Position *</option>
+                            @foreach($positions as $position)
+                                <option value="{{ $position->id }}" {{ $position->id == old('position_id')? 'selected' : '' }}>{{ $position->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-xs-12 m-t-10">
+                        <textarea class="form-control" name="reason" rows="5" placeholder="Reason for Requesting Account *">{{ old('reason') }}</textarea>
                     </div>
                 </div>
                 <div class="form-group text-center m-t-20">
