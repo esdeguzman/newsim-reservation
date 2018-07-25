@@ -119,7 +119,7 @@
                                                 @foreach($roles as $role)
                                                     @if($role->id == 1 || $role->id == 2 and \App\Helper\user()->isDev() || \App\Helper\user()->isSystemAdmin())
                                                     @elseif($role->id >= 3) @else @continue @endif
-                                                    <option value="{{ $role->id }}" {{ \App\Helper\adminCan($administrator, $role->name)? 'selected' : '' }}>{{ $role->name }}</option>
+                                                    <option value="{{ $role->id }}" {{ \App\Helper\adminCan($role->name, $administrator)? 'selected' : '' }}>{{ $role->name }}</option>
                                                 @endforeach
                                                 </select>
                                             </div>
