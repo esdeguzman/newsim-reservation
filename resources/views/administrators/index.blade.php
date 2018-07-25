@@ -29,6 +29,7 @@
                             <td class="text-uppercase"><span class="label
                             @if($administrator->status == 'active') label-success
                             @elseif($administrator->status == 'pending') label-warning
+                            @elseif($administrator->status == 'deactivated') label-danger
                             @endif
                             text-uppercase">{{ $administrator->status }}</span></td>
                             <td class="text-nowrap">
