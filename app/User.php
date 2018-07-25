@@ -48,6 +48,11 @@ class User extends Authenticatable
         return $this->administrator->roles->where('role_id', 2)->count() > 0 ? true: false;
     }
 
+    public function isOfficer()
+    {
+        return str_contains($this->administrator->position->name, 'officer');
+    }
+
     public function isAdmin()
     {
         return optional($this->administrator)->exists()? true : false;
