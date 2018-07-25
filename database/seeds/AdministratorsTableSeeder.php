@@ -27,5 +27,22 @@ class AdministratorsTableSeeder extends Seeder
             'added_by' => 1,
             'status' => 'active',
         ]);
+
+        $user = \App\User::create([
+            'username' => 'rmmilante',
+            'email' => 'rmmilante@gmail.com',
+            'password' => bcrypt('root'),
+        ]);
+
+        \App\Administrator::create([
+            'user_id' => $user->id,
+            'branch_id' => 5,
+            'position_id' => 2,
+            'department_id' => 1,
+            'employee_id' => '0829853',
+            'full_name' => 'Ryan Milante',
+            'added_by' => 1,
+            'status' => 'active',
+        ]);
     }
 }

@@ -16,5 +16,11 @@ class AdministratorRolesTableSeeder extends Seeder
             'role_id' => 1,
             'assigned_by' => 1,
         ]);
+
+        \App\AdministratorRole::create([
+            'administrator_id' => 2,
+            'role_id' => 2,
+            'assigned_by' => 1,
+        ]);
     }
 }
