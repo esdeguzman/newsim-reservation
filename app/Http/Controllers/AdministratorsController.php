@@ -129,6 +129,15 @@ class AdministratorsController extends Controller
             Log::error('admin update error', $exception->errorInfo);
         }
 
+        HistoryDetail::create([
+            'administrator_id' => $administrator->id,
+            'log' => "updated admin info {$administrator->full_name} -> {$request->full_name},"
+                    . " {$administrator->branch_id} -> {$request->branch_id}, {$administrator->department_id} ->"
+                    . " {$request->department_id} and {$administrator->position_id} -> {$request->position_id}",
+            'remarks' => 'role has been revoked',
+            'updated_by' => admin()->id,
+        ]);
+
         $administrator->full_name = $request->full_name;
         $administrator->branch_id = $request->branch_id;
         $administrator->department_id = $request->department_id;
