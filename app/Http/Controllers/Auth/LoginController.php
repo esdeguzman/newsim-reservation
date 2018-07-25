@@ -65,36 +65,9 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if (optional(auth()->user()->administrator)->exists() && str_contains($request->previous,'admin')) {
-            if (admin()->status == 'inactive') {
-                $request->session()->flash('info', [
-                    'not_allowed' => 'Your account has been deactivated by the administrators. If you think this is' .
-                        ' incorrect, please call 888-2764 or email your concern at it@newsim.ph'
-                ]);
-
-                auth()->logout();
-
-                return redirect(url('/admin/login'));
-            } elseif (admin()->status == 'pending') {
-                $request->session()->flash('info', [
-                    'not_allowed' => 'Your account has not yet been activated by the administrators. If you think' .
-                        ' this is incorrect, please call 888-2764 or email your concern at it@newsim.ph'
-                ]);
-
-                auth()->logout();
-
-                return redirect(url('/admin/login'));
-            } else { /* do nothing */ }
+            // do nothing
         } elseif (optional(auth()->user()->trainee)->exists() && str_contains($request->previous,'trainee')) {
-            if (trainee()->status == 'inactive') {
-                $request->session()->flash('info', [
-                    'inactive' => 'Your account has been deactivated by the administrators. If you think this is' .
-                                    ' incorrect, please call 888-2764 or email your concern at it@newsim.ph'
-                ]);
-
-                auth()->logout();
-
-                return redirect(url('/trainee/login'));
-            } else { /* do nothing */ }
+            // do nothing
         } else {
             return redirect('page-not-found');
         }
