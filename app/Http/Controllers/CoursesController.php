@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BranchCourse;
 use App\Course;
 use function App\Helper\admin;
+use function App\Helper\user;
 use App\HistoryDetail;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class CoursesController extends Controller
 
     public function index(Request $request)
     {
-        if (auth()->user()->isDev()) {
+        if (auth()->user()->isDev() or user()->isAdmin()) {
             $courses = Course::withTrashed()->get()->sortBy('status');
 
             return view('courses.index', compact('courses'));
