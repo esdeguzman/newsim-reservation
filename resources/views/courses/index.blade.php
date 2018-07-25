@@ -32,9 +32,11 @@
                             ">{{ $course->status }}</span></td>
                             <td class="text-nowrap">
                                 <a href="{{ route('courses.show', $course->id) }}" class="text-uppercase text-success"> <i class="fa fa-eye text-success m-r-10"></i>view</a>&nbsp;&nbsp;&nbsp;
+                                @if(\App\Helper\user()->isDev() or \App\Helper\user()->isSystemAdmin())
                                 <a href="#" class="text-uppercase edit_course text-warning" data-toggle="modal" data-target=".edit-course"
                                    data-course-id="{{ $course->id }}" data-course-code="{{ $course->code }}"
                                    data-course-description="{{ $course->description }}"> <i class="fa fa-edit text-warning m-r-10"></i>edit</a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
