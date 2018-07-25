@@ -15,8 +15,9 @@ class CreateAdministratorRolesTable extends Migration
     {
         Schema::create('administrator_roles', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('administrator_id')->unique();
-            $table->unsignedInteger('role_id')->unique();
+            $table->unsignedInteger('administrator_id');
+            $table->unsignedInteger('role_id');
+            $table->unique(['administrator_id', 'role_id']);
             $table->unsignedInteger('assigned_by');
             $table->unsignedInteger('revoked_by')->nullable();
             $table->timestamps();
