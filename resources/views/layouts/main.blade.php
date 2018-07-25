@@ -176,18 +176,22 @@
                         <li> <a href="{{ route('reservations.index') . '?branch=makati' }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Makati</span></a> </li>
                     </ul>
                 </li>
+                @if(\App\Helper\user()->isDev() || \App\Helper\user()->isSystemAdmin())
                 <li class="divider"></li>
                 <li> <a href="#" class="waves-effect @yield('user-management-sidebar-menu')" id="user-management-sidebar"><i class="fa fa-users" data-icon="v"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;User Management <span class="fa arrow"></span> <!-- <span class="label label-rouded label-inverse pull-right">4</span> --> </span></a>
                     <ul class="nav nav-second-level">
                         <li> <a href="{{ route('admin.index') }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Administrators</span></a> </li>
                         <li> <a href="{{ route('trainees.index') }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">Trainees</span></a> </li>
                     </ul>
+                @endif
+                @if(\App\Helper\user()->isDev())
                 </li><li class="divider"></li>
                 <li> <a href="#" class="waves-effect @yield('developer-sidebar-menu')" id="developer-sidebar"><i class="fa fa-code" data-icon="v"></i> <span class="hide-menu">&nbsp;&nbsp;&nbsp;Developer <span class="fa arrow"></span> <!-- <span class="label label-rouded label-inverse pull-right">4</span> --> </span></a>
                     <ul class="nav nav-second-level">
                         <li> <a href="{{ route('administrators.index') }}"><i class=" fa-fw">&#10095;</i><span class="hide-menu">API</span></a> </li>
                     </ul>
                 </li>
+                @endif
                 <li class="divider"></li>
                 <li>
                     <a href="#" class="waves-effect" id="logout-sidebar"><i class="mdi mdi-logout fa-fw"></i> <span class="hide-menu">Log out</span></a>
