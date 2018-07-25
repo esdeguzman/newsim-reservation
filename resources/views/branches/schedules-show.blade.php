@@ -22,16 +22,16 @@
                                 <b class="text-uppercase">P {{ number_format($schedule->branchCourse->originalPrice->value, 2) }}
                                     <sup class="text-uppercase"><small>{{ $schedule->discountPercentage() }} discount</small></sup>
                                 </b>
-                                <a href="#" class="btn btn-danger text-uppercase" data-toggle="modal" data-target=".update-discount">update discount</a>
+                                @if(\App\Helper\adminCan('training officer')) <a href="#" class="btn btn-danger text-uppercase" data-toggle="modal" data-target=".update-discount">update discount</a> @endif
                             </h1>
-                            <p class="text-muted m-l-5"><b class="text-dark text-uppercase">current reservations: </b> <b>25</b> <br/>
-                                <b class="text-warning text-uppercase">confirmed reservations: </b> <b>5</b> <br/>
-                                <b class="text-danger text-uppercase">unconfirmed reservations: </b> <b>20</b>
+                            <p class="text-muted m-l-5"><b class="text-dark text-uppercase">current reservations: </b> <b>{{ $schedule->reservations->count() }}</b> <br/>
+                                {{--<b class="text-warning text-uppercase">confirmed reservations: </b> <b>5</b> <br/>--}}
+                                {{--<b class="text-danger text-uppercase">unconfirmed reservations: </b> <b>20</b>--}}
                             </p>
                         </address> </div>
                     <div class="pull-right text-right"> <address>
                             <p class="m-t-30"><b>Training Month and Year :</b> <i class="fa fa-calendar"></i> {{ $schedule->monthName() .' '. $schedule->year }}</p>
-                            <p><a href="#" class="btn btn-block btn-danger text-uppercase" data-toggle="modal" data-target=".update-training-schedule">amend training schedule</a></p>
+                            @if(\App\Helper\adminCan('training officer')) <p><a href="#" class="btn btn-block btn-danger text-uppercase" data-toggle="modal" data-target=".update-training-schedule">amend training schedule</a></p> @endif
                             {{--<p><b class="text-danger">Expiration Date :</b> <i class="fa fa-calendar"></i> June 1, 2018</p>--}}
                         </address> </div>
                 </div>
@@ -73,6 +73,7 @@
                         </table>
                     </div>
                 </div>
+                @if(\App\Helper\adminCan('training officer'))
                 <div class="col-lg-5 col-sm-6 col-xs-12 pull-right m-t-40">
                     <div class="panel panel-danger">
                         <div class="panel-heading"> Danger Zone
@@ -90,6 +91,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>
