@@ -76,5 +76,60 @@ class RolesTableSeeder extends Seeder
             'name' => 'deactivate admin account',
             'added_by' => 1
         ]);
+
+        Role::create([
+            'name' => 'update course',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'update branch course',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'add course',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'delete course',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'add branch course',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'delete branch course',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'set original price',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'amend original price',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'update discount',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'add schedule',
+            'added_by' => 1
+        ]);
+
+        Role::create([
+            'name' => 'update schedule',
+            'added_by' => 1
+        ]);
     }
 }
