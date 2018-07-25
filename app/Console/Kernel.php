@@ -47,6 +47,8 @@ class Kernel extends ConsoleKernel
                 }
             }
         })->dailyAt('23:00'); // daily at 11:00pm
+
+        $schedule->command('queue:work')->withoutOverlapping();
     }
 
     /**
