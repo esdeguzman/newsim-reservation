@@ -13,15 +13,20 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="pull-left"> <address>
-                            <h1> &nbsp;<b class="text-uppercase">P 3,000.00 <sup class="text-uppercase"><small>50% discount</small></sup></b></h1>
-                            <p class="text-muted m-l-5"><b class="text-dark text-uppercase">current reservations: </b> <b>25</b> <br/>
-                                <b class="text-warning text-uppercase">confirmed reservations: </b> <b>5</b> <br/>
-                                <b class="text-danger text-uppercase">unconfirmed reservations: </b> <b>20</b>
+                            <h1>&nbsp;
+                                <b class="text-uppercase">P {{ number_format($schedule->branchCourse->originalPrice->value, 2) }}
+                                    <sup class="text-uppercase"><small>{{ $schedule->discountPercentage() }} discount</small></sup>
+                                </b>
+                                @if(\App\Helper\adminCan('training officer') and $schedule->branch_id == \App\Helper\admin()->branch_id) <a href="#" class="btn btn-danger text-uppercase" data-toggle="modal" data-target=".update-discount">update discount</a> @endif
+                            </h1>
+                            <p class="text-muted m-l-5"><b class="text-dark text-uppercase">current reservations: </b> <b>{{ $schedule->reservations->count() }}</b> <br/>
+                                {{--<b class="text-warning text-uppercase">confirmed reservations: </b> <b>5</b> <br/>--}}
+                                {{--<b class="text-danger text-uppercase">unconfirmed reservations: </b> <b>20</b>--}}
                             </p>
                         </address> </div>
                     <div class="pull-right text-right"> <address>
-                            <p class="m-t-30"><b>Training Month :</b> <i class="fa fa-calendar"></i> December 2018</p>
-                            {{--<p><b>Reservation Date :</b> <i class="fa fa-calendar"></i> May 31, 2018</p>--}}
+                            <p class="m-t-30"><b>Training Month and Year :</b> <i class="fa fa-calendar"></i> {{ $schedule->monthName() .' '. $schedule->year }}</p>
+                            @if(\App\Helper\adminCan('training officer') and $schedule->branch_id == \App\Helper\admin()->branch_id) <p><a href="#" class="btn btn-block btn-danger text-uppercase" data-toggle="modal" data-target=".update-training-schedule">amend training schedule</a></p> @endif
                             {{--<p><b class="text-danger">Expiration Date :</b> <i class="fa fa-calendar"></i> June 1, 2018</p>--}}
                         </address> </div>
                 </div>

@@ -11,7 +11,7 @@
 @section('page-content')
     <div class="col-md-12 block3">
         <div class="white-box printableArea">
-            @if(\App\Helper\adminCan('training officer')) <button class="pull-right text-uppercase btn btn-info"  data-toggle="modal" data-target=".update-course">update course details</button> @endif
+            @if(\App\Helper\adminCan('training officer') and $branchCourse->branch->id == \App\Helper\admin()->branch_id) <button class="pull-right text-uppercase btn btn-info"  data-toggle="modal" data-target=".update-course">update course details</button> @endif
             <h3 class="text-uppercase">{{ $branchCourse->details->code }} <span class="tooltip-item2"><small>{{ $branchCourse->details->description }}</small></span></h3>
             <hr>
             <div class="row">
@@ -19,13 +19,13 @@
                     <div class="pull-left">
                         <address>
                             @if(isset($originalPrice)) <h1> &nbsp;<b class="text-uppercase">P {{ number_format($originalPrice->value, 2) }}</b><sup><small>original price</small></sup></h1>
-                            @elseif(\App\Helper\adminCan('marketing officer')) <h1><a class="text-uppercase btn btn-success" data-toggle="modal" data-target=".set-original-price">set original price</a></h1>
+                            @elseif(\App\Helper\adminCan('marketing officer') and $branchCourse->branch->id == \App\Helper\admin()->branch_id) <h1><a class="text-uppercase btn btn-success" data-toggle="modal" data-target=".set-original-price">set original price</a></h1>
                             @else <h3> &nbsp;<b class="text-uppercase text-danger">please ask marketing officer to set original price</b></h3>
                             @endif
                         </address>
                     </div>
                     <div class="pull-right text-right"> <address>
-                            @if(isset($originalPrice) and \App\Helper\adminCan('marketing officer')) <p class="m-t-30"><a class="text-uppercase btn btn-info" data-toggle="modal" data-target=".update-original-price" data-original-price="{{ $originalPrice->value }}" data-original-price-id="{{ $originalPrice->id }}" id="update_original_price">amend original price</a></p>
+                            @if(isset($originalPrice) and \App\Helper\adminCan('marketing officer') && $branchCourse->branch->id == \App\Helper\admin()->branch_id) <p class="m-t-30"><a class="text-uppercase btn btn-info" data-toggle="modal" data-target=".update-original-price" data-original-price="{{ $originalPrice->value }}" data-original-price-id="{{ $originalPrice->id }}" id="update_original_price">amend original price</a></p>
                             @endif
                             {{--<p><b>Reservation Date :</b> <i class="fa fa-calendar"></i> May 31, 2018</p>--}}
                             {{--<p><b class="text-danger">Expiration Date :</b> <i class="fa fa-calendar"></i> June 1, 2018</p>--}}
@@ -69,7 +69,7 @@
                         </table>
                     </div>
                 </div>
-                @if(\App\Helper\adminCan('training officer'))
+                @if(\App\Helper\adminCan('training officer') and $branchCourse->branch->id == \App\Helper\admin()->branch_id)
                 <div class="col-lg-5 col-sm-5 pull-right m-t-40">
                     <div class="panel panel-danger">
                         <div class="panel-heading"> Danger Zone
