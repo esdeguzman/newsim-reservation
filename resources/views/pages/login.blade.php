@@ -110,7 +110,7 @@
                     <div class="col-xs-12">
                         <h3>Request for an Account</h3>
                         <p class="text-muted">Enter provide the needed information and wait for the administrators to validate your request. </p>
-                        @if(count($errors) > 0 and ! $errors->has('username') || ! $errors->has('password'))
+                        @if(! $errors->has('username') || ! $errors->has('password'))
                         <ul class="common-list">
                         @foreach($errors->all() as $error)
                             <li><i class="ti ti-close text-danger"></i> <b>{{ $error }}</b></li>
