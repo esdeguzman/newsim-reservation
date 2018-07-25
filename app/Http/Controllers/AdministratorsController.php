@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Administrator;
+use App\AdministratorRole;
 use App\Branch;
 use App\Department;
+use function App\Helper\admin;
 use App\HistoryDetail;
 use App\Position;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class AdministratorsController extends Controller
 {
