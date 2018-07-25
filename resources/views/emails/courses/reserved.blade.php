@@ -28,7 +28,7 @@ To let us know the you have paid the reservation, log in to your account using t
 go to your reservation and click <b>ADD PAYMENT TRANSACTION NUMBER</b> and type in the transaction number indicated on your deposit slip.<br/><br/>
 Adding of payment transaction number is also inclusive to the deadline indicated above.</p>
 
-@component('mail::button', ['url' => route('trainee-reservations.show', $reservation->id)])
+@component('mail::button', ['url' => "newsim-reservation.devyops.xyz/trainee/reservations/{$reservation->id}"])
 LOG IN TO CONFIRM PAYMENT
 @endcomponent
 
