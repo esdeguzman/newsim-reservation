@@ -20,7 +20,7 @@
                         <address>
                             @if(isset($originalPrice)) <h1> &nbsp;<b class="text-uppercase">P {{ number_format($originalPrice->value, 2) }}</b><sup><small>original price</small></sup></h1>
                             @elseif(\App\Helper\adminCan('marketing officer')) <h1><a class="text-uppercase btn btn-success" data-toggle="modal" data-target=".set-original-price">set original price</a></h1>
-                            @else <h3> &nbsp;<b class="text-uppercase text-danger">please ask training officer to set original price</b></h3>
+                            @else <h3> &nbsp;<b class="text-uppercase text-danger">please ask marketing officer to set original price</b></h3>
                             @endif
                         </address>
                     </div>
