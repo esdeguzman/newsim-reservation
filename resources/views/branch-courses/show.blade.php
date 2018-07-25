@@ -19,13 +19,13 @@
                     <div class="pull-left">
                         <address>
                             @if(isset($originalPrice)) <h1> &nbsp;<b class="text-uppercase">P {{ number_format($originalPrice->value, 2) }}</b><sup><small>original price</small></sup></h1>
-                            @elseif(\App\Helper\adminCan('training officer')) <h1><a class="text-uppercase btn btn-success" data-toggle="modal" data-target=".set-original-price">set original price</a></h1>
+                            @elseif(\App\Helper\adminCan('marketing officer')) <h1><a class="text-uppercase btn btn-success" data-toggle="modal" data-target=".set-original-price">set original price</a></h1>
                             @else <h3> &nbsp;<b class="text-uppercase text-danger">please ask training officer to set original price</b></h3>
                             @endif
                         </address>
                     </div>
                     <div class="pull-right text-right"> <address>
-                            @if(isset($originalPrice) and \App\Helper\adminCan('training officer')) <p class="m-t-30"><a class="text-uppercase btn btn-info" data-toggle="modal" data-target=".update-original-price" data-original-price="{{ $originalPrice->value }}" data-original-price-id="{{ $originalPrice->id }}" id="update_original_price">amend original price</a></p>
+                            @if(isset($originalPrice) and \App\Helper\adminCan('marketing officer')) <p class="m-t-30"><a class="text-uppercase btn btn-info" data-toggle="modal" data-target=".update-original-price" data-original-price="{{ $originalPrice->value }}" data-original-price-id="{{ $originalPrice->id }}" id="update_original_price">amend original price</a></p>
                             @endif
                             {{--<p><b>Reservation Date :</b> <i class="fa fa-calendar"></i> May 31, 2018</p>--}}
                             {{--<p><b class="text-danger">Expiration Date :</b> <i class="fa fa-calendar"></i> June 1, 2018</p>--}}
