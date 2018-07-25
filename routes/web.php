@@ -84,6 +84,7 @@ Route::prefix('trainee')->middleware('auth', 'can.access')->group(function () {
 
 Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
     Route::put('administrators/{administrator}', 'AdministratorsController@update')->name('admin.update');
+    Route::put('administrators/{administrator}/status', 'AdministratorsController@updateStatus')->name('admin.update-status');
     Route::put('reservations/{reservation}', 'ReservationsController@update');
     Route::put('reservations/{reservation}/confirm', 'ReservationsController@confirm')->name('reservations.confirm');
     Route::put('reservations/{reservation}/refund', 'ReservationsController@refund')->name('reservations.refund');
