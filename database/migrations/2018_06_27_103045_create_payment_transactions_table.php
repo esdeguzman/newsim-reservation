@@ -19,6 +19,7 @@ class CreatePaymentTransactionsTable extends Migration
             $table->string('number')->unique();
             $table->string('slip_url')->nullable();
             $table->string('type')->nullable();
+            $table->decimal('received_amount', 8, 2)->nullable();
             $table->string('status')->default('new');
             $table->boolean('seen')->default(0);
             $table->timestamps();
