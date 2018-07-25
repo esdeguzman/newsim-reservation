@@ -2,7 +2,7 @@
 @section('page-tab-title') Courses @stop
 @section('active-page') <li class="active">Courses</li> @stop
 @section('courses-sidebar-menu') active @stop
-@section('page-short-description') <a href="#" class="btn btn-success" data-toggle="modal" data-target=".add-course">add new course</a> @stop
+@section('page-short-description') @if(\App\Helper\user()->isDev() or \App\Helper\user()->isSystemAdmin()) <a href="#" class="btn btn-success" data-toggle="modal" data-target=".add-course">add new course</a> @endif @stop
 @section('page-content')
     <div class="col-md-12">
         <div class="white-box">
