@@ -94,8 +94,8 @@ class TraineesController extends Controller
         $schedules = Schedule::whereNotIn('course_id', $reservedCoursesIds)->get();
 
         if($branch) {
-            $schedules = Schedule::whereHas('branch', function ($query) use ($request) {
-                $query->where('name', $request->branch);
+            $schedules = Schedule::whereHas('branch', function ($query) use ($request, $reservedCoursesIds) {
+                $query->where('name', $request->branch)->whereNotIn('course_id', $reservedCoursesIds);
             })->get();
         }
 
