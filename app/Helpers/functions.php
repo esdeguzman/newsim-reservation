@@ -73,11 +73,22 @@ if (! function_exists('computePayment')) {
 }
 
 if (! function_exists('adminCan')) {
-    function adminCan($action)
+    function adminCan($admin = null, $action)
     {
-        if (auth()->user()->isDev()) return true;
-        return AdministratorRole::with('role')
-                                    ->where('administrator_id', admin()->id)->get()
-                                    ->pluck('role')->contains('name', '=', $action);
+        $bool = false;
+        if (user()->isDev()) return true;
+        if($admin) {
+            $bool = AdministratorRole::with('role')
+                ->where('administrator_id', $admin->id)
+                ->where('revoked_by',null)->get()
+                ->pluck('role')->contains('name', '=', $action);
+        } else {
+            $bool = AdministratorRole::with('role')
+                ->where('administrator_id', admin()->id)
+                ->where('revoked_by',null)->get()
+                ->pluck('role')->contains('name', '=', $action);
+        }
+
+        return $bool;
     }
 }

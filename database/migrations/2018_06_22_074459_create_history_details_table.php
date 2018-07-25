@@ -20,6 +20,8 @@ class CreateHistoryDetailsTable extends Migration
             $table->unsignedInteger('schedule_id')->nullable();
             $table->unsignedInteger('reservation_id')->nullable();
             $table->unsignedInteger('trainee_id')->nullable();
+            $table->unsignedInteger('administrator_id')->nullable();
+            $table->unsignedInteger('administrator_role_id')->nullable();
             $table->unsignedInteger('updated_by');
             $table->text('log');
             $table->text('remarks');

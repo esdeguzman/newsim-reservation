@@ -34,15 +34,21 @@
             <form class="form-horizontal form-material" id="loginform" action="{{ route('login.authenticate') }}" method="post">
                 {{ csrf_field() }}
                 <a href="javascript:void(0)" class="text-center db"><img src="{{ asset('/images/newsim_logo.jpg') }}" alt="Home" width="250" height="50"/><br/><h2 class="text-uppercase text-info"><b>reservation system</b></h2></a>
-
+                @if($errors->has('username') or $errors->has('password'))
+                <ul class="common-list">
+                @foreach($errors->all() as $error)
+                    <li><i class="ti ti-close text-danger"></i> <b>{{ $error }}</b></li>
+                @endforeach
+                </ul>
+                @endif
                 <div class="form-group m-t-40">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" required="" placeholder="Username" name="username">
+                        <input class="form-control" type="text" placeholder="Username" name="username">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="password" required="" placeholder="Password" name="password">
+                        <input class="form-control" type="password" placeholder="Password" name="password">
                     </div>
                 </div>
                 <div class="form-group">
@@ -62,6 +68,19 @@
                     <div class="col-sm-12 text-center">
                         <p>Don't have an account? <a href="#" class="text-primary m-l-5" id="request-account"><b>Request for an account</b></a></p>
                     </div>
+                    @if(count($errors) > 0 and ! $errors->has('username') || ! $errors->has('password'))
+                    <div class="col-sm-12 text-center">
+                        <p class="text-danger"><b>Whoops! You must have missed something! Click <a class="text-info" href="#" id="with-error">here</a> to check what it is.</b></p>
+                    </div>
+                    @elseif(session('info.success'))
+                    <div class="col-sm-12 text-center">
+                        <p class="text-info">{{ session('info.success') }}</p>
+                    </div>
+                    @elseif(session('info.not_allowed'))
+                    <div class="col-sm-12 text-center">
+                        <p class="text-danger"><b>{{ session('info.not_allowed') }}</b></p>
+                    </div>
+                    @endif
                 </div>
             </form>
             <form class="form-horizontal" id="recoverform" action="index.html">
@@ -73,7 +92,7 @@
                 </div>
                 <div class="form-group ">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" required="" placeholder="Email">
+                        <input class="form-control" type="text" placeholder="Email">
                     </div>
                 </div>
                 <div class="form-group text-center m-t-20">
@@ -85,32 +104,66 @@
                     </div>
                 </div>
             </form>
-            <form class="form-horizontal" id="requestaccountform" action="index.html" style="display: none;">
+            <form class="form-horizontal" id="requestaccountform" action="{{ route('administrators.store') }}" style="display: none; height: 95vh; overflow-y: auto; overflow-x: hidden" method="post">
+                @csrf
                 <div class="form-group ">
                     <div class="col-xs-12">
                         <h3>Request for an Account</h3>
                         <p class="text-muted">Enter provide the needed information and wait for the administrators to validate your request. </p>
+                        @if(count($errors) > 0 and ! $errors->has('username') || ! $errors->has('password'))
+                        <ul class="common-list">
+                        @foreach($errors->all() as $error)
+                            <li><i class="ti ti-close text-danger"></i> <b>{{ $error }}</b></li>
+                        @endforeach
+                        </ul>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group ">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" required="" placeholder="Email">
+                        <input class="form-control" type="text" placeholder="Username *" name="desired_username" value="{{ old('desired_username') }}">
                     </div>
                     <div class="col-xs-12 m-t-10">
-                        <input class="form-control" type="text" required="" placeholder="Full Name">
+                        <input class="form-control" type="text" placeholder="Email *" name="email" value="{{ old('email') }}">
                     </div>
                     <div class="col-xs-12 m-t-10">
-                        <select name="branch" class="form-control">
-                            <option value="" hidden>Select Your Branch</option>
+                        <input class="form-control" type="password" placeholder="Password *" name="desired_password">
+                    </div>
+                    <div class="col-xs-12 m-t-10">
+                        <input class="form-control" type="password" placeholder="Confirm Password *" name="desired_password_confirmation">
+                    </div>
+                    <div class="col-xs-12 m-t-10">
+                        <input class="form-control" type="text" placeholder="Full Name *" name="full_name" value="{{ old('full_name') }}">
+                    </div>
+                    <div class="col-xs-12 m-t-10">
+                        <input class="form-control" type="text" placeholder="Employee ID *" name="employee_id" value="{{ old('employee_id') }}">
+                    </div>
+                    <div class="col-xs-12 m-t-10">
+                        <select name="branch_id" class="form-control">
+                            <option value="" hidden>Select Your Branch *</option>
+                            @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}" {{ $branch->id == old('branch_id')? 'selected' : '' }}>{{ $branch->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-xs-12 m-t-10">
-                        <select name="department" class="form-control">
-                            <option value="" hidden>Select Your Department</option>
+                        <select name="department_id" class="form-control">
+                            <option value="" hidden>Select Your Department *</option>
+                            @foreach($departments as $department)
+                                <option value="{{ $department->id }}" {{ $department->id == old('department_id')? 'selected' : '' }}>{{ $department->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-xs-12 m-t-10">
-                        <textarea class="form-control" name="reason" rows="5" placeholder="Reason for Requesting Account"></textarea>
+                        <select name="position_id" class="form-control">
+                            <option value="" hidden>Select Your Position *</option>
+                            @foreach($positions as $position)
+                                <option value="{{ $position->id }}" {{ $position->id == old('position_id')? 'selected' : '' }}>{{ $position->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-xs-12 m-t-10">
+                        <textarea class="form-control" name="reason" rows="5" placeholder="Reason for Requesting Account *">{{ old('reason') }}</textarea>
                     </div>
                 </div>
                 <div class="form-group text-center m-t-20">
@@ -147,13 +200,12 @@
         $('#recoverform').fadeOut()
     })
 
-
     $('#btn-cancel-request').on('click', function () {
         $('#loginform').slideDown()
         $('#requestaccountform').fadeOut()
     })
 
-    $('#request-account').on('click', function () {
+    $('#request-account, #with-error').on('click', function () {
         $('#loginform').slideUp()
         $('#requestaccountform').fadeIn()
     })

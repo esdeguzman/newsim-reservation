@@ -44,7 +44,9 @@
     <div class="new-login-box">
         <div class="white-box">
             <h3 class="box-title m-b-0">Sign In to start reserving schedules</h3>
-            <small>Enter your credentials below</small>
+            @if(session('info.inactive')) <small class="text-danger">{{ session('info.inactive') }}</small>
+            @else <small>Enter your credentials below</small>
+            @endif
             <form class="form-horizontal new-lg-form" id="loginform" action="{{ route('login.authenticate') }}" method="post">
                 {{ csrf_field() }}
                 <div class="form-group  m-t-20">
@@ -125,7 +127,7 @@
 </script>
 
 <script>
-    @if(session('info'))
+    @if(session('info.text'))
     alert('{{ session('info.text') }}')
     @endif
 </script>

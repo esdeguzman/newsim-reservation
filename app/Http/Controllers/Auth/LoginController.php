@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use function App\Helper\admin;
+use function App\Helper\trainee;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;

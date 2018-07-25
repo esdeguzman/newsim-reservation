@@ -26,15 +26,15 @@ Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
 | System Individual GET Routes
 |--------------------------------------------------------------------------
 */
-// Admin login route
 Route::get('/', function () { return redirect()->route('admin.login'); });
-Route::get('admin/login', function () { return view('pages.login'); })->middleware('guest')->name('admin.login');
+Route::get('admin/login', 'AdministratorsController@login')->name('admin.login');
 Route::get('trainee/login', 'TraineesController@login')->middleware('guest')->name('trainee.login');
-
 Route::get('trainee/register', 'TraineesController@register')->name('trainee.register');
 Route::get('page-not-found', function () { return view('pages.404'); });
 
 Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
+    Route::get('administrators', 'AdministratorsController@index')->name('admin.index');
+    Route::get('administrators/{administrator}', 'AdministratorsController@show')->name('admin.show');
     Route::get('home', function () { return view('layouts.main'); })->name('admin.home');
     Route::get('trainees', 'TraineesController@index')->name('trainees.index');
     Route::get('trainees/{trainee}', 'TraineesController@show')->name('trainees.show');
@@ -57,7 +57,6 @@ Route::prefix('trainee')->middleware('auth', 'can.access')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::post('authenticate', 'Auth\LoginController@login')->name('login.authenticate');
-Route::post('trainee/signup', 'TraineesController@signUp')->name('trainee.signup');
 Route::post('request-reset-password', 'UsersController@requestPasswordReset')->name('users.request-reset-password');
 Route::get('reset-password/{user}', 'UsersController@resetPassword')->name('users.reset-password');
 
@@ -84,6 +83,8 @@ Route::prefix('trainee')->middleware('auth', 'can.access')->group(function () {
 });
 
 Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
+    Route::put('administrators/{administrator}', 'AdministratorsController@update')->name('admin.update');
+    Route::put('administrators/{administrator}/status', 'AdministratorsController@updateStatus')->name('admin.update-status');
     Route::put('reservations/{reservation}', 'ReservationsController@update');
     Route::put('reservations/{reservation}/confirm', 'ReservationsController@confirm')->name('reservations.confirm');
     Route::put('reservations/{reservation}/refund', 'ReservationsController@refund')->name('reservations.refund');

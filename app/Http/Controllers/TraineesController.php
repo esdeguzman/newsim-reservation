@@ -36,10 +36,10 @@ class TraineesController extends Controller
         return view('trainees.register');
     }
 
-    public function signUp(Request $request)
+    public function store(Request $request)
     {
         $userDetails = $request->validate([
-            'username' => 'required|unique:users',
+            'username' => 'required|min:3|unique:users',
             'email' => 'required|unique:users',
             'password' => 'required|min:6',
         ]);
