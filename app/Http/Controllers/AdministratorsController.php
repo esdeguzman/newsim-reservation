@@ -40,9 +40,15 @@ class AdministratorsController extends Controller
         return view('administrators.index', compact('administrators'));
     }
 
-    public function show()
+    public function show($admin)
     {
-        return view('administrators.show');
+        return view('administrators.show', [
+            'administrator' => Administrator::withTrashed()->where('id', $admin)->first(),
+            'branches' => Branch::all(),
+            'departments' => Department::all(),
+            'positions' => Position::all(),
+            'roles' => Role::all(),
+        ]);
     }
 
     public function store(Request $request)
