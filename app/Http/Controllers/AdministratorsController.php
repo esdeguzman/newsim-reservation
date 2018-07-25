@@ -25,9 +25,14 @@ class AdministratorsController extends Controller
             'positions' => Position::all(),
         ]);
     }
+
     public function index()
     {
-        return view('administrators.index');
+        $administrators = null;
+
+        $administrators = Administrator::all();
+
+        return view('administrators.index', compact('administrators'));
     }
 
     public function show()
