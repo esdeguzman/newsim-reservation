@@ -81,6 +81,14 @@
                         @if($reservation->registeredBy) <p class="text-muted">Registered by: <b class="text-uppercase text-info">{{ $reservation->registeredBy->full_name }}</b></p> @endif
                         @if($reservation->status == 'cancelled') <p class="text-muted">Remarks: <b class="text-uppercase text-danger">{{ $reservation->historyDetails->remarks }}</b></p> @endif
                     </div><br/>
+                    <div class="clearfix"></div>
+                    @if($reservation->status != 'cancelled')
+                        <div class="text-right">
+                            @if($reservation->receive_payment) <button class="btn btn-warning text-uppercase" data-toggle="modal" data-target=".confirm-payment">add payment transaction number</button> @endif
+                            @if(! $reservation->isExpired()) <button class="btn btn-danger text-uppercase" data-toggle="modal" data-target=".cancel-reservation">cancel reservation</button> @endif
+                            {{-- NOTE: USE IF NEED TO PRINT THIS <button id="print" class="btn btn-default btn-outline" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>--}}
+                        </div>
+                    @endif
                     <hr>
                     <h3 class="text-uppercase"><b>reservation history</b></h3>
                     <div class="table-responsive m-t-20" style="clear: both;">
@@ -108,15 +116,6 @@
                         </table>
                     </div>
                 </div>
-                <div class="clearfix"></div>
-                @if($reservation->status != 'cancelled')
-                <hr>
-                <div class="text-right">
-                    @if($reservation->receive_payment) <button class="btn btn-warning text-uppercase" data-toggle="modal" data-target=".confirm-payment">add payment transaction number</button> @endif
-                    @if(! $reservation->isExpired()) <button class="btn btn-danger text-uppercase" data-toggle="modal" data-target=".cancel-reservation">cancel reservation</button> @endif
-                    {{-- NOTE: USE IF NEED TO PRINT THIS <button id="print" class="btn btn-default btn-outline" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>--}}
-                </div>
-                @endif
             </div>
         </div>
     </div>
@@ -199,7 +198,7 @@
     <script src="{{ asset('js/jquery.PrintArea.js') }}" type="text/JavaScript"></script>
     <script>
         $(function () {
-            $('#payment_transactions').DataTable({
+            $('#payment_transactions, #history').DataTable({
                 'aaSorting' : []
             });
 
