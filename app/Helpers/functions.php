@@ -76,7 +76,7 @@ if (! function_exists('adminCan')) {
     function adminCan($admin = null, $action)
     {
         $bool = false;
-        if (admin()->isDev()) return true;
+        if (user()->isDev()) return true;
         if($admin) {
             $bool = AdministratorRole::with('role')
                 ->where('administrator_id', $admin->id)
