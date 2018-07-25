@@ -6,7 +6,7 @@
 @stop
 @section('active-page') <li class="active">Schedules</li> @stop
 @section('schedules-sidebar-menu') active @stop
-@section('page-short-description') <a href="#" class="btn btn-success" data-toggle="modal" data-target=".add-schedule">add new schedule</a> @stop
+@section('page-short-description') @if(\App\Helper\adminCan('training officer')) <a href="#" class="btn btn-success" data-toggle="modal" data-target=".add-schedule">add new schedule</a> @endif @stop
 @section('page-content')
     <div class="col-md-12">
         <div class="white-box">
