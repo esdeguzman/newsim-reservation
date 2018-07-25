@@ -12,7 +12,7 @@
     @endif
 @stop
 @section('branch-courses-sidebar-menu') active @stop
-@section('page-short-description') @if(isset($branch->id)) <a href="#" class="btn btn-success" data-toggle="modal" data-target=".add-branch-course">add new branch course</a> @endif @stop
+@section('page-short-description') @if(isset($branch->id) && \App\Helper\admin()->branch->id == $branch->id and \App\Helper\adminCan('training officer')) <a href="#" class="btn btn-success" data-toggle="modal" data-target=".add-branch-course">add new branch course</a> @endif @stop
 @section('page-content')
     <div class="col-md-12">
         <div class="white-box">
