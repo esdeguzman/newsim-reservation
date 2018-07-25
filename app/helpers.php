@@ -73,7 +73,7 @@ if (! function_exists('computePayment')) {
 }
 
 if (! function_exists('adminCan')) {
-    function adminCan($admin = null, $action)
+    function adminCan($action, $admin = null)
     {
         $bool = false;
         if (user()->isDev()) return true;

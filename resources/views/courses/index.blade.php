@@ -2,7 +2,7 @@
 @section('page-tab-title') Courses @stop
 @section('active-page') <li class="active">Courses</li> @stop
 @section('courses-sidebar-menu') active @stop
-@section('page-short-description') <a href="#" class="btn btn-success" data-toggle="modal" data-target=".add-course">add new course</a> @stop
+@section('page-short-description') @if(\App\Helper\user()->isDev() or \App\Helper\user()->isSystemAdmin()) <a href="#" class="btn btn-success" data-toggle="modal" data-target=".add-course">add new course</a> @endif @stop
 @section('page-content')
     <div class="col-md-12">
         <div class="white-box">
@@ -32,9 +32,11 @@
                             ">{{ $course->status }}</span></td>
                             <td class="text-nowrap">
                                 <a href="{{ route('courses.show', $course->id) }}" class="text-uppercase text-success"> <i class="fa fa-eye text-success m-r-10"></i>view</a>&nbsp;&nbsp;&nbsp;
+                                @if(\App\Helper\user()->isDev() or \App\Helper\user()->isSystemAdmin())
                                 <a href="#" class="text-uppercase edit_course text-warning" data-toggle="modal" data-target=".edit-course"
                                    data-course-id="{{ $course->id }}" data-course-code="{{ $course->code }}"
                                    data-course-description="{{ $course->description }}"> <i class="fa fa-edit text-warning m-r-10"></i>edit</a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

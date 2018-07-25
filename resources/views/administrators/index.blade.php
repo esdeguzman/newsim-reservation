@@ -13,6 +13,7 @@
                     <thead>
                     <tr>
                         <th>Full Name</th>
+                        <th>Branch</th>
                         <th>Department</th>
                         <th>Position</th>
                         <th>Status</th>
@@ -24,6 +25,7 @@
                         @foreach($administrators as $administrator)
                         <tr>
                             <td class="text-uppercase">{{ $administrator->full_name }}</td>
+                            <td class="text-uppercase">{{ $administrator->branch->name }}</td>
                             <td class="text-uppercase">{{ $administrator->department->name }}</td>
                             <td class="text-uppercase">{{ $administrator->position->name }}</td>
                             <td class="text-uppercase"><span class="label

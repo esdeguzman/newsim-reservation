@@ -156,7 +156,7 @@ class ReservationsController extends Controller
     {
         $status = null;
         $amount = 0;
-        if (adminCan('confirm reservation') && $reservation->status == 'pending') {
+        if (adminCan('confirm reservation') || adminCan('accounting officer') and $reservation->status == 'pending') {
             $request->validate([
                 'amount' => 'required',
                 'number' => 'required',
@@ -167,7 +167,7 @@ class ReservationsController extends Controller
             $status = $this->getReservationStatus($amount, $toBePaid);
 
             $balance = computePayment($reservation->original_price, $reservation->discount) - $amount;
-        } elseif (adminCan('confirm reservation') && $reservation->status == 'underpaid') {
+        } elseif (adminCan('confirm reservation') || adminCan('accounting officer') && $reservation->status == 'underpaid') {
             $request->validate([
                 'amount' => 'required',
                 'number' => 'required',
@@ -219,7 +219,7 @@ class ReservationsController extends Controller
 
     public function registered(Reservation $reservation, Request $request)
     {
-        if (adminCan('confirm registration')) {
+        if (adminCan('confirm registration') || adminCan('registration officer')) {
             $request->validate([
                 'cor_number' => 'required'
             ]);
@@ -275,7 +275,7 @@ class ReservationsController extends Controller
 
     public function refund(Reservation $reservation, Request $request)
     {
-        if (adminCan('refund excess payment')) {
+        if (adminCan('refund excess payment') || adminCan('accounting officer')) {
             $request->validate([
                 'amount' => 'required'
             ]);

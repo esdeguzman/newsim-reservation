@@ -9,7 +9,7 @@
 @section('page-content')
     <div class="col-md-12 block3">
         <div class="white-box printableArea">
-            @if($course->status == 'active' || $course->status == 'restored') <button class="pull-right text-uppercase btn btn-info"  data-toggle="modal" data-target=".update-course" id="btn_edit_course">update course details</button>
+            @if($course->status == 'active' || $course->status == 'restored' and \App\Helper\user()->isDev() || \App\Helper\user()->isSystemAdmin()) <button class="pull-right text-uppercase btn btn-info"  data-toggle="modal" data-target=".update-course" id="btn_edit_course">update course details</button>
             @elseif($course->status == 'deleted') <button class="pull-right text-uppercase btn btn-warning"  data-toggle="modal" data-target=".restore-course" id="btn_restore_course">restore course</button>
             @endif
             <h3 class="text-uppercase">{{ $course->code }}
@@ -53,7 +53,7 @@
                         </table>
                     </div>
                 </div>
-                @if(is_null($course->deleted_at))
+                @if(is_null($course->deleted_at) and \App\Helper\user()->isDev() || \App\Helper\user()->isSystemAdmin())
                 <div class="col-lg-5 col-sm-6 col-xs-12 pull-right m-t-40">
                     <div class="panel panel-danger">
                         <div class="panel-heading"> Danger Zone

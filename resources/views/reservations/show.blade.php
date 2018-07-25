@@ -73,7 +73,7 @@
                                         <td class="text-right">P {{ \App\Helper\toReadablePayment($paymentTransaction->reservation->original_price, $paymentTransaction->reservation->discount) }}</td>
                                         <td class="text-right">P {{ number_format($paymentTransaction->received_amount, 2) }}</td>
                                         <td class="text-center">
-                                            @if((auth()->user()->isDev() || \App\Helper\adminCan('confirm reservation')) && $paymentTransaction->status == 'new')
+                                            @if((auth()->user()->isDev() || \App\Helper\adminCan('confirm reservation') or \App\Helper\adminCan('accounting officer')) && $paymentTransaction->status == 'new')
                                                 <button class="btn btn-warning text-uppercase" data-toggle="modal" data-target=".confirm-reservation" type="button" data-transaction-number="{{ $paymentTransaction->number }}" id="confirmReservation">confirm reservation</button>
                                             @else <span class="text-uppercase text-muted">no actions needed</span>
                                             @endif
@@ -91,6 +91,16 @@
                         @if($reservation->confirmedBy) <p class="text-muted">Confirmed by: <b class="text-uppercase text-info">{{ $reservation->confirmedBy->full_name }}</b></p> @endif
                         @if($reservation->registeredBy) <p class="text-muted">Registered by: <b class="text-uppercase text-info">{{ $reservation->registeredBy->full_name }}</b></p> @endif
                     </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="text-right">
+                    @if((auth()->user()->isDev() || \App\Helper\adminCan('refund excess payment') or \App\Helper\adminCan('accounting officer')) && $reservation->isPaidOrExpiredButCancelled())<button class="btn btn-warning text-uppercase" data-toggle="modal" data-target=".refund-excess-payment">refund excess payment</button> @endif
+                    @if((auth()->user()->isDev() || \App\Helper\adminCan('refund excess payment') or \App\Helper\adminCan('accounting officer')) && ($reservation->hasRefund() && $reservation->hasExcessPayment()))<button class="btn btn-warning text-uppercase" data-toggle="modal" data-target=".refund-excess-payment">refund excess payment</button> @endif
+                    @if((auth()->user()->isDev() || \App\Helper\adminCan('receive payment on-site') or \App\Helper\adminCan('accounting officer')) && ($reservation->receive_payment || $reservation->status == 'underpaid'))<button class="btn btn-success text-uppercase" data-toggle="modal" data-target=".receive-payment">receive payment on-site</button> @endif
+                    @if((auth()->user()->isDev() || \App\Helper\adminCan('confirm registration') or \App\Helper\adminCan('registration officer')) && ($reservation->status == 'paid' || $reservation->status == 'overpaid' || $reservation->status == 'refunded'))<button class="btn btn-info text-uppercase" data-toggle="modal" data-target=".trainee-has-been-registered">trainee has been registered</button> @endif
+                    @if((auth()->user()->isDev() || \App\Helper\adminCan('cancel reservation') or \App\Helper\adminCan('accounting officer')) && $reservation->status != 'cancelled')<button class="btn btn-danger text-uppercase" data-toggle="modal" data-target=".cancel-reservation">cancel reservation</button> @endif
+                    {{-- NOTE: USE IF NEED TO PRINT THIS <button id="print" class="btn btn-default btn-outline" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>--}}
+                </div>
                 <div class="clearfix"></div>
                 <hr>
                     <div class="col-md-12">
@@ -119,16 +129,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="clearfix"></div>
-                    <hr>
-                    <div class="text-right">
-                        @if((auth()->user()->isDev() || \App\Helper\adminCan('refund excess payment')) && $reservation->isPaidOrExpiredButCancelled())<button class="btn btn-warning text-uppercase" data-toggle="modal" data-target=".refund-excess-payment">refund excess payment</button> @endif
-                        @if((auth()->user()->isDev() || \App\Helper\adminCan('refund excess payment')) && ($reservation->hasRefund() && $reservation->hasExcessPayment()))<button class="btn btn-warning text-uppercase" data-toggle="modal" data-target=".refund-excess-payment">refund excess payment</button> @endif
-                        @if((auth()->user()->isDev() || \App\Helper\adminCan('receive payment on-site')) && ($reservation->receive_payment || $reservation->status == 'underpaid'))<button class="btn btn-success text-uppercase" data-toggle="modal" data-target=".receive-payment">receive payment on-site</button> @endif
-                        @if((auth()->user()->isDev() || \App\Helper\adminCan('confirm registration')) && ($reservation->status == 'paid' || $reservation->status == 'overpaid' || $reservation->status == 'refunded'))<button class="btn btn-info text-uppercase" data-toggle="modal" data-target=".trainee-has-been-registered">trainee has been registered</button> @endif
-                        @if((auth()->user()->isDev() || \App\Helper\adminCan('cancel reservation')) && $reservation->status != 'cancelled')<button class="btn btn-danger text-uppercase" data-toggle="modal" data-target=".cancel-reservation">cancel reservation</button> @endif
-                        {{-- NOTE: USE IF NEED TO PRINT THIS <button id="print" class="btn btn-default btn-outline" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>--}}
                     </div>
                 </div>
             </div>
