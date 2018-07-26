@@ -128,7 +128,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title text-uppercase" id="cancelReservationLabel">confirm action</h4> </div>
-                <form action="{{ url("reservations/$reservation->id") }}" method="post">
+                <form action="{{ url("trainee/reservations/$reservation->id") }}" method="post">
                     @csrf
                     @method('put')
                     <div class="modal-body">
