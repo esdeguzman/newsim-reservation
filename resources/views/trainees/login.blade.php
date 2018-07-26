@@ -52,13 +52,13 @@
                 <div class="form-group  m-t-20">
                     <div class="col-xs-12">
                         <label>Username</label>
-                        <input class="form-control" type="text" required="" placeholder="Username" name="username" />
+                        <input class="form-control" type="text" placeholder="Username" name="username" />
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-xs-12">
                         <label>Password</label>
-                        <input class="form-control" type="password" required="" placeholder="Password" name="password" />
+                        <input class="form-control" type="password" placeholder="Password" name="password" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -85,7 +85,7 @@
                 </div>
                 <div class="form-group ">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" required="" placeholder="Email" name="email" value="{{ old('email') }}">
+                        <input class="form-control" type="text" placeholder="Email" name="email" value="{{ old('email') }}">
                     </div>
                 </div>
                 <div class="form-group text-center m-t-20">
