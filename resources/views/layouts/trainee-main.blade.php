@@ -72,9 +72,11 @@
                         <li>
                             <div class="drop-title">You have {{ $newPaymentConfirmations or 0 }} new payment confirmation/s</div>
                         </li>
+                        @if($newPaymentConfirmations > 0)
                         <li>
-                            <a class="text-center" href="{{ route('reservations.index') }}?status=new"> <strong>View new payment confirmation/s</strong> <i class="fa fa-angle-right"></i> </a>
+                            <a class="text-center" href="{{ route('trainee-reservations') }}?status=new"> <strong>View new payment confirmation/s</strong> <i class="fa fa-angle-right"></i> </a>
                         </li>
+                        @endif
                     </ul>
                     <!-- /.dropdown-messages -->
                 </li>
@@ -86,9 +88,11 @@
                         <li>
                             <div class="drop-title">You have {{ $newRegisteredCourses or 0 }} new registered schedule/s</div>
                         </li>
+                        @if($newRegisteredCourses > 0)
                         <li>
-                            <a class="text-center" href="{{ route('reservations.index') }}?status=new"> <strong>View new registered schedule/s</strong> <i class="fa fa-angle-right"></i> </a>
+                            <a class="text-center" href="{{ route('trainee-reservations') }}?status=registered"> <strong>View new registered schedule/s</strong> <i class="fa fa-angle-right"></i> </a>
                         </li>
+                        @endif
                     </ul>
                     <!-- /.dropdown-messages -->
                 </li>

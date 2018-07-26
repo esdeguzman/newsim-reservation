@@ -107,10 +107,18 @@ class TraineesController extends Controller
         return view('trainees.schedule-show', compact('schedule'));
     }
 
-    public function reservations()
+    public function reservations(Request $request)
     {
-        $reservations = trainee()->hasReservations()? Reservation::where('trainee_id', trainee()->id)
-            ->withTrashed()->get()->unique('code')->sortByDesc('created_at')->values()->all() : null;
+        $reservations = null;
+
+        if ($request->has('status')) {
+            $reservations = Reservation::where('status', $request->status)
+                                ->where('trainee_id', trainee()->id)->where('seen', 0)
+                                ->withTrashed()->get()->unique('code')->sortByDesc('created_at')->values()->all();
+        } else {
+            $reservations = Reservation::where('trainee_id', trainee()->id)
+                ->withTrashed()->get()->unique('code')->sortByDesc('created_at')->values()->all();
+        }
 
         return view('trainees.reservations', compact('reservations'));
     }
