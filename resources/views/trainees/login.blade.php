@@ -29,7 +29,7 @@
 <div class="preloader">
     <div class="cssload-speeding-wheel"></div>
 </div>
-<section id="wrapper" class="new-login-register">
+<section id="wrapper" class="new-login-register block3">
     <div class="lg-info-panel">
         <div class="inner-panel">
             <div class="lg-content">
@@ -71,7 +71,7 @@
                 </div>
                 <div class="form-group text-center m-t-20">
                     <div class="col-xs-12">
-                        <button class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">Log In</button>
+                        <button class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light submit" type="submit">Log In</button>
                     </div>
                 </div>
             </form>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="form-group text-center m-t-20">
                     <div class="col-xs-12">
-                        <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Reset</button>
+                        <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light submit" type="submit">Reset</button>
                         <button class="btn btn-danger btn-lg btn-block text-uppercase waves-effect waves-light" type="button" id="btn-cancel">Cancel</button>
                     </div>
                 </div>
@@ -118,6 +118,8 @@
 <!-- Sweet-Alert  -->
 <script src="{{ asset('/plugins/bower_components/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js') }}"></script>
+<!--BlockUI Script -->
+<script src="{{ asset('plugins/bower_components/blockUI/jquery.blockUI.js') }}"></script>
 
 <script>
     $('#btn-cancel').on('click', function () {
@@ -130,6 +132,18 @@
     @if(session('info.text'))
     alert('{{ session('info.text') }}')
     @endif
+
+    $('.submit').click(function () {
+        $('section.block3').block({
+            message: '<h3>Please Wait...</h3>'
+            , overlayCSS: {
+                backgroundColor: '#02bec9'
+            }
+            , css: {
+                border: '1px solid #fff'
+            }
+        });
+    });
 </script>
 </body>
 </html>

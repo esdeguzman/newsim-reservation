@@ -79,7 +79,6 @@
                         <br/><br/><br/><br/>
                         @if($reservation->confirmedBy) <p class="text-muted">Confirmed by: <b class="text-uppercase text-info">{{ $reservation->confirmedBy->full_name }}</b></p> @endif
                         @if($reservation->registeredBy) <p class="text-muted">Registered by: <b class="text-uppercase text-info">{{ $reservation->registeredBy->full_name }}</b></p> @endif
-                        @if($reservation->status == 'cancelled') <p class="text-muted">Remarks: <b class="text-uppercase text-danger">{{ $reservation->historyDetails->remarks }}</b></p> @endif
                     </div><br/>
                     <div class="clearfix"></div>
                     @if($reservation->status != 'cancelled')
@@ -123,7 +122,7 @@
     <!-- modals -->
 
     <!-- cancel reservation -->
-    <div class="modal fade cancel-reservation" tabindex="-1" role="dialog" aria-labelledby="cancelReservationLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade cancel-reservation block3" tabindex="-1" role="dialog" aria-labelledby="cancelReservationLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -156,7 +155,7 @@
     <!-- /cancel reservation -->
 
     <!-- pay reservation -->
-    <div class="modal fade confirm-payment" tabindex="-1" role="dialog" aria-labelledby="confirmPaymentLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade confirm-payment block3" tabindex="-1" role="dialog" aria-labelledby="confirmPaymentLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -219,18 +218,6 @@
 
             setTimeout(removeHighlight, 100)
             // highlight workaround end
-
-            $('.submit').click(function () {
-                $('div.block3').block({
-                    message: '<h3>Please Wait...</h3>'
-                    , overlayCSS: {
-                        backgroundColor: '#02bec9'
-                    }
-                    , css: {
-                        border: '1px solid #fff'
-                    }
-                });
-            });
         });
     </script>
 @stop

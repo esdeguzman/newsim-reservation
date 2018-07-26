@@ -230,6 +230,18 @@
         $('#logout-form').submit()
     })
 
+    $('.submit').click(function () {
+        $('div.block3').block({
+            message: '<h3>Please Wait...</h3>'
+            , overlayCSS: {
+                backgroundColor: '#02bec9'
+            }
+            , css: {
+                border: '1px solid #fff'
+            }
+        });
+    });
+
     @if(session('info'))
     swal({
         title: "{{ session('info.title') }}",

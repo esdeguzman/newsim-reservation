@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="block3">
 
 <head>
     <meta charset="utf-8">
@@ -148,7 +148,7 @@
                     {{--</div>--}}
                     <div class="form-group text-center m-t-20">
                         <div class="col-xs-12">
-                            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">register</button>
+                            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light submit" type="button">register</button>
                         </div>
                     </div>
                 </form>
@@ -171,10 +171,24 @@
     <script src="{{ asset('plugins/bower_components/styleswitcher/jQuery.style.switcher.js') }}"></script>
     <!-- masked input -->
     <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+    <!--BlockUI Script -->
+    <script src="{{ asset('plugins/bower_components/blockUI/jquery.blockUI.js') }}"></script>
 
     <script>
         $('.date-mask').mask('0000-00-00');
         $('.mobile-number-mask').mask('+63900-0000-000');
+
+        $('.submit').click(function () {
+            $('html.block3').block({
+                message: '<h3>Please Wait...</h3>'
+                , overlayCSS: {
+                    backgroundColor: '#02bec9'
+                }
+                , css: {
+                    border: '1px solid #fff'
+                }
+            });
+        });
     </script>
 </body>
 </html>

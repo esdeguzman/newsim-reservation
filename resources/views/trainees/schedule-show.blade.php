@@ -5,7 +5,7 @@
 @stop
 @section('page-short-description') {{ $schedule->branchCourse->branch->name }} @stop
 @section('page-content')
-    <div class="col-md-12 block3">
+    <div class="col-md-12">
         <div class="white-box printableArea">
             <span class="pull-right"><b class="label label-success text-uppercase">{{ $schedule->status }}</b> </span>
             <h3 class="text-uppercase">{{ $schedule->branchCourse->details->code }} <span class="tooltip-item2"><small>{{ $schedule->branchCourse->details->description }}</small></span></h3>
@@ -58,7 +58,7 @@
     <!-- modals -->
 
     <!-- confirm course reservation -->
-    <div class="modal fade confirm-reservation" tabindex="-1" role="dialog" aria-labelledby="confirmReservationLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade confirm-reservation block3" tabindex="-1" role="dialog" aria-labelledby="confirmReservationLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -119,18 +119,6 @@
 
             setTimeout(removeHighlight, 100)
             // highlight workaround end
-
-            $('.submit').click(function () {
-                $('div.block3').block({
-                    message: '<h3>Please Wait...</h3>'
-                    , overlayCSS: {
-                        backgroundColor: '#02bec9'
-                    }
-                    , css: {
-                        border: '1px solid #fff'
-                    }
-                });
-            });
         });
     </script>
 @stop
