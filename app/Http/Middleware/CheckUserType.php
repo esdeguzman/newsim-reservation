@@ -65,7 +65,7 @@ class CheckUserType
 
             if ($openReservations->count() > 0) {
                 foreach($openReservations as $openReservation) {
-                    if (Carbon::parse($openReservation->created_at)->startOfDay()->gte(now()->startOfDay())) {
+                    if (now()->startOfDay()->gt(Carbon::parse($openReservation->created_at)->startOfDay())) {
                         HistoryDetail::create([
                             'reservation_id' => $openReservation->id,
                             'updated_by' => 1,
