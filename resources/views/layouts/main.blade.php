@@ -119,8 +119,12 @@
                         <li>
                             <div class="dw-user-box">
                                 <div class="u-img"><img src="{{ asset('../plugins/images/users/varun.jpg') }}" alt="user" /></div>
-                                <div class="u-text"><h4>{{ auth()->user()->administrator->full_name }}</h4><p class="text-muted">{{ auth()->user()->email }}</p>
-                                    <a href="profile.html" class="btn btn-rounded btn-info btn-block">View Profile</a>
+                                <div class="u-text">
+                                    <h4>{{ auth()->user()->administrator->full_name }}</h4>
+                                    <p class="text-muted">{{ auth()->user()->email }}</p>
+                                    <p class="text-muted">{{ strtoupper(\App\Helper\admin()->position->name) }}</p>
+                                    <p class="text-muted">{{ strtoupper(\App\Helper\admin()->branch->name) }}</p>
+                                    <a href="#" class="btn btn-rounded btn-info btn-block">View Profile</a>
                                 </div>
                             </div>
                         </li>
