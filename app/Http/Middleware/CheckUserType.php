@@ -4,8 +4,10 @@ namespace App\Http\Middleware;
 
 use function App\Helper\admin;
 use function App\Helper\trainee;
+use App\HistoryDetail;
 use App\PaymentTransaction;
 use App\Reservation;
+use Carbon\Carbon;
 use Closure;
 
 class CheckUserType
