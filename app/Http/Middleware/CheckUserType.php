@@ -44,6 +44,7 @@ class CheckUserType
             }
 
             $newReservationsCount = Reservation::where('status', 'new')
+                                                    ->where('status', '!=', 'expired')
                                                     ->where('branch_id', admin()->branch_id)
                                                     ->where('seen', 0)->get()->count();
 
