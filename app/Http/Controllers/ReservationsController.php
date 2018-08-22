@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Administrator;
 use App\Branch;
 use function App\Helper\admin;
 use function App\Helper\adminCan;
@@ -10,10 +11,14 @@ use function App\Helper\trainee;
 use function App\Helper\user;
 use App\HistoryDetail;
 use App\Mail\CourseReserved;
+use App\Notifications\CourseRegistered;
+use App\Notifications\PaymentHasBeenConfirmed;
+use App\Notifications\PaymentTransactionConfirmed;
 use App\PaymentTransaction;
 use App\Reservation;
 use App\Schedule;
 use App\Trainee;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\QueryException;
@@ -214,6 +219,23 @@ class ReservationsController extends Controller
         $paymentTransaction->status = 'confirmed';
         $paymentTransaction->save();
 
+        $trainee = Trainee::find($reservation->trainee_id);
+        $user = $trainee->user;
+
+        $admins = Administrator::whereHas('roles', function ($query) {
+            $query->where('role_id', 6)->orWhere('role_id', 7);
+        })->where('branch_id', $reservation->branch_id)->get();
+
+        $user->notify(new PaymentHasBeenConfirmed($reservation)); // send email notification to trainee
+
+        foreach ($admins as $admin) {
+            $user = $admin->user;
+            $user->notify(new PaymentTransactionConfirmed($reservation));
+        } // send email notification to registration department
+
+        $dev = User::find(1);
+        $dev->notify(new PaymentTransactionConfirmed($reservation)); // send email copy for future reference
+
         return back();
     }
 
@@ -251,6 +273,11 @@ class ReservationsController extends Controller
 
                 return back();
             }
+
+            $trainee = Trainee::find($reservation->trainee_id);
+            $user = $trainee->user;
+
+            $user->notify(new CourseRegistered($reservation));
 
             // create history details
             HistoryDetail::create([
