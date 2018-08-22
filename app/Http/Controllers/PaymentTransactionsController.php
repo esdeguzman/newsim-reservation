@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Administrator;
 use function App\Helper\admin;
 use function App\Helper\adminCan;
 use function App\Helper\computePayment;
 use function App\Helper\trainee;
 use App\HistoryDetail;
+use App\Notifications\NewPaymentTransactionReceived;
 use App\PaymentTransaction;
 use App\Reservation;
+use App\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use Illuminate\Http\Request;
@@ -60,6 +63,18 @@ class PaymentTransactionsController extends Controller
 
         if (admin() && adminCan('confirm reservation')) {
             (new ReservationsController())->confirm($reservation, $request);
+        }
+
+        $admins = Administrator::whereHas('roles', function ($query) {
+            $query->where('role_id', 3)->orWhere('role_id', 4);
+        })->where('branch_id', $reservation->branch_id)->get();
+
+        $dev = User::find(1);
+
+        foreach ($admins as $admin) {
+            $user = $admin->user;
+            $user->notify(new NewPaymentTransactionReceived($reservation));
+            $dev->notify(new NewPaymentTransactionReceived($reservation));
         }
 
         return back();
