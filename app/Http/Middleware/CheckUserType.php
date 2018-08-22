@@ -43,6 +43,27 @@ class CheckUserType
                 return redirect(url('/admin/login'));
             }
 
+            $openReservations = Reservation::where('status', 'new')->orWhere('status', 'underpaid')
+                ->where('branch_id', admin()->branch_id)->get();
+
+            if ($openReservations->count() > 0) {
+                foreach($openReservations as $openReservation) {
+                    if (now()->startOfDay()->gt(Carbon::parse($openReservation->created_at)->startOfDay())) {
+                        HistoryDetail::create([
+                            'reservation_id' => $openReservation->id,
+                            'updated_by' => 1,
+                            'log' => 'reservation closed by the system',
+                            'remarks' => 'expired reservation',
+                        ]);
+
+                        $openReservation->status = 'expired';
+                        $openReservation->receive_payment = 0;
+                        $openReservation->seen = 1;
+                        $openReservation->save();
+                    }
+                }
+            }
+
             $newReservationsCount = Reservation::where('status', 'new')
                                                     ->where('status', '!=', 'expired')
                                                     ->where('branch_id', admin()->branch_id)
@@ -60,26 +81,6 @@ class CheckUserType
                 'newPayments' => $newPaymentsCount,
                 'newPaidReservations' => $newPaidReservationsCount,
             ]);
-
-            $openReservations = Reservation::where('status', 'new')->orWhere('status', 'underpaid')
-                                                ->where('branch_id', admin()->branch_id)->get();
-
-            if ($openReservations->count() > 0) {
-                foreach($openReservations as $openReservation) {
-                    if (now()->startOfDay()->gt(Carbon::parse($openReservation->created_at)->startOfDay())) {
-                        HistoryDetail::create([
-                            'reservation_id' => $openReservation->id,
-                            'updated_by' => 1,
-                            'log' => 'reservation closed by the system',
-                            'remarks' => 'expired reservation',
-                        ]);
-
-                        $openReservation->status = 'expired';
-                        $openReservation->receive_payment = 0;
-                        $openReservation->save();
-                    }
-                }
-            }
         } elseif (optional(auth()->user()->trainee)->exists() && $prefix == 'trainee') {
             if (trainee()->status == 'inactive') {
                 $request->session()->flash('info', [
