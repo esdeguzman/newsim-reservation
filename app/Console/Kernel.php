@@ -42,6 +42,7 @@ class Kernel extends ConsoleKernel
 
                         $openReservation->status = 'expired';
                         $openReservation->receive_payment = 0;
+                        $openReservation->seen = 1;
                         $openReservation->save();
                     }
                 }
