@@ -138,7 +138,7 @@
     <!-- modals -->
 
     <!-- cancel reservation -->
-    <div class="modal fade cancel-reservation" tabindex="-1" role="dialog" aria-labelledby="cancelReservationLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade cancel-reservation block3" tabindex="-1" role="dialog" aria-labelledby="cancelReservationLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -170,7 +170,7 @@
     <!-- /cancel reservation -->
 
     <!-- confirm reservation -->
-    <div class="modal fade confirm-reservation" tabindex="-1" role="dialog" aria-labelledby="confirmReservation" aria-hidden="true" style="display: none;">
+    <div class="modal fade confirm-reservation block3" tabindex="-1" role="dialog" aria-labelledby="confirmReservation" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -203,7 +203,7 @@
     <!-- /confirm reservation -->
 
     <!-- trainee has been registered -->
-    <div class="modal fade trainee-has-been-registered" tabindex="-1" role="dialog" aria-labelledby="traineeHasBeenRegistered" aria-hidden="true" style="display: none;">
+    <div class="modal fade trainee-has-been-registered block3" tabindex="-1" role="dialog" aria-labelledby="traineeHasBeenRegistered" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -230,7 +230,7 @@
     <!-- /trainee has been registered -->
 
     <!-- refund excess payment -->
-    <div class="modal fade refund-excess-payment" tabindex="-1" role="dialog" aria-labelledby="refundExcessPaymentLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade refund-excess-payment block3" tabindex="-1" role="dialog" aria-labelledby="refundExcessPaymentLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -255,7 +255,7 @@
     <!-- /refund excess payment -->
 
     <!-- pay reservation -->
-    <div class="modal fade receive-payment" tabindex="-1" role="dialog" aria-labelledby="receivePaymentLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade receive-payment block3" tabindex="-1" role="dialog" aria-labelledby="receivePaymentLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
