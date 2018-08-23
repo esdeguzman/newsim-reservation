@@ -37,7 +37,7 @@
                             @if($reservation->status == 'new') label-success
                             @elseif($reservation->status == 'cancelled' || $reservation->status == 'pending' || $reservation->status == 'overpaid') label-warning
                             @elseif($reservation->status == 'paid' || $reservation->status == 'registered') label-info
-                            @elseif($reservation->status == 'underpaid') label-danger
+                            @elseif($reservation->status == 'underpaid' || $reservation->status == 'expired') label-danger
                             @endif
                             text-uppercase">{{ $reservation->status }}</span>
                         </td>
