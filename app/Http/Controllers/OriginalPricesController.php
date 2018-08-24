@@ -43,7 +43,7 @@ class OriginalPricesController extends Controller
             'original_price_id' => $originalPrice->id,
             'updated_by' => $request->updated_by,
             'remarks' => $request->remarks,
-            'log' => "updated original price from $originalPrice->value to $updatedPrice",
+            'log' => "updated standard price from $originalPrice->value to $updatedPrice",
         ]);
 
         $originalPrice->value = $updatedPrice;

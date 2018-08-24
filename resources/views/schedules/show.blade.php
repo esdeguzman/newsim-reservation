@@ -33,7 +33,7 @@
                 <div class="col-md-12">
                     <div class="table-responsive" style="clear: both;">
                         <h3 class="text-uppercase"><code>timeline</code></h3>
-                        <p class="text-muted">This shows important events happened to this schedule like <code class="text-uppercase">original price</code> changes and more!</p>
+                        <p class="text-muted">This shows important events happened to this schedule like <code class="text-uppercase">standard price</code> changes and more!</p>
                         <table class="table table-hover">
                             <thead>
                             <tr>
@@ -46,7 +46,7 @@
                             <tbody>
                             <tr>
                                 <td class="text-uppercase">
-                                    updated <code>original price</code> from <code>P 2,500.00</code> to <code>P 3,000.00</code>
+                                    updated <code>standard price</code> from <code>P 2,500.00</code> to <code>P 3,000.00</code>
                                 </td>
                                 <td class="text-uppercase">marketing officer</td>
                                 <td class="text-uppercase">june 24, 2018</td>

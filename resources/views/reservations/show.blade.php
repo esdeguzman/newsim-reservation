@@ -54,7 +54,7 @@
                                 <th>Transaction #</th>
                                 <th class="text-center">Type</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-right">Original Price</th>
+                                <th class="text-right">Standard Price</th>
                                 <th class="text-center">Discount</th>
                                 <th class="text-right">Total</th>
                                 <th class="text-right">Received</th>

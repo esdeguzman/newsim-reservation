@@ -18,9 +18,9 @@
                 <div class="col-md-12">
                     <div class="pull-left">
                         <address>
-                            @if(isset($originalPrice)) <h1> &nbsp;<b class="text-uppercase">P {{ number_format($originalPrice->value, 2) }}</b><sup><small>original price</small></sup></h1>
+                            @if(isset($originalPrice)) <h1> &nbsp;<b class="text-uppercase">P {{ number_format($originalPrice->value, 2) }}</b><sup><small>standard price</small></sup></h1>
                             @elseif(\App\Helper\adminCan('marketing officer') and $branchCourse->branch->id == \App\Helper\admin()->branch_id) <h1><a class="text-uppercase btn btn-success" data-toggle="modal" data-target=".set-original-price">set original price</a></h1>
-                            @else <h3> &nbsp;<b class="text-uppercase text-danger">please ask marketing officer to set original price</b></h3>
+                            @else <h3> &nbsp;<b class="text-uppercase text-danger">please ask marketing officer to set standard price</b></h3>
                             @endif
                         </address>
                     </div>
@@ -34,7 +34,7 @@
                 <div class="col-md-12 m-t-40">
                     <div class="table-responsive" style="clear: both;">
                         <h3 class="text-uppercase"><code>timeline</code></h3>
-                        <p class="text-muted">This shows important events happened to this schedule like <code class="text-uppercase">original price</code> changes and more!</p>
+                        <p class="text-muted">This shows important events happened to this schedule like <code class="text-uppercase">standard price</code> changes and more!</p>
                         <table class="table table-hover table-striped" id="history_table">
                             <thead>
                             <tr>
@@ -151,7 +151,7 @@
     </div>
     <!-- /update course -->
 
-    <!-- update original price -->
+    <!-- update standard price -->
     <div class="modal fade update-original-price" tabindex="-1" role="dialog" aria-labelledby="updateOriginalPriceLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -164,14 +164,14 @@
                     <input type="number" name="updated_by" value="{{ auth()->user()->id }}" hidden />
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="value">Original Price</label>
+                            <label for="value">Standard Price</label>
                             <input type="text" class="form-control form-material money-mask" name="value" id="update_value" />
                             <p class="text-muted m-t-5">Only <b class="text-info">new reservations</b> will be affected by this price update.</p>
                         </div>
                         <div class="form-group">
                             <label for="remarks">Remarks</label>
                             <textarea name="remarks" id="remarks" rows="3" class="form-control"></textarea>
-                            <p class="text-muted m-t-5">Please state any reference that can backup this original price update</p>
+                            <p class="text-muted m-t-5">Please state any reference that can backup this standard price update</p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -182,9 +182,9 @@
             </div>
         </div>
     </div>
-    <!-- /update original price -->
+    <!-- /update standard price -->
 
-    <!-- set original price -->
+    <!-- set standard price -->
     <div class="modal fade set-original-price" tabindex="-1" role="dialog" aria-labelledby="setOriginalPriceLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -196,13 +196,13 @@
                     <input type="number" name="branch_course_id" value="{{ $branchCourse->id }}" hidden />
                     <input type="number" name="added_by" value="{{ auth()->user()->id }}" hidden />
                     <div class="modal-body">
-                        <label for="value">Original Price</label>
+                        <label for="value">Standard Price</label>
                         <input type="text" class="form-control form-material money-mask" name="value" id="value" />
                         <p class="text-muted m-t-5">Only <b class="text-info">new reservations</b> will be affected by this price update.</p>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-info text-uppercase" data-dismiss="modal">cancel</button>
-                        <button class="btn btn-danger text-uppercase submit">set original price</button>
+                        <button class="btn btn-danger text-uppercase submit">set standard price</button>
                     </div>
                 </form>
             </div>
