@@ -18,16 +18,18 @@ class SchedulesController extends Controller
         $view = null;
         if ($request->has('branch')) {
             $schedules = Schedule::whereHas('branch', function ($query) use ($request) {
-                $query->where('name', $request->branch);
-            })->get();
+                                        $query->where('name', $request->branch);
+                                    })->whereYear('created_at', now()->year)->get();
 
             $branchCourses = BranchCourse::with('originalPrice')->whereHas('branch', function ($query) use ($request) {
-                $query->where('name', $request->branch);
-            })->whereHas('originalPrice')->get();
+                                                $query->where('name', $request->branch);
+                                            })
+                                ->whereHas('originalPrice')
+                                ->whereYear('created_at', now()->year)->get();
 
             $view = view('branches.schedules', compact('schedules', 'branchCourses'));
         } else {
-            $schedules = Schedule::all();
+            $schedules = Schedule::whereYear('created_at', now()->year)->get();
 
             $view = view('schedules.index', compact('schedules'));
         }

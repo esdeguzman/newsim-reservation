@@ -90,13 +90,20 @@ class TraineesController extends Controller
         $branch = $request->has('branch')? $request->branch : null;
         $schedules = null;
         $reservations = null;
-        $reservedCoursesIds = Reservation::select('course_id')->where('trainee_id', trainee()->id)->get();
-        $schedules = Schedule::whereNotIn('course_id', $reservedCoursesIds)->get();
+        $reservedCoursesIds = Reservation::select('course_id')
+                                ->where('trainee_id', trainee()->id)
+                                ->whereNotIn('status', ['cancelled', 'expired'])
+                                ->whereYear('created_at', now()->year)->get();
+
+        $schedules = Schedule::whereNotIn('course_id', $reservedCoursesIds)
+                        ->whereYear('created_at', now()->year)->get();
 
         if($branch) {
-            $schedules = Schedule::whereHas('branch', function ($query) use ($request, $reservedCoursesIds) {
-                $query->where('name', $request->branch)->whereNotIn('course_id', $reservedCoursesIds);
-            })->get();
+            $schedules = Schedule::whereHas('branch', function ($query) use ($request) {
+                                        $query->where('name', $request->branch);
+                                    })
+                            ->whereNotIn('course_id', $reservedCoursesIds)
+                            ->whereYear('created_at', now()->year)->get();
         }
 
         return view('trainees.schedules', compact('branch', 'schedules', 'reservations'));
