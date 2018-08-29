@@ -124,7 +124,7 @@
                                     <p class="text-muted">{{ auth()->user()->email }}</p>
                                     <p class="text-muted">{{ strtoupper(\App\Helper\admin()->position->name) }}</p>
                                     <p class="text-muted">{{ strtoupper(\App\Helper\admin()->branch->name) }}</p>
-                                    <a href="#" class="btn btn-rounded btn-info btn-block">View Profile</a>
+                                    <a href="#" id="logout_btn_2" class="btn btn-rounded btn-danger btn-block">Logout</a>
                                 </div>
                             </div>
                         </li>
@@ -276,7 +276,7 @@
     setTimeout(removeHighlight, 100)
     // highlight workaround end
 
-    $('#logout-sidebar').on('click', function () {
+    $('#logout-sidebar, #logout_btn_2').on('click', function () {
         $('#logout-form').submit()
     })
 

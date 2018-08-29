@@ -109,7 +109,7 @@
                             <div class="dw-user-box">
                                 <div class="u-img"><img src="{{ asset('../plugins/images/users/varun.jpg') }}" alt="user" /></div>
                                 <div class="u-text"><h4>{{ auth()->user()->trainee->fullName() }}</h4><p class="text-muted">{{ auth()->user()->email }}</p>
-                                    <a href="#" class="btn btn-rounded btn-info btn-block">View Profile</a>
+                                    <a href="#" id="logout_btn_2" class="btn btn-rounded btn-danger btn-block">Logout</a>
                                 </div>
                             </div>
                         </li>
@@ -226,7 +226,7 @@
     setTimeout(removeHighlight, 100)
     // highlight workaround end
 
-    $('#logout-sidebar').on('click', function () {
+    $('#logout-sidebar, #logout_btn_2').on('click', function () {
         $('#logout-form').submit()
     })
 
