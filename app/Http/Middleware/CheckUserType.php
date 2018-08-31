@@ -43,23 +43,31 @@ class CheckUserType
                 return redirect(url('/admin/login'));
             }
 
-            $openReservations = Reservation::where('status', 'new')->orWhere('status', 'underpaid')
-                ->where('branch_id', admin()->branch_id)->get();
+            $now = Carbon::now();
 
-            if ($openReservations->count() > 0) {
-                foreach($openReservations as $openReservation) {
-                    if (now()->startOfDay()->gt(Carbon::parse($openReservation->created_at)->startOfDay())) {
-                        HistoryDetail::create([
-                            'reservation_id' => $openReservation->id,
-                            'updated_by' => 1,
-                            'log' => 'reservation closed by the system',
-                            'remarks' => 'expired reservation',
-                        ]);
+            if ($now->hour == 23 and $now->dayOfWeek != 6 || $now->dayOfWeek != 7) {
 
-                        $openReservation->status = 'expired';
-                        $openReservation->receive_payment = 0;
-                        $openReservation->seen = 1;
-                        $openReservation->save();
+                $openReservations = Reservation::where('status', 'new')
+                    ->orWhere('status', 'underpaid')
+                    ->where('branch_id', admin()->branch_id)
+                    ->whereYear('created_at', $now->year)
+                    ->get();
+
+                if($openReservations->count() > 0) {
+                    foreach($openReservations as $openReservation) {
+                        if ($now->startOfDay()->gt(Carbon::parse($openReservation->created_at)->startOfDay())) {
+                            HistoryDetail::create([
+                                'reservation_id' => $openReservation->id,
+                                'updated_by' => 1,
+                                'log' => 'reservation closed by the system',
+                                'remarks' => 'expired reservation',
+                            ]);
+
+                            $openReservation->status = 'expired';
+                            $openReservation->receive_payment = 0;
+                            $openReservation->seen = 1;
+                            $openReservation->save();
+                        }
                     }
                 }
             }
