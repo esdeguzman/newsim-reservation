@@ -65,16 +65,25 @@
                             @if($reservation->hasPaymentTransactions())
                                 @foreach($reservation->paymentTransactions->sortByDesc('created_at') as $paymentTransaction)
                                     <tr>
-                                        <td>{{ $paymentTransaction->number }}</td>
+                                        <td>
+                                            {{ $paymentTransaction->number }} <br><br>
+                                            @if($paymentTransaction->slip_url) <a class="text-uppercase" href="{{ env('APP_URL') .'/storage/'. $paymentTransaction->slip_url }}" target="_blank"><b>view deposit slip</b></a> @endif
+                                        </td>
                                         <td class="text-center text-uppercase">{{ $paymentTransaction->type }}</td>
-                                        <td class="text-center"><span class="label label-success text-uppercase">{{ $paymentTransaction->status }}</span></td>
+                                        <td class="text-center"><span class="label
+                                        @if($paymentTransaction->status == 'new') label-success
+                                        @elseif($paymentTransaction->status == 'confirmed') label-info
+                                        @elseif($paymentTransaction->status == 'declined') label-danger
+                                        @endif
+                                        text-uppercase">{{ $paymentTransaction->status }}</span></td>
                                         <td class="text-right">P {{ number_format($paymentTransaction->reservation->original_price, 2) }}</td>
                                         <td class="text-center">{{ \App\Helper\toPercentage($paymentTransaction->reservation->discount) }}</td>
                                         <td class="text-right">P {{ \App\Helper\toReadablePayment($paymentTransaction->reservation->original_price, $paymentTransaction->reservation->discount) }}</td>
                                         <td class="text-right">P {{ number_format($paymentTransaction->received_amount, 2) }}</td>
                                         <td class="text-center">
                                             @if((auth()->user()->isDev() || \App\Helper\adminCan('confirm reservation') or \App\Helper\adminCan('accounting officer')) && $paymentTransaction->status == 'new')
-                                                <button class="btn btn-warning text-uppercase" data-toggle="modal" data-target=".confirm-reservation" type="button" data-transaction-number="{{ $paymentTransaction->number }}" id="confirmReservation">confirm reservation</button>
+                                                <button class="btn btn-warning text-uppercase" data-toggle="modal" data-target=".confirm-reservation" type="button" data-transaction-number="{{ $paymentTransaction->number }}" id="confirmReservation">confirm payment</button>
+                                                <button class="btn btn-danger text-uppercase" data-toggle="modal" data-target=".decline-payment" type="button" data-payment-transaction-id="{{ $paymentTransaction->id }}" id="declinePayment">decline payment</button>
                                             @else <span class="text-uppercase text-muted">no actions needed</span>
                                             @endif
                                         </td>
@@ -202,6 +211,38 @@
     </div>
     <!-- /confirm reservation -->
 
+    <!-- decline payment -->
+    <div class="modal fade decline-payment block3" tabindex="-1" role="dialog" aria-labelledby="declinePayment" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title text-uppercase" id="declinePayment">confirm action</h4> </div>
+                <form id="declineForm" method="post">
+                    @csrf
+                    @method('put')
+                    <div class="modal-body">
+                        Declining a payment requires <b class="text-uppercase text-info">remarks</b> for future reference. <br/><br/><br/>
+                        <textarea class="form-control form-material" name="remarks" rows="3"></textarea>
+                        <a class="mytooltip pull-right" href="javascript:void(0)"> what's this?
+                            <span class="tooltip-content5">
+                                <span class="tooltip-text3">
+                                    <span class="tooltip-inner2">To Decline, <br/> Please enter the reason why this payment is being declined.</span>
+                                </span>
+                            </span>
+                        </a>
+                        <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info text-uppercase" data-dismiss="modal">undo, undo!</button>
+                        <button class="btn btn-danger text-uppercase submit">continue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /decline payment -->
+
     <!-- trainee has been registered -->
     <div class="modal fade trainee-has-been-registered block3" tabindex="-1" role="dialog" aria-labelledby="traineeHasBeenRegistered" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
@@ -254,7 +295,7 @@
     </div>
     <!-- /refund excess payment -->
 
-    <!-- pay reservation -->
+    <!-- receive payment -->
     <div class="modal fade receive-payment block3" tabindex="-1" role="dialog" aria-labelledby="receivePaymentLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -265,9 +306,9 @@
                     @csrf
                     <input type="text" name="reservation_id" value="{{ $reservation->id }}" hidden />
                     <div class="modal-body">
-                        Please enter the receipt number # <br/><br/>
-                        <input type="text" class="form-control form-material" name="number" placeholder="Payment Receipt number">
-                        @if($errors->has('amount')) <b class="text-danger">{{ $errors->first('amount') }}</b>
+                        Please enter the payment receipt number <br/><br/>
+                        <input type="text" class="form-control form-material" name="number" placeholder="Payment Receipt Number">
+                        @if($errors->has('number')) <b class="text-danger">{{ $errors->first('number') }}</b>
                         @else
                         <a class="mytooltip pull-right" href="javascript:void(0)"> what's this?
                             <span class="tooltip-content5">
@@ -277,11 +318,15 @@
                             </span>
                         </a>
                         @endif
-                        <br/><br/><br/>
-                        Please enter the exact amount paid based on the receipt <br/><br/>
+                        <br/><br/>
+                        Please enter the exact amount paid based on the payment receipt <br/><br/>
+                        <ul class="common-list">
+                            <li>Amount to be paid: <b>P {{ \App\Helper\toReadablePayment($reservation->original_price, $reservation->discount) }}</b></li>
+                            <li>Balance: <b>P {{ \App\Helper\toReadablePayment($reservation->original_price, $reservation->discount) }}</b></li>
+                        </ul> <br/>
                         <input type="text" class="form-control form-material money-mask" name="amount" placeholder="Amount paid by trainee" />
-                        @if($errors->has('amount')) <p class="text-danger"> <b>{{ $errors->first('amount') }}</b>
-                        @else <p class="text-muted"> If your account is also allowed to confirm trainee reservations, continuing this action will also confirm the reservation.
+                        @if($errors->has('amount')) <br><p class="text-danger"> <b>{{ $errors->first('amount') }}</b>
+                        @else <br><p class="text-muted"> If your account is also allowed to confirm trainee reservations, continuing this action will also confirm the reservation.
                         @endif
                         </p>
                         @if($reservation->hasPaymentTransactions())
@@ -298,7 +343,7 @@
             </div>
         </div>
     </div>
-    <!-- /pay reservation -->
+    <!-- /receive payment -->
 
     <!-- /modals -->
 @stop
@@ -350,6 +395,10 @@
         $('#confirmReservation').on('click', function () {
             $('#number').val($(this).data('transaction-number'))
             $('#transactionNumber').text($(this).data('transaction-number'))
+        });
+
+        $('#declinePayment').on('click', function () {
+            $('#declineForm').attr('action', '{{ \App\Helper\prefixedUrl() }}/payment-transactions/' + $(this).data('payment-transaction-id') + '/decline')
         });
     });
 </script>

@@ -23,14 +23,22 @@ class PaymentTransactionsController extends Controller
         $data = null;
         $type = null;
         $amount = null;
+        $path = null;
 
         if (trainee()) {
             $data = [
                 'reservation_id' => 'required',
                 'number' => 'required',
+                'deposit_slip' => 'required|mimes:jpeg,png',
             ];
 
             $type = 'bank deposit';
+
+            $reservation = Reservation::find($request->reservation_id);
+
+            $path = $request->file('deposit_slip')->storeAs(
+                'deposit_slips', "{$reservation->code}_{$request->number}.{$request->deposit_slip->extension()}"
+            );
         } elseif (admin()) {
             $data = [
                 'reservation_id' => 'required',
@@ -46,6 +54,7 @@ class PaymentTransactionsController extends Controller
         PaymentTransaction::create([
             'reservation_id' => $request->reservation_id,
             'number' => $request->number,
+            'slip_url' => $path,
             'type' => $type,
         ]);
 
@@ -76,6 +85,29 @@ class PaymentTransactionsController extends Controller
             $user->notify(new NewPaymentTransactionReceived($reservation));
             $dev->notify(new NewPaymentTransactionReceived($reservation));
         }
+
+        return back();
+    }
+
+    public function decline(PaymentTransaction $paymentTransaction, Request $request)
+    {
+        $remarks = $request->validate([ 'remarks' => 'required' ]);
+
+        $paymentTransaction->status = 'declined';
+        $paymentTransaction->save();
+
+        $reservation = $paymentTransaction->reservation;
+        $reservation->receive_payment = 1;
+        $reservation->save();
+
+        HistoryDetail::create([
+            'reservation_id' => $paymentTransaction->reservation_id,
+            'updated_by' => admin()->id,
+            'remarks' => $request->remarks,
+            'log' => "payment transaction # {$paymentTransaction->number} has been declined, please refer to remarks",
+        ]);
+
+        // todo: send email to trainee regarding declined payment
 
         return back();
     }

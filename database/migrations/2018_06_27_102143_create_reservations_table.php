@@ -27,7 +27,7 @@ class CreateReservationsTable extends Migration
             $table->decimal('original_price',8,2);
             $table->decimal('discount',8,2);
             $table->boolean('receive_payment')->default(1);
-            $table->decimal('balance', 8,2)->nullable();
+            $table->decimal('balance', 8,2);
             $table->boolean('seen')->default(0);
             $table->timestamps();
             $table->softDeletes();
