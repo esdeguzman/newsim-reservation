@@ -97,6 +97,7 @@ class ReservationsController extends Controller
                 'schedule_id' => $schedule->id,
                 'code' => $code, // format: 'R{userID}{year}-{branch_code}{branch_reservation_count_for_current_year}'
                 'original_price' => $schedule->branchCourse->originalPrice->value,
+                'balance' => computePayment($schedule->branchCourse->originalPrice, $schedule->discount),
                 'discount' => $schedule->discount,
             ]);
 
