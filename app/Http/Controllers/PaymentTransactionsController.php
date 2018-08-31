@@ -89,6 +89,29 @@ class PaymentTransactionsController extends Controller
         return back();
     }
 
+    public function decline(PaymentTransaction $paymentTransaction, Request $request)
+    {
+        $remarks = $request->validate([ 'remarks' => 'required' ]);
+
+        $paymentTransaction->status = 'declined';
+        $paymentTransaction->save();
+
+        $reservation = $paymentTransaction->reservation;
+        $reservation->receive_payment = 1;
+        $reservation->save();
+
+        HistoryDetail::create([
+            'reservation_id' => $paymentTransaction->reservation_id,
+            'updated_by' => admin()->id,
+            'remarks' => $request->remarks,
+            'log' => "payment transaction # {$paymentTransaction->number} has been declined, please refer to remarks",
+        ]);
+
+        // todo: send email to trainee regarding declined payment
+
+        return back();
+    }
+
     public function getReservationStatus($amount, $toBePaid)
     {
         $status = null;

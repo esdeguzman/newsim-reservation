@@ -90,6 +90,7 @@ Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
     Route::put('reservations/{reservation}/refund', 'ReservationsController@refund')->name('reservations.refund');
     Route::put('reservations/{reservation}/registered', 'ReservationsController@registered')->name('reservations.registered');
     Route::put('courses/{course}/restore', 'CoursesController@restore')->name('courses.restore');
+    Route::put('payment-transactions/{payment_transaction}/decline', 'PaymentTransactionsController@decline')->name('payment-transactions.decline');
 });
 
 /*
