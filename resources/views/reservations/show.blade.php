@@ -65,16 +65,24 @@
                             @if($reservation->hasPaymentTransactions())
                                 @foreach($reservation->paymentTransactions->sortByDesc('created_at') as $paymentTransaction)
                                     <tr>
-                                        <td>{{ $paymentTransaction->number }}</td>
+                                        <td>
+                                            {{ $paymentTransaction->number }} <br><br>
+                                            @if($paymentTransaction->slip_url) <a class="text-uppercase" href="{{ env('APP_URL') .'/storage/'. $paymentTransaction->slip_url }}" target="_blank"><b>view deposit slip</b></a> @endif
+                                        </td>
                                         <td class="text-center text-uppercase">{{ $paymentTransaction->type }}</td>
-                                        <td class="text-center"><span class="label label-success text-uppercase">{{ $paymentTransaction->status }}</span></td>
+                                        <td class="text-center"><span class="label
+                                        @if($paymentTransaction->status == 'new') label-success
+                                        @elseif($paymentTransaction->status == 'confirmed') label-info
+                                        @elseif($paymentTransaction->status == 'declined') label-danger
+                                        @endif
+                                        text-uppercase">{{ $paymentTransaction->status }}</span></td>
                                         <td class="text-right">P {{ number_format($paymentTransaction->reservation->original_price, 2) }}</td>
                                         <td class="text-center">{{ \App\Helper\toPercentage($paymentTransaction->reservation->discount) }}</td>
                                         <td class="text-right">P {{ \App\Helper\toReadablePayment($paymentTransaction->reservation->original_price, $paymentTransaction->reservation->discount) }}</td>
                                         <td class="text-right">P {{ number_format($paymentTransaction->received_amount, 2) }}</td>
                                         <td class="text-center">
                                             @if((auth()->user()->isDev() || \App\Helper\adminCan('confirm reservation') or \App\Helper\adminCan('accounting officer')) && $paymentTransaction->status == 'new')
-                                                <button class="btn btn-warning text-uppercase" data-toggle="modal" data-target=".confirm-reservation" type="button" data-transaction-number="{{ $paymentTransaction->number }}" id="confirmReservation">confirm reservation</button>
+                                                <button class="btn btn-warning text-uppercase" data-toggle="modal" data-target=".confirm-reservation" type="button" data-transaction-number="{{ $paymentTransaction->number }}" id="confirmReservation">confirm payment</button>
                                             @else <span class="text-uppercase text-muted">no actions needed</span>
                                             @endif
                                         </td>

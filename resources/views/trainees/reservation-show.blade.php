@@ -57,12 +57,13 @@
                                 @foreach($reservation->paymentTransactions->sortByDesc('created_at') as $paymentTransaction)
                                 <tr>
                                     <td>
-                                        {{ $paymentTransaction->number }}
-                                        <form action="#" method="get" enctype="multipart/form-data">
-                                            <input type="file" name="bank_slip" />
-                                        </form>
+                                        {{ $paymentTransaction->number }} @if($paymentTransaction->slip_url) - <a class="text-uppercase" href="{{ env('APP_URL') .'/storage/'. $paymentTransaction->slip_url }}" target="_blank"><b>view deposit slip</b></a> @endif
                                     </td>
-                                    <td class="text-center"><span class="label label-success text-uppercase">{{ $paymentTransaction->status }}</span></td>
+                                    <td class="text-center"><span class="label
+                                    @if($paymentTransaction->status == 'new') label-success
+                                    @elseif($paymentTransaction->status == 'declined') label-danger
+                                    @endif
+                                    text-uppercase">{{ $paymentTransaction->status }}</span></td>
                                     <td class="text-right">P {{ number_format($paymentTransaction->reservation->original_price, 2) }}</td>
                                     <td class="text-center">{{ \App\Helper\toPercentage($paymentTransaction->reservation->discount) }}</td>
                                     <td class="text-right">P {{ \App\Helper\toReadablePayment($paymentTransaction->reservation->original_price, $paymentTransaction->reservation->discount) }}</td>
@@ -161,25 +162,20 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title text-uppercase" id="confirmPaymentLabel">confirm action</h4> </div>
-                <form action="{{ \App\Helper\prefixedUrl() . '/payment-transactions' }}" method="post">
+                <form action="{{ \App\Helper\prefixedUrl() . '/payment-transactions' }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="text" name="reservation_id" value="{{ $reservation->id }}" hidden />
                     <div class="modal-body">
-                        Please enter the bank transaction number # <br/><br/>
-                        <input type="text" class="form-control form-material" name="number" placeholder="Payment transaction number">
-                        <a class="mytooltip pull-right" href="javascript:void(0)"> what's this?
-                            <span class="tooltip-content5">
-                                <span class="tooltip-text3">
-                                    <span class="tooltip-inner2">To Confirm, <br/> Please enter the exact bank transaction number.</span>
-                                </span>
-                            </span>
-                        </a>
+                        Please enter the bank transaction number # * {!! $errors->has('number') ? "<b class='text-danger'>{$errors->first('number')}</b>" : '' !!}<br/><br/>
+                        <input type="text" class="form-control form-material" name="number" placeholder="Payment transaction number" value="{{ old('number') }}"> <br/>
+                        Upload the deposit slip by scanning or taking a picture of it. * {!! $errors->has('deposit_slip') ? "<b class='text-danger'>{$errors->first('deposit_slip')}</b>" : '' !!}<br/><br/>
+                        <input type="file" name="deposit_slip">
                         @if($reservation->hasPaymentTransactions())
                         <br/><br/>
-                            <p class="text-danger"><b>Our system has detected that you already sent a payment transaction number, please double check your transaction number before proceeding for us to process your reservation correctly. Thank you!</b></p>
+                            <p class="text-info"><b>Our system has detected that you already sent a payment transaction number, please double check your transaction number before proceeding for us to process your reservation correctly. Thank you!</b></p>
                         @endif
                         <br/>
-                        <b class="text-uppercase text-info">newsim might ask you to upload the bank transaction slip for double checking.</b>
+                        <a href=""></a>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-info text-uppercase" data-dismiss="modal">undo, undo!</button>
