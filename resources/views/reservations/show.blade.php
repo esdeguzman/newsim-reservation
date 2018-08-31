@@ -38,6 +38,10 @@
                                 @endif</b> <br/>
                                 Address: {{ $reservation->trainee->address }} <br/>
                                 Born: {{ \App\Helper\toReadableDate($reservation->trainee->birth_date) }} <br/>
+                                Contact number: {{ $reservation->trainee->mobile_number }} <br/>
+                                @if($reservation->trainee->telephone_number) Telephone number: {{ $reservation->trainee->telephone_number }} <br/> @endif
+                                @if($reservation->status != 'paid') To be paid: <b class="text-info">P {{ \App\Helper\toReadablePayment($reservation->original_price, $reservation->discount) }}</b> <br/> @endif
+                                @if($reservation->balance >= 0) Balance: <b class="text-warning">P {{ number_format($reservation->balance, 2) }}</b> <br/> @endif
                         </address> </div>
                     <div class="pull-right text-right"> <address>
                             <p class="m-t-30"><b>Training Month :</b> <i class="fa fa-calendar"></i> {{ $reservation->schedule->monthName() }} {{ $reservation->schedule->year }}</p>

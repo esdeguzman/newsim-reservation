@@ -32,6 +32,10 @@
                                 </b> <br/>
                                 Address: {{ \App\Helper\trainee()->address }} <br/>
                                 Born: {{ \App\Helper\toReadableDate(\App\Helper\trainee()->birth_date) }} <br/>
+                                Contact number: {{ \App\Helper\trainee()->mobile_number }} <br/>
+                                @if(\App\Helper\trainee()->telephone_number) Telephone number: {{ \App\Helper\trainee()->telephone_number }} <br/> @endif
+                                @if($reservation->status != 'paid') To be paid: <b class="text-info">P {{ \App\Helper\toReadablePayment($reservation->original_price, $reservation->discount) }}</b> <br/> @endif
+                                @if($reservation->balance >= 0) Balance: <b class="text-warning">P {{ number_format($reservation->balance, 2) }}</b> <br/> @endif
                         </address> </div>
                     <div class="pull-right text-right"> <address>
                             <p class="m-t-30"><b>Training Month :</b> <i class="fa fa-calendar"></i> {{ $reservation->schedule->monthName() }} {{ $reservation->schedule->year }}</p>
