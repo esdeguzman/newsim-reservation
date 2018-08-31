@@ -252,6 +252,10 @@
         confirmButtonText: "{{ session('info.confirmButtonText') }}"
     });
     @endif
+
+    @if($errors->all() != null) swal("An error has occurred!", "Please check the form for additional information.", "error")
+    @elseif(session('unknownError')) swal("An unknown error has occurred!", "Please try again later.", "error")
+    @endif
 </script>
 </body>
 
