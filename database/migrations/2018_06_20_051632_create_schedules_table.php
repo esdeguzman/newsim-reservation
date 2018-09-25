@@ -21,7 +21,6 @@ class CreateSchedulesTable extends Migration
             $table->unsignedInteger('branch_course_id');
             $table->unsignedSmallInteger('month');
             $table->unsignedSmallInteger('year');
-            $table->unique(['branch_course_id', 'month']);
             $table->string('status')->default('new');
             $table->decimal('discount', 3, 2);
             $table->unsignedInteger('added_by');

@@ -7,19 +7,29 @@
 @section('page-content')
     <div class="col-md-12">
         <div class="white-box printableArea">
-            <span class="pull-right"><b class="label label-success text-uppercase">{{ $schedule->status }}</b> </span>
+            <span class="pull-right"><b class="label
+            @if($schedule->status == 'new' or $schedule->status == 're-opened') label-success
+            @elseif($schedule->status == 'updated') label-warning
+            @elseif($schedule->status == 'closed') label-primary
+            @endif text-uppercase">{{ $schedule->status }}</b> </span>
             <h3 class="text-uppercase">{{ $schedule->branchCourse->details->code }} <span class="tooltip-item2"><small>{{ $schedule->branchCourse->details->description }}</small></span></h3>
             <hr>
             <div class="row">
                 <div class="col-md-12">
                     <div class="pull-left"> <address>
                             <h1> &nbsp;<b class="text-uppercase">P {{ number_format($schedule->branchCourse->originalPrice->value, 2) }} <sup class="text-uppercase"><small>{{ $schedule->discountPercentage() }} discount</small></sup></b>&#8594;&nbsp;&nbsp;
+                                @if($schedule->isFull())
+                                <b class="text-uppercase text-danger">full</b>
+                                @else
                                 <button class="btn btn-info text-uppercase" type="button" data-toggle="modal" data-target=".confirm-reservation">reserve for only P {{ number_format($schedule->branchCourse->originalPrice->value * $schedule->discount, 2) }}</button>
+                                @endif
                             </h1>
+                            <p class="text-muted m-l-5"><b class="text-dark text-uppercase">available slots: </b> <b>{{ optional($schedule->paidReservations())->count() + \App\Helper\addedWalkinApplicants($schedule->batch) }} / {{ $schedule->batch->capacity }}</b> <br/>
                         </address> </div>
                     <div class="pull-right text-right"> <address>
-                            <p class="m-t-30"><b>Training Month :</b> <i class="fa fa-calendar"></i> {{ $schedule->monthName() }} {{ $schedule->year }}</p>
-                            {{--<p><b>Reservation Date :</b> <i class="fa fa-calendar"></i> May 31, 2018</p>--}}
+                            <p class="m-t-30"><b>Training schedule :</b> <i class="fa fa-calendar"></i> {{ $schedule->monthName() .' '. $schedule->year }}: Batch {{ $schedule->batch->number .' - '. strtoupper($schedule->batch->day_part) }}</p>
+                            <p><b>AM :</b> <i class="fa fa-clock-o"></i> 6:00am - 2:00pm</p>
+                            <p><b>PM :</b> <i class="fa fa-clock-o"></i> 2:00pm - 10:00pm</p>
                             {{--<p><b class="text-danger">Expiration Date :</b> <i class="fa fa-calendar"></i> June 1, 2018</p>--}}
                         </address> </div>
                 </div>
@@ -57,6 +67,7 @@
 
     <!-- modals -->
 
+    @if($schedule->isFull() === false)
     <!-- confirm course reservation -->
     <div class="modal fade confirm-reservation block3" tabindex="-1" role="dialog" aria-labelledby="confirmReservationLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
@@ -85,6 +96,7 @@
         </div>
     </div>
     <!-- /confirm course reservation -->
+    @endif
 
     <!-- /modals -->
 @stop

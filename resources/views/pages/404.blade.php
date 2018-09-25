@@ -35,7 +35,7 @@
             <h3 class="text-uppercase">Page Not Found !</h3>
             <p class="text-muted m-t-30 m-b-30 text-uppercase">you seem to be trying to find the correct path, check out the links below</p>
             <form action="{{ route('admin.home') }}" method="get">
-                <button class="btn btn-danger btn-rounded waves-effect waves-light m-b-40 text-uppercase">oh! i remembered i'm an admin</button>
+                <button class="btn btn-danger btn-rounded waves-effect waves-light m-b-40 text-uppercase">take me to admin panel!</button>
             </form>
             <form action="{{ route('trainee.home') }}" method="get">
                 <button class="btn btn-info btn-rounded waves-effect waves-light m-b-40 text-uppercase">trainee here!</button>

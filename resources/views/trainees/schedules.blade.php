@@ -14,7 +14,7 @@
                         <th class="text-center">Course</th>
                         <th class="text-center">Month</th>
                         <th class="text-center">Discount</th>
-                        <th class="text-center">Status</th>
+                        <th class="text-center">Reservations</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -27,7 +27,7 @@
                             <td class="text-uppercase text-center">{{ $schedule->monthName() }}</td>
                             <td class="text-center text-center">{{ $schedule->discountPercentage() }}</td>
                             <td class="text-center">
-                                <span class="label label-success">{{ $schedule->status }}</span>
+                                {{ optional($schedule->reservations)->count() + \App\Helper\addedWalkinApplicants($schedule->batch) }} / {{ $schedule->batch->capacity }}
                             </td>
                             <td class="text-nowrap">
                                 <a href="{{ route('trainee-schedules.show', $schedule->id) }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>

@@ -14,8 +14,11 @@
                     <tr>
                         <th>Code</th>
                         <th>Description</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th class="text-center">Category</th>
+                        <th class="text-center">Accreditation Body</th>
+                        <th class="text-center">Duration</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -23,6 +26,9 @@
                         <tr>
                             <td class="text-uppercase">{{ $course->code }}</td>
                             <td class="text-uppercase">{{ $course->description }}</td>
+                            <td class="text-uppercase text-center">{{ $course->category }}</td>
+                            <td class="text-uppercase text-center">{{ $course->accreditation_body }}</td>
+                            <td class="text-uppercase text-center">{{ $course->duration  }} {{ $course->duration > 1? 'days' : 'day' }}</td>
                             <td class="text-uppercase text-center">
                             <span class="label
                             @if($course->status == 'active') label-success
@@ -30,13 +36,8 @@
                             @elseif($course->status == 'deleted') label-danger
                             @endif
                             ">{{ $course->status }}</span></td>
-                            <td class="text-nowrap">
-                                <a href="{{ route('courses.show', $course->id) }}" class="text-uppercase text-success"> <i class="fa fa-eye text-success m-r-10"></i>view</a>&nbsp;&nbsp;&nbsp;
-                                @if(\App\Helper\user()->isDev() or \App\Helper\user()->isSystemAdmin())
-                                <a href="#" class="text-uppercase edit_course text-warning" data-toggle="modal" data-target=".edit-course"
-                                   data-course-id="{{ $course->id }}" data-course-code="{{ $course->code }}"
-                                   data-course-description="{{ $course->description }}"> <i class="fa fa-edit text-warning m-r-10"></i>edit</a>
-                                @endif
+                            <td class="text-center">
+                                <a href="{{ route('courses.show', $course->id) }}" class="text-uppercase"> <i class="fa fa-eye m-r-10"></i>view</a>
                             </td>
                         </tr>
                         @endforeach
@@ -58,14 +59,55 @@
                     <input type="number" name="added_by" value="{{ \App\Helper\admin()->id }}" hidden />
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="code" class="control-label">Code</label>
+                            <label for="code" class="control-label">Code *</label>
                             <input class="form-control code" type="text" id="code" name="code" value="{{ old('code') }}" />
                             <p class="text-muted m-t-5">i.e. <b>bosiet</b></p>
                         </div>
                         <div class="form-group">
-                            <label for="description" class="control-label">Description</label>
+                            <label for="description" class="control-label">Description *</label>
                             <input class="form-control description" type="text" id="description" name="description" value="{{ old('description') }}" />
                             <p class="text-muted m-t-5">i.e. <b>basic offshore safety induction and emergency training</b></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="category" class="control-label">Category *</label>
+                            <select class="form-control text-uppercase" name="category" id="category">
+                                <option class="text-uppercase" value="common">common</option>
+                                <option class="text-uppercase" value="deck">deck</option>
+                                <option class="text-uppercase" value="engine">engine</option>
+                                <option class="text-uppercase" value="off-shore">off-shore</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="accreditation_body" class="control-label">Accreditation Body *</label>
+                            <select class="form-control text-uppercase" name="accreditation_body" id="accreditation_body">
+                                <option class="text-uppercase" value="marina">marina</option>
+                                <option class="text-uppercase" value="opito">opito</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="duration" class="control-label">Duration *</label>
+                            <input class="form-control duration" type="number" id="duration" name="duration" value="{{ old('duration') }}" placeholder="Please enter duration in days" />
+                            <p class="text-muted m-t-5">i.e. <b>6</b></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="aims" class="control-label">Aims <b class="text-info">(optional)</b></label>
+                            <textarea class="form-control" name="aims" id="aims" rows="3">{{ old('aims') }}</textarea>
+                            <p class="text-muted m-t-5">i.e. <b>The aim of the Escape Chute Refresher Training programme is to ensure delegates maintain their knowledge and skills in the use of escape chutes as a means of tertiary escape from offshore installations and vessels.</b></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="objectives_header" class="control-label">Objectives Header <b class="text-info">(optional)</b></label>
+                            <textarea class="form-control" name="objectives_header" id="objectives_header" rows="3">{{ old('objectives_header') }}</textarea>
+                            <p class="text-muted m-t-5">i.e. <b>To update and maintain knowledge and skills in the following:</b></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="objectives" class="control-label">Objectives <b class="text-info">(optional)</b></label>
+                            <textarea class="form-control" name="objectives" id="objectives" rows="3">{{ old('objectives') }}</textarea>
+                            <p class="text-muted m-t-5">i.e. <b>To make delegates aware of the various types of escape chutes used on offshore installations and vessels To provide theoretical and practical training in the safe techniques for escaping through an escape chute To ensure delegates understand what they are required to do when exiting the escape chute </b></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="prerequisites" class="control-label">Prerequisites <b class="text-info">(optional)</b></label>
+                            <textarea class="form-control" name="prerequisites" id="prerequisites" rows="3">{{ old('prerequisites') }}</textarea>
+                            <p class="text-muted m-t-5">i.e.<br><b>Medical Certificate<br>Valid OPITO approved Escape Chute Training or Refresher Training certificate.</b></p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -77,43 +119,6 @@
         </div>
     </div>
     <!-- /add course -->
-
-    <!-- edit course -->
-    <div class="modal fade edit-course" tabindex="-1" role="dialog" aria-labelledby="editCourse" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title text-uppercase" id="editCourse">edit course</h4> </div>
-                <form action="#" method="post" id="edit_course_form">
-                    @csrf
-                    @method('put')
-                    <input type="text" class="hidden" name="redirect_path" value="{{ route('courses.index') }}" />
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="code" class="control-label">Code *</label>
-                            <input class="form-control code" type="text" id="edit_code" name="code" />
-                            <p class="text-muted m-t-5">i.e. <b>bosiet</b></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="description" class="control-label">Description *</label>
-                            <input class="form-control description" type="text" id="edit_description" name="description" />
-                            <p class="text-muted m-t-5">i.e. <b>basic offshore safety induction and emergency training</b></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="remarks">Remarks *</label>
-                            <textarea type="text" class="form-control form-material" name="remarks" id="remarks" cols="3"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-info text-uppercase" data-dismiss="modal">cancel</button>
-                        <button class="btn btn-danger text-uppercase submit">update course</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- /edit course -->
 @stop
 @section('page-scripts')
     <script src="{{ asset('plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
@@ -143,22 +148,8 @@
         setTimeout(removeHighlight, 100)
         // highlight workaround end
 
-        $('#code').on('keyup', function () {
+        $('#code, #description').on('keyup', function () {
             $(this).val($(this).val().toLowerCase())
         });
-
-        $('#description').on('keyup', function () {
-            $(this).val($(this).val().toLowerCase())
-        });
-
-        $('.edit_course').on('click', function () {
-            let courseUpdateUrl = '{{ url("admin/courses/") }}' + '/' + $(this).data('course-id')
-            let code = $(this).data('course-code')
-            let description = $(this).data('course-description')
-
-            $('#edit_code').val(code)
-            $('#edit_description').val(description)
-            $('#edit_course_form').attr('action', courseUpdateUrl)
-        })
     </script>
 @stop

@@ -19,16 +19,47 @@
                     <div class="pull-left">
                         <address>
                             @if(isset($originalPrice)) <h1> &nbsp;<b class="text-uppercase">P {{ number_format($originalPrice->value, 2) }}</b><sup><small>standard price</small></sup></h1>
-                            @elseif(\App\Helper\adminCan('marketing officer') and $branchCourse->branch->id == \App\Helper\admin()->branch_id) <h1><a class="text-uppercase btn btn-success" data-toggle="modal" data-target=".set-original-price">set original price</a></h1>
+                            @elseif(\App\Helper\adminCan('marketing officer') and $branchCourse->branch->id == \App\Helper\admin()->branch_id) <h1><a class="text-uppercase btn btn-success" data-toggle="modal" data-target=".set-original-price">set standard price</a></h1>
                             @else <h3> &nbsp;<b class="text-uppercase text-danger">please ask marketing officer to set standard price</b></h3>
                             @endif
-                        </address>
-                    </div>
-                    <div class="pull-right text-right"> <address>
-                            @if(isset($originalPrice) and \App\Helper\adminCan('marketing officer') && $branchCourse->branch->id == \App\Helper\admin()->branch_id) <p class="m-t-30"><a class="text-uppercase btn btn-info" data-toggle="modal" data-target=".update-original-price" data-original-price="{{ $originalPrice->value }}" data-original-price-id="{{ $originalPrice->id }}" id="update_original_price">amend original price</a></p>
+                            @if(isset($originalPrice) and \App\Helper\adminCan('marketing officer') && $branchCourse->branch->id == \App\Helper\admin()->branch_id) <p class="m-t-20 m-b-20"><a class="text-uppercase btn btn-info" data-toggle="modal" data-target=".update-original-price" data-original-price="{{ $originalPrice->value }}" data-original-price-id="{{ $originalPrice->id }}" id="update_original_price">amend standard price</a></p>
                             @endif
-                            {{--<p><b>Reservation Date :</b> <i class="fa fa-calendar"></i> May 31, 2018</p>--}}
-                            {{--<p><b class="text-danger">Expiration Date :</b> <i class="fa fa-calendar"></i> June 1, 2018</p>--}}
+                            {{--<h3> &nbsp;<b class="text-uppercase">Esmeraldo <sup class="text-info text-uppercase">cadet</sup></b></h3>--}}
+                            {{--<p class="text-muted m-l-5"><b class="text-danger text-uppercase">newsim</b> <br/>--}}
+                            Category:
+                            @if($branchCourse->details->category) <b>{{ $branchCourse->details->category }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Duration:
+                            @if($branchCourse->details->duration) <b>{{ $branchCourse->details->duration }} {{ $branchCourse->details->duration > 1? 'days' : 'day' }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Accredited by:
+                            @if($branchCourse->details->accreditation_body) <b class="text-uppercase">{{ $branchCourse->details->accreditation_body }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Aims:
+                            @if($branchCourse->details->aims) <br><b>{{ $branchCourse->details->aims }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Objectives:
+                            @if($branchCourse->details->objectives_header) <br><b>{{ $branchCourse->details->objectives_header }}</b>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            @if($branchCourse->details->objectives) <br><br><div class="m-l-20"><b>{!! str_replace('\n\n', '<br>', $branchCourse->details->objectives) !!}</b></div><br>
+                            @endif
+                            Target Audience:
+                            @if($branchCourse->details->target_audience) <br><b>{{ $branchCourse->details->target_audience }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Prerequisites:
+                            @if($branchCourse->details->prerequisites) <br><br><div class="m-l-20"><b>{!! str_replace('\n\n', '<br>', $branchCourse->details->prerequisites) !!}</b></div><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Validity:
+                            @if($branchCourse->details->validity) <b>{{ $branchCourse->details->validity }} {{ $branchCourse->details->validity > 1? 'years' : 'year' }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
                         </address> </div>
                 </div>
                 <div class="col-md-12 m-t-40">

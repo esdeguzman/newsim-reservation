@@ -72,6 +72,14 @@ if (! function_exists('computePayment')) {
     }
 }
 
+if (! function_exists('addedWalkinApplicants')) {
+    function addedWalkinApplicants($batch)
+    {
+        $walkins = $batch->cor_numbers? explode(',', $batch->cor_numbers) : [];
+        return count($walkins);
+    }
+}
+
 if (! function_exists('adminCan')) {
     function adminCan($action, $admin = null)
     {

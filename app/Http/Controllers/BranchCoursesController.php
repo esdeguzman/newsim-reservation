@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Branch;
 use App\BranchCourse;
 use App\Course;
+use App\HistoryDetail;
 use App\OriginalPrice;
 use Illuminate\Http\Request;
 
@@ -69,11 +70,14 @@ class BranchCoursesController extends Controller
             'remarks' => 'required|min:10'
         ]);
 
-        $branchCourse->deleted_by = auth()->user()->id;
-        $branchCourse->remarks = $request->remarks;
-        $branchCourse->save();
+        HistoryDetail::create([
+            'course_id' => $branchCourse->course_id,
+            'updated_by' => auth()->user()->administrator->id,
+            'remarks' => $request->remarks,
+            'log' => "deleted branchcourse $branchCourse->details->name, please see remarks for details.",
+        ]);
 
-        $branchCourse->delete();
+        $branchCourse->forceDelete();
 
         return redirect()->route('branch-courses.index', [
             'branch' => $branchCourse->branch->name

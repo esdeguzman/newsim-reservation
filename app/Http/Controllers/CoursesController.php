@@ -37,10 +37,19 @@ class CoursesController extends Controller
         $newCourseData = $request->validate([
             'code' => 'required|min:2',
             'description' => 'required|min:5',
+            'category' => 'required',
+            'accreditation_body' => 'required',
             'added_by' => 'required',
+            'duration' => 'required|min:1|numeric',
         ]);
 
         try {
+            
+            $newCourseData['aims'] = $request->aims;
+            $newCourseData['objectives_header'] = $request->objectives_header;
+            $newCourseData['objectives'] = $request->objectives;
+            $newCourseData['prerequisites'] = $request->prerequisites;
+
             Course::create($newCourseData);
         } catch (QueryException $queryException) {
             if ($queryException->errorInfo[1] == 1062) {
@@ -64,7 +73,8 @@ class CoursesController extends Controller
     {
         $updatedCourseData = $request->validate([
             'code' => 'required|min:2',
-            'description' => 'required',
+            'description' => 'required|min:10',
+            'duration' => 'required|min:1|numeric',
             'remarks' => 'required',
         ]);
 
@@ -72,12 +82,13 @@ class CoursesController extends Controller
             'course_id' => $course->id,
             'updated_by' => auth()->user()->administrator->id,
             'remarks' => $request->remarks,
-            'log' => "code:$course->code|description:$course->description",
+            'log' => "code:$course->code|description:$course->description|duration:$course->duration",
         ]);
 
         // finally, update the course to the updated values from administrator
         $course->code = strtolower($request->code);
         $course->description = strtolower($request->description);
+        $course->duration = $request->duration;
         $course->save();
 
          // redirect_path depends on the page where the update request has been initiated
@@ -97,6 +108,8 @@ class CoursesController extends Controller
             'log' => "deleted course",
         ]);
 
+        $course->status = 'deleted';
+        $course->save();
         $course->delete();
 
         return redirect()->route('courses.index');

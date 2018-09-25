@@ -18,7 +18,16 @@ class CreateCoursesTable extends Migration
             $table->unsignedInteger('course_id')->nullable();
             $table->string('code')->unique();
             $table->string('description')->unique();
+            $table->string('category');
+            $table->string('accreditation_body');
+            $table->text('aims')->nullable();
+            $table->text('objectives_header')->nullable();
+            $table->text('objectives')->nullable();
+            $table->text('target_audience')->nullable();
+            $table->text('prerequisites')->nullable();
             $table->string('status')->default('active');
+            $table->unsignedInteger('duration');
+            $table->unsignedInteger('validity')->nullable();
             $table->unsignedInteger('added_by');
             $table->unsignedInteger('deleted_by')->nullable();
             $table->text('remarks')->nullable();

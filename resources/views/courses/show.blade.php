@@ -24,6 +24,45 @@
             <hr>
             <div class="row">
                 <div class="col-md-12">
+                    <div class="pull-left">
+                        <address>
+                            {{--<h3> &nbsp;<b class="text-uppercase">Esmeraldo <sup class="text-info text-uppercase">cadet</sup></b></h3>--}}
+                            {{--<p class="text-muted m-l-5"><b class="text-danger text-uppercase">newsim</b> <br/>--}}
+                            Category:
+                            @if($course->category) <b>{{ $course->category }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Duration:
+                            @if($course->duration) <b>{{ $course->duration }} {{ $course->duration > 1? 'days' : 'day' }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Accredited by:
+                            @if($course->accreditation_body) <b class="text-uppercase">{{ $course->accreditation_body }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Aims:
+                            @if($course->aims) <br><b>{{ $course->aims }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Objectives:
+                            @if($course->objectives_header) <br><b>{{ $course->objectives_header }}</b>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            @if($course->objectives) <br><br><div class="m-l-20"><b>{!! str_replace('\n\n', '<br>', $course->objectives) !!}</b></div><br>
+                            @endif
+                            Target Audience:
+                            @if($course->target_audience) <br><b>{{ $course->target_audience }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Prerequisites:
+                            @if($course->prerequisites) <br><br><div class="m-l-20"><b>{!! str_replace('\n\n', '<br>', $course->prerequisites) !!}</b></div><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                            Validity:
+                            @if($course->validity) <b>{{ $course->validity }} {{ $course->validity > 1? 'years' : 'year' }}</b><br><br>
+                            @else <b class="text-danger">Has not been set</b><br>
+                            @endif
+                        </address> </div>
                 </div>
                 <div class="col-md-12 m-t-20">
                     <div class="table-responsive" style="clear: both;">
@@ -121,18 +160,61 @@
                     <input type="text" class="hidden" name="redirect_path" value="{{ route('courses.show', $course->id) }}" />
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="code">Code *</label>
-                            <input type="text" class="form-control form-material" name="code" id="code" value="{{ $course->code }}" />
+                            <label for="code" class="control-label">Code *</label>
+                            <input class="form-control code" type="text" id="code" name="code" value="{{ $course->code }}" />
+                            <p class="text-muted m-t-5">i.e. <b>bosiet</b></p>
                         </div>
                         <div class="form-group">
-                            <label for="code">Description *</label>
-                            <input type="text" class="form-control form-material" name="description" id="description" value="{{ $course->description }}" />
+                            <label for="description" class="control-label">Description *</label>
+                            <input class="form-control description" type="text" id="description" name="description" value="{{ $course->description }}" />
+                            <p class="text-muted m-t-5">i.e. <b>basic offshore safety induction and emergency training</b></p>
                         </div>
                         <div class="form-group">
-                            <label for="remarks">Remarks *</label>
-                            <textarea type="text" class="form-control form-material" name="remarks" id="remarks" cols="3"></textarea>
+                            <label for="category" class="control-label">Category *</label>
+                            <select class="form-control text-uppercase" name="category" id="category">
+                                <option class="text-uppercase" value="common" {{ $course->category == 'common'? 'selected' : '' }}>common</option>
+                                <option class="text-uppercase" value="deck" {{ $course->category == 'deck'? 'selected' : '' }}>deck</option>
+                                <option class="text-uppercase" value="engine" {{ $course->category == 'engine'? 'selected' : '' }}>engine</option>
+                                <option class="text-uppercase" value="off-shore" {{ $course->category == 'off-shore'? 'selected' : '' }}>off-shore</option>
+                            </select>
                         </div>
-                        <p class="text-danger text-uppercase m-t-15">All branch courses associated with this course will also be affected.</p>
+                        <div class="form-group">
+                            <label for="accreditation_body" class="control-label">Accreditation Body *</label>
+                            <select class="form-control text-uppercase" name="accreditation_body" id="accreditation_body">
+                                <option class="text-uppercase" value="marina" {{ $course->accreditation_body == 'marina'? 'selected' : '' }}>marina</option>
+                                <option class="text-uppercase" value="opito" {{ $course->accreditation_body == 'opito'? 'selected' : '' }}>opito</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="duration" class="control-label">Duration *</label>
+                            <input class="form-control duration" type="number" id="duration" name="duration" value="{{ $course->duration }}" placeholder="Please enter duration in days" />
+                            <p class="text-muted m-t-5">i.e. <b>6</b></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="aims" class="control-label">Aims <b class="text-info">(optional)</b></label>
+                            <textarea class="form-control" name="aims" id="aims" rows="3">{{ $course->aims }}</textarea>
+                            <p class="text-muted m-t-5">i.e. <b>The aim of the Escape Chute Refresher Training programme is to ensure delegates maintain their knowledge and skills in the use of escape chutes as a means of tertiary escape from offshore installations and vessels.</b></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="objectives_header" class="control-label">Objectives Header <b class="text-info">(optional)</b></label>
+                            <textarea class="form-control" name="objectives_header" id="objectives_header" rows="3">{{ $course->objectives_header }}</textarea>
+                            <p class="text-muted m-t-5">i.e. <b>To update and maintain knowledge and skills in the following:</b></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="objectives" class="control-label">Objectives <b class="text-info">(optional)</b></label>
+                            <textarea class="form-control" name="objectives" id="objectives" rows="3">{{ $course->objectives }}</textarea>
+                            <p class="text-muted m-t-5">i.e. <b>To make delegates aware of the various types of escape chutes used on offshore installations and vessels To provide theoretical and practical training in the safe techniques for escaping through an escape chute To ensure delegates understand what they are required to do when exiting the escape chute </b></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="prerequisites" class="control-label">Prerequisites <b class="text-info">(optional)</b></label>
+                            <textarea class="form-control" name="prerequisites" id="prerequisites" rows="3">{{ $course->prerequisites }}</textarea>
+                            <p class="text-muted m-t-5">i.e.<br><b>Medical Certificate<br>Valid OPITO approved Escape Chute Training or Refresher Training certificate.</b></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="remarks" class="control-label">Remarks *</label>
+                            <textarea class="form-control" name="remarks" id="remarks" rows="3">{{ old('remarks') }}</textarea>
+                            <p class="text-muted m-t-5"><b>Remarks is required for updating course details.</b></p>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-info text-uppercase" data-dismiss="modal">cancel</button>

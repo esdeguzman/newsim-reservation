@@ -33,12 +33,6 @@ class PaymentTransactionsController extends Controller
             ];
 
             $type = 'bank deposit';
-
-            $reservation = Reservation::find($request->reservation_id);
-
-            $path = $request->file('deposit_slip')->storeAs(
-                'deposit_slips', "{$reservation->code}_{$request->number}.{$request->deposit_slip->extension()}"
-            );
         } elseif (admin()) {
             $data = [
                 'reservation_id' => 'required',
@@ -49,7 +43,16 @@ class PaymentTransactionsController extends Controller
             $type = 'on-site';
         }
 
-        $request->validate($data);
+        $request->validate($data,
+            [
+                'deposit_slip.required' => 'You need to upload the deposit slip to be able to add this payment.'
+            ]);
+
+        $reservation = Reservation::find($request->reservation_id);
+
+        $path = $request->file('deposit_slip')->storeAs(
+            'deposit_slips', "{$reservation->code}_{$request->number}.{$request->deposit_slip->extension()}"
+        );
 
         PaymentTransaction::create([
             'reservation_id' => $request->reservation_id,

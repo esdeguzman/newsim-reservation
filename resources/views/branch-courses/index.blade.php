@@ -25,6 +25,8 @@
                         <th>Branch</th>
                         <th>Code</th>
                         <th>Description</th>
+                        <th class="text-center">Category</th>
+                        <th class="text-center">Accredited by</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -35,6 +37,8 @@
                                 <td class="text-uppercase">{{ $branchCourse->branch->name }}</td>
                                 <td class="text-uppercase">{{ $branchCourse->details->code }}</td>
                                 <td class="text-uppercase">{{ $branchCourse->details->description }}</td>
+                                <td class="text-uppercase text-center">{{ $branchCourse->details->category }}</td>
+                                <td class="text-uppercase text-center">{{ $branchCourse->details->accreditation_body }}</td>
                                 <td class="text-nowrap">
                                     <a href="{{ route('branch-courses.show', $branchCourse->id) . '/?branch=' . $branchCourse->branch->name }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
                                 </td>

@@ -17,12 +17,11 @@
                 <table id="schedules" class="display nowrap" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>Branch</th>
-                        <th>Course</th>
-                        <th>Month</th>
-                        <th>Year</th>
-                        <th>Discount</th>
-                        <th class="text-center">Status</th>
+                        <th class="text-center">Branch</th>
+                        <th class="text-center">Course</th>
+                        <th class="text-center">Duration</th>
+                        <th class="text-center">Batch - Day part</th>
+                        <th class="text-center">Discount</th>
                         <th class="text-center">Reservations</th>
                         <th>Actions</th>
                     </tr>
@@ -31,21 +30,12 @@
                     @if($schedules->count() > 0)
                         @foreach($schedules as $schedule)
                             <tr>
-                                <td class="text-uppercase">{{ $schedule->branchCourse->branch->name }}</td>
-                                <td class="text-uppercase">{{ $schedule->branchCourse->details->code }}</td>
-                                <td class="text-uppercase">{{ $schedule->monthName() }}</td>
-                                <td class="text-uppercase">{{ $schedule->year }}</td>
+                                <td class="text-uppercase text-center">{{ $schedule->branchCourse->branch->name }}</td>
+                                <td class="text-uppercase text-center">{{ $schedule->branchCourse->details->code }}</td>
+                                <td class="text-uppercase text-center">{{ $schedule->monthName() }} {{ \Carbon\Carbon::parse($schedule->batch->start_date)->day }} - {{ \Carbon\Carbon::parse($schedule->batch->end_date)->day }}, {{ $schedule->year }} ({{ $schedule->batch->day_part === 'am'? '6:00AM - 2:00PM' : '2:00PM - 10:00PM' }}) </td>
+                                <td class="text-center">Batch {{ $schedule->batch->number }} - {{ strtoupper($schedule->batch->day_part) }}</td>
                                 <td class="text-center">{{ $schedule->discountPercentage() }}</td>
-                                <td class="text-center">
-                                    <span class="label
-                                    @if(str_contains($schedule->status, 'new')) label-success
-                                    @elseif(str_contains($schedule->status, 'updated')) label-warning
-                                    @endif
-                                    ">{{ $schedule->status }}</span>
-                                </td>
-                                <td class="text-center">
-                                    {{ $schedule->reservations? $schedule->reservations->count() : 0 }}
-                                </td>
+                                <td class="text-center">{{ optional($schedule->paidReservations())->count() + \App\Helper\addedWalkinApplicants($schedule->batch) }} / {{ $schedule->batch->capacity }}</td>
                                 <td class="text-nowrap">
                                     <a href="{{ route('schedules.show', $schedule->id) . '?branch=makati' }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-info m-r-10"></i>VIEW</a>
                                 </td>
@@ -112,6 +102,30 @@
                                 <option value="12" {{ old('month') == 12? 'selected' : '' }}>December</option>
                             </select>
                             <p class="text-muted text-uppercase m-t-5">select which month the class will be conducted.</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="capacity" class="control-label">Training Start Date</label>
+                            <input class="form-control" type="date" name="start_date" value="{{ now()->toDateString() }}"/>
+                            <p class="text-muted text-uppercase m-t-5">Above format is as follows: Month/Day/Year</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="capacity" class="control-label">Training End Date</label>
+                            <input class="form-control" type="date" name="end_date" value="{{ now()->toDateString() }}"/>
+                            <p class="text-muted text-uppercase m-t-5">Above format is as follows: Month/Day/Year</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="day_part" class="control-label">Training Day Part</label>
+                            <select name="day_part" id="day_part" class="selectpicker form-control">
+                                <option value="" class="hidden">Click to select day part</option>
+                                <option value="am" {{ old('month') == 'am'? 'selected' : '' }}>AM</option>
+                                <option value="pm" {{ old('month') == 'pm'? 'selected' : '' }}>PM</option>
+                            </select>
+                            <p class="text-muted text-uppercase m-t-5">select which day part the class will be conducted.</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="capacity" class="control-label">Training Capacity</label>
+                            <input class="form-control" type="number" name="capacity" value="{{ old('capacity') }}"/>
+                            <p class="text-muted text-uppercase m-t-5">Set this schedule's max trainee capacity</p>
                         </div>
                         <div class="form-group">
                             <label for="year" class="control-label">Training Year</label>

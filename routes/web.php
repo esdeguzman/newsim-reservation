@@ -15,6 +15,7 @@ Route::resource('administrators', 'AdministratorsController');
 Route::resource('trainees', 'TraineesController');
 
 Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
+    Route::resource('batches', 'BatchesController');
     Route::resource('branch-courses', 'BranchCoursesController');
     Route::resource('courses', 'CoursesController');
     Route::resource('original-prices', 'OriginalPricesController');
@@ -90,6 +91,9 @@ Route::prefix('admin')->middleware('auth', 'can.access')->group(function () {
     Route::put('reservations/{reservation}/refund', 'ReservationsController@refund')->name('reservations.refund');
     Route::put('reservations/{reservation}/registered', 'ReservationsController@registered')->name('reservations.registered');
     Route::put('courses/{course}/restore', 'CoursesController@restore')->name('courses.restore');
+    Route::put('schedules/{schedule}/move-trainee', 'SchedulesController@moveTrainee')->name('schedules.move-trainee');
+    Route::put('schedules/{schedule}/close', 'SchedulesController@close')->name('schedules.close');
+    Route::put('schedules/{schedule}/re-open', 'SchedulesController@reOpen')->name('schedules.re-open');
     Route::put('payment-transactions/{payment_transaction}/decline', 'PaymentTransactionsController@decline')->name('payment-transactions.decline');
 });
 
